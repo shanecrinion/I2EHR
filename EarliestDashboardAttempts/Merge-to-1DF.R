@@ -1,0 +1,26 @@
+#import the synthea information that i want to make a datatable from
+dir()
+setwd('/home/shane/Documents/RShiny/csv/')
+patients <- read.csv('patients.csv')
+allergies <- read.csv('allergies.csv')
+allergies <- read.csv('allergies.csv')
+careplans <- read.csv('careplans.csv')
+claims <- read.csv('claims.csv')
+conditions <- read.csv('conditions.csv')
+encounters <- read.csv('encounters.csv')
+immunization <- read.csv('immunizations.csv')
+medications <- read.csv('medications.csv')
+observations <- read.csv('observations.csv')
+procedures <- read.csv('procedures.csv')
+
+
+alldata0 <- merge.data.frame(allergies, careplans, all.x=TRUE, all.y = TRUE)
+alldata1 <-merge.data.frame(alldata0, claims, all.x=TRUE, all.y = TRUE)
+alldata2 <-merge.data.frame(alldata1, conditions, all.x=TRUE, all.y = TRUE)
+alldata3 <-merge.data.frame(alldata2, encounters, all.x=TRUE, all.y = TRUE)
+alldata4 <-merge.data.frame(alldata3, immunization, all.x=TRUE, all.y = TRUE)
+alldata5 <-merge.data.frame(alldata4, medications, all.x=TRUE, all.y = TRUE)
+alldata6 <-merge.data.frame(alldata5, observations, all.x=TRUE, all.y = TRUE)
+alldata7 <-merge.data.frame(alldata6, patients, all.x=TRUE, all.y = TRUE)
+alldata8 <-merge.data.frame(alldata7, procedures, all.x=TRUE, all.y = TRUE)
+merged_patient_data <- alldata8
