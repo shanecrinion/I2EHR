@@ -1,17 +1,24 @@
 #import the synthea information that i want to make a datatable from
-dir()
-setwd('/home/shane/Documents/RShiny/csv/')
-patients <- read.csv('patients.csv')
-allergies <- read.csv('allergies.csv')
-allergies <- read.csv('allergies.csv')
-careplans <- read.csv('careplans.csv')
-claims <- read.csv('claims.csv')
-conditions <- read.csv('conditions.csv')
-encounters <- read.csv('encounters.csv')
-immunization <- read.csv('immunizations.csv')
-medications <- read.csv('medications.csv')
-observations <- read.csv('observations.csv')
-procedures <- read.csv('procedures.csv')
+merged_patient_data <- read.csv('csv/all-data-merged.csv')
+patients <- read.csv('csv/patients.csv')
+allergies <- read.csv('csv/allergies.csv')
+allergies <- read.csv('csv/allergies.csv')
+careplans <- read.csv('csv/careplans.csv')
+claims <- read.csv('csv/claims.csv')
+conditions <- read.csv('csv/conditions.csv')
+encounters <- read.csv('csv/encounters.csv')
+immunization <- read.csv('csv/immunizations.csv')
+medications <- read.csv('csv/medications.csv')
+observations <- read.csv('csv/observations.csv')
+procedures <- read.csv('csv/procedures.csv')
+
+#for loop for each file
+library(plyr)
+clinical_data <- ldply(.data = list.files(pattern="*.csv"),
+                       .fun = read.csv,
+                       header=TRUE)
+
+
 
 #patient query
 library(shiny)
@@ -74,7 +81,7 @@ ui <- fluidPage(
     
     datasetInput <- reactive({
       switch(input$dataset_selection,
-             "all data" = merged_patient_data,
+             "all data" = clinical_data,
              "allergies" = allergies,
              "careplans" = careplans,
              "claims" = claims,
