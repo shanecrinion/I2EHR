@@ -1,18 +1,9 @@
-#import the synthea information that i want to make a datatable from
-merged_patient_data <- read.csv('csv/all-data-merged.csv')
-patients <- read.csv('csv/patients.csv')
-allergies <- read.csv('csv/allergies.csv')
-allergies <- read.csv('csv/allergies.csv')
-careplans <- read.csv('csv/careplans.csv')
-claims <- read.csv('csv/claims.csv')
-conditions <- read.csv('csv/conditions.csv')
-encounters <- read.csv('csv/encounters.csv')
-immunization <- read.csv('csv/immunizations.csv')
-medications <- read.csv('csv/medications.csv')
-observations <- read.csv('csv/observations.csv')
-procedures <- read.csv('csv/procedures.csv')
+#import csv files
+temp = list.files(pattern="*.csv")
+for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 
-#for loop for each file
+
+#merging the data
 library(plyr)
 clinical_data <- ldply(.data = list.files(pattern="*.csv"),
                        .fun = read.csv,
@@ -82,16 +73,16 @@ ui <- fluidPage(
     datasetInput <- reactive({
       switch(input$dataset_selection,
              "all data" = clinical_data,
-             "allergies" = allergies,
-             "careplans" = careplans,
-             "claims" = claims,
-             "conditions" = conditions,
-             "encounters" = encounters,
-             "immunization" = immunization,
-             "medications" = medications,
-             "observations" = observations,
-             "patients" = patients,
-             "procedures" = procedures
+             "allergies" = allergies.csv,
+             "careplans" = careplans.csv,
+             "claims" = claims.csv,
+             "conditions" = conditions.csv,
+             "encounters" = encounters.csv,
+             "immunization" = immunizations.csv,
+             "medications" = medications.csv,
+             "observations" = observations.csv,
+             "patients" = patients.csv,
+             "procedures" = procedures.csv
       )
     })
     
