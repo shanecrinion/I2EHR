@@ -1,3 +1,4 @@
+
 library(shiny)
 
 ui <- fluidPage(
@@ -17,14 +18,15 @@ server <- function(input, output) {
 
   datasetInput <- reactive({
     switch(input$dataset_sex,
-           "all data" = merged_patient_data,
-           "patients" = patients)                  
+           "all data" = clinical_data,
+           "patients" = patients.csv)                  
   })
   
 
   output$genTable <- renderTable({
     dataset_choice <- datasetInput()
-    choice <- subset(dataset_choice, dataset_choice$GENDER==input$genderpick)
+    choice <- subset(dataset_choice, 
+                     dataset_choice$GENDER==input$genderpick)
     head(x=choice, n = input$tableno)
   })    
 }

@@ -1,3 +1,6 @@
+#locate csv files
+setwd("/media/shane/Data/github/I2EHR/patient_files/csv/")
+
 #import csv files
 temp = list.files(pattern="*.csv")
 for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
@@ -31,12 +34,21 @@ ui <- fluidPage(
       # are updated in the output area immediately as you type
       textInput(inputId = "patientID",
                 label = "Patient ID:",
-                value = "00341a88-1cc1-4b39-b0f9-05b0531991a0"),
+                value = "0749b81c-9447-4b14-8e3c-a3486baae919"),
       
       # Input: Selector for choosing dataset ----
       selectInput(inputId = "dataset_selection",
                   label = "Choose a dataset:",
-                  choices = c("all data","allergies","careplans","claims","conditions","encounters","immunization","medications", "observations","patients","procedures"))),
+                  choices = c("all data",
+                              "allergies",
+                              "careplans",
+                              "conditions",
+                              "encounters",
+                              "immunization",
+                              "medications", 
+                              "observations",
+                              "patients",
+                              "procedures"))),
       
       # Main panel for displaying outputs ----
       mainPanel(
@@ -75,7 +87,6 @@ ui <- fluidPage(
              "all data" = clinical_data,
              "allergies" = allergies.csv,
              "careplans" = careplans.csv,
-             "claims" = claims.csv,
              "conditions" = conditions.csv,
              "encounters" = encounters.csv,
              "immunization" = immunizations.csv,
