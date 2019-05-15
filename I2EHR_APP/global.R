@@ -1,4 +1,4 @@
-setwd("patient_files/")
+setwd("/media/shane/Data/github/I2EHR/I2EHR_APP/patient_files/csv")
 
 #import csv files
 temp = list.files(pattern="*.csv")
