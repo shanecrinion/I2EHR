@@ -101,7 +101,7 @@ server <- function(input, output) {
   })
   
   
-  datasetInput <- reactive({
+  datasetInput_sex <- reactive({
     switch(input$dataset_sex,
            "all data" = clinical_data,
            "patients" = patients.csv)                  
@@ -109,7 +109,7 @@ server <- function(input, output) {
   
   
   output$genTable <- renderTable({
-    dataset_choice <- datasetInput()
+    dataset_choice <- datasetInput_sex()
     choice <- subset(dataset_choice, 
                      dataset_choice$GENDER==input$genderpick)
     head(x=choice, n = input$tableno)
