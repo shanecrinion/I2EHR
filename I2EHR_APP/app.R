@@ -1,86 +1,102 @@
+### Worksheet 1 ####
+
 library(shiny)
+library(shinydashboard)
 
-# Define UI for random distribution app ----
-ui <- fluidPage(
-  # App title ----
-  titlePanel("Patient Data"),
+ui <- dashboardPage(
+  skin = "green",
+  dashboardHeader(title = "Patient Data"),
   
-  # Add Tab 1
-    tabsetPanel(
-      tabPanel("Patient Query", fluid = TRUE, 
-                  sidebarLayout(
-                    sidebarPanel(
-                        # Input: Text for providing a caption ----
-                        # Note: Changes made to the caption in the textInput control
-                        # are updated in the output area immediately as you type
-                        textInput(inputId = "patientID",
-                                  label = "Patient ID:",
-                                  value = "0749b81c-9447-4b14-8e3c-a3486baae919"),
-                        
-                        # br() element to introduce extra vertical spacing ----
-                        br(),
-                        
-                        # Input: Selector for choosing dataset ----
-                        selectInput(inputId = "dataset_selection",
-                                    label = "Choose a dataset:",
-                                    choices = c("all data",
-                                                "allergies",
-                                                "careplans",
-                                                "conditions",
-                                                "encounters",
-                                                "immunization",
-                                                "medications", 
-                                                "observations",
-                                                "patients",
-                                                "procedures"))),
-                      mainPanel(
-                        # Output: Formatted text for caption ----
-                        h3(textOutput("patientID", container = span)),  
-                        # Output: Verbatim text for data summary ----
-                        verbatimTextOutput("patient_summary"),
-                        # Output: HTML table with requested number of observations ----
-                        tableOutput("view_entries")
-                      )
-                    )
-                  ),
-      
-      #Add Tab 2
-      
-      tabPanel("Sex Query", fluid = TRUE,
-               ###SIDE
-               sidebarLayout(
-                 sidebarPanel(
-                   selectInput(inputId = "dataset_sex",
-                               label = "Choose a dataset:",
-                               choices = c("all data",
-                                           "patients")),
-                   radioButtons("genderpick", 
-                                "Select the sex:",
-                                c("Male"="M", 
-                                  "Female"="F")),
-                   sliderInput("tableno", 
-                               "Table size:", 
-                               max=100, min=0, value=20)),
-                 ###MAIN
-                 mainPanel(
-                   tableOutput("genTable"))  
-                  ))))
-
+  dashboardSidebar(
     
-
-# Define server logic for random distribution app ----
-server <- function(input, output) {
+    sidebarMenu(
+      menuItem("Overview", 
+               tabName = "overview", 
+               icon = icon("id-card")),
+      menuItem("Patient", 
+               tabName = "patient", 
+               icon = icon("id-card")),
+      menuItem("Cohort", icon = icon("poll"), 
+               tabName = "cohort",
+               badgeLabel = "new", 
+               badgeColor = "green")),
+    
+    sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
+                      label = "Type patient name...")),
   
-  # Return the requested dataset ----
-  # By declaring datasetInput as a reactive expression we ensure
-  # that:
-  #
-  # 1. It is only called when the inputs it depends on changes
-  # 2. The computation and result are shared by all the callers,
-  #    i.e. it only executes a single time
+  dashboardBody(
+    tabItems(
+      tabItem(tabName = "overview", 
+              box(title = "Welcome to the Interactive Integrated Electronic Health Record (I2EHR)", 
+                  tabsetPanel(
+                    tabPanel(title = "Study", h3(textOutput("Reason for Study"))),
+                    tabPanel(title = "Synthea", textOutput("Information")),
+                    tabPanel(title= "GEO", textOutput("Integration of GEO data"))),
+                  width=21, footer="contact: shanecrinion@gmail.com"),
+              box(title="Motivation", collapsible = TRUE),
+              box(title="Contact Details", img(src="nui-galway.jpg", width=150, height=50))),
+      
+      tabItem(tabName = "patient",
+              box(title="Controls",
+                  # Input: Selector for choosing dataset ----
+                  selectInput(inputId = "patient_dataset_1",
+                              label = "Choose a dataset:",
+                              choices = c("all data",
+                                          "allergies",
+                                          "careplans",
+                                          "conditions",
+                                          "encounters",
+                                          "immunization",
+                                          "medications", 
+                                          "observations",
+                                          "patients",
+                                          "procedures")),
+                  sliderInput("slider_1", 
+                              "Number of Observations", 
+                              1, 100, 150))),
+      
+      tabItem(tabName = "cohort",
+              
+              box(title="Controls",
+                  # Input: Selector for choosing dataset ----
+                  selectInput(inputId = "patient_dataset_2",
+                              label = "Choose a dataset:",
+                              choices = c("all data",
+                                          "allergies",
+                                          "careplans",
+                                          "conditions",
+                                          "encounters",
+                                          "immunization",
+                                          "medications", 
+                                          "observations",
+                                          "patients",
+                                          "procedures")),
+#                  checkboxGroupInput(inputId = "headers", 
+#                                     "Included data", 
+#                                     choices = names(input$patient_dataset_2)),
+                  sliderInput("slider_2", 
+                              "Number of Observations", 
+                              1, 100, 150)),
+              
+              box(title="Available Data", width = 12,
+                tabsetPanel(
+                  tabPanel(
+                    "DataTable", tableOutput("genTable")),
+                  tabPanel(
+                    "Graphs", plotOutput("plot1"))
+                  ))))))
+
+server <- function(input, output) { 
+  set.seed(122)
+  histdata <- rnorm(500)
+  
+  output$plot1 <- renderPlot({
+    data <- histdata[seq_len(input$slider_2)]
+    hist(data)
+  })
   
   datasetInput <- reactive({
-    switch(input$dataset_selection,
+    switch(input$patient_dataset_2,
            "all data" = clinical_data,
            "allergies" = allergies.csv,
            "careplans" = careplans.csv,
@@ -90,33 +106,22 @@ server <- function(input, output) {
            "medications" = medications.csv,
            "observations" = observations.csv,
            "patients" = patients.csv,
-           "procedures" = procedures.csv
-    )
+           "procedures" = procedures.csv)
   })
   
-  output$view_entries <- renderTable({
-    dataset_selection<-datasetInput()
-    subset(dataset_selection, 
-           dataset_selection$PATIENT==input$patientID)
-  })
-  
-  
-  datasetInput_sex <- reactive({
-    switch(input$dataset_sex,
-           "all data" = clinical_data,
-           "patients" = patients.csv)                  
-  })
-  
-  
+
   output$genTable <- renderTable({
-    dataset_choice <- datasetInput_sex()
-    choice <- subset(dataset_choice, 
-                     dataset_choice$GENDER==input$genderpick)
-    head(x=choice, n = input$tableno)
+    patient_dataset_2 <- datasetInput()
+    head(x=patient_dataset_2, n = input$slider_2)
   }) 
+  
+#  genTable <- reactive({
+#    validate(
+#      need(!is.null(output$genTable[1,1]),
+#         "No results for this dataset, choose another!"))
+#  })
   
 }
 
-shinyApp(ui, server)
 
-    
+shinyApp(ui, server)
