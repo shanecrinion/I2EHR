@@ -1,3 +1,4 @@
+
 #import csv files
 temp = list.files(pattern="*.csv")
 for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
