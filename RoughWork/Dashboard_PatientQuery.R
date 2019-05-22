@@ -1,5 +1,5 @@
 #locate csv files
-setwd("/media/shane/Data/github/I2EHR/patient_files/csv/")
+#setwd("/media/shane/Data/github/I2EHR/patient_files/csv/")
 
 #import csv files
 temp = list.files(pattern="*.csv")
