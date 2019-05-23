@@ -1,48 +1,125 @@
+#import csv files
+#temp = list.files(pattern="*.csv")
+#for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
+
+
+#merging the data
+#library(plyr)
+#clinical_data <- ldply(.data = list.files(pattern="*.csv"),
+#                       .fun = read.csv,
+#                       header=TRUE)
+
+
+### install the required packages
+
+list.of.packages <- c("ggplot2", "ggridges", "lattice","viridis","shiny","shinydashboard","DiagrammeR")
+new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
+if(length(new.packages)) install.packages(new.packages)
+
+
 ### Worksheet 1 ####
 
-library(shiny)
+library(shiny) 
 library(shinydashboard)
 
 ui <- dashboardPage(
   skin = "green",
-  dashboardHeader(title = "Patient Data"),
-  
+  dashboardHeader(title = "I2EHR"),
   dashboardSidebar(
-    
     sidebarMenu(
       menuItem("Overview", 
                tabName = "overview", 
                icon = icon("id-card")),
-      menuItem("Patient", 
-               tabName = "patient", 
-               icon = icon("id-card")),
+      menuItem("Patient Data",
+               tabName="PatientNu",
+               icon=icon("id-card")),
+#      menuItem("Patient", 
+#               tabName = "patient", 
+#               icon = icon("id-card")),
       menuItem("Cohort", icon = icon("poll"), 
                tabName = "cohort",
                badgeLabel = "new", 
-               badgeColor = "green")),
-    
-    sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
-                      label = "Type patient name...")),
+               badgeColor = "green"))),
+#      menuItem("Cohort Data",
+#               tabName="CohortNu",
+#               icon=icon("poll")))),
+#  sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
+#                     label = "Type patient name...")),
   
   dashboardBody(
+    tags$head(
+      tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")),
     tabItems(
       tabItem(tabName = "overview", 
               box(title = "Welcome to the Interactive Integrated Electronic Health Record (I2EHR)", 
+                  width=8,
                   tabsetPanel(
-                    tabPanel(title = "Study", h3(textOutput("Reason for Study"))),
-                    tabPanel(title = "Synthea", textOutput("Information")),
-                    tabPanel(title= "GEO", textOutput("Integration of GEO data"))),
-                  width=21, footer="contact: shanecrinion@gmail.com"),
-              box(title="Motivation", collapsible = TRUE),
-              box(title="Contact Details", img(src="nui-galway.jpg", width=150, height=50))),
+                    
+                    
+                    tabPanel(title = "Project Aims", 
+                             img(src="flowchart.png", width=400, height=400),
+                             h5("This project involves the development of a Shiny application 
+to analyse and interact with clinical data. Synthea will be used to model a disease cohort and
+perform predictive analytics. Gene expression data will then be downloaded to
+provide proof-of-concept for clinical and molecular analytics. The objective of the
+project is to develop an interactive genomic health record that can be used to
+obtain statistical data at a patient and cohort level.")),
+                    
+                    
+                    tabPanel(title = "Synthea", 
+                             img(src="architecture.png", 
+                                 width=600, height=300),
+                             h5("Synthea (https://synthetichealth.github.io/synthea) is an open-source package
+containing synthetic EHRs encoded in FHIR standard. Synthea models the
+lifespan of patients based on the top 10 chronic conditions and reasons for medical
+care encounters in the US. The objective of Synthea is to address the legal and ethical limitations that has caused lagging in health record technology [40]. The
+framework for Synthea is based on the Publicly Available Data Approach to the
+Realistic Synthetic Data (PADARSER). The model uses publicly
+available health statistics as inputs to generate data from clinical workflow and
+disease progression. Finally, the model includes a temporal model to provide a
+complete profile for the patient beyond the disease of interest. The longitu
+dinal model is ideal for modelling disease progression and performing population
+analysis.")),
+                    
+                    
+                    tabPanel(title= "GEO", 
+                             img(src="diabetestype2.png", width=600, height=300),
+                             h5("The Gene Expression Omnibus is an online public repository containing gene
+expression data that is publicly available for clinical research [60]. GEO accepts
+data of many forms and specifies criteria to allow an integrative design for large
+scale analysis of raw and processed data. The reusing of GEO facilitates genomic
+data integration and is useful in identifying gene expression to phenotype patterns.
+The heterogenous nature of T2D means that many patients do not respond well
+to certain drugs. Genetic variants associated with positive drug response may be
+identifiable by disease modelling using Synthea and GEO [46]. GEO has been
+used to study gene expression and methylation patterns in T2D patterns and
+identified 47 upregulated and 56 downregulated genes associated with fatty acid
+and glucose metabolic pathways [61]. shinyGEO is a web application that allows
+gene expression data analysis including differential expression analysis [62].
+Gene expression data will be integrated with Synthea generated patients to
+model gene expression variation associated with disease. The project will provide
+a framework for combined clinical and molecular analytics without legal or ethical
+restrictions.")))),
+              
+              
+              box(title="Contact Details", width = 4,
+                  h4("Shane Crinion"),
+                  h4("shanecrinion@gmail.com"), 
+                  h4("+ 353 858018212"),
+                  img(src="nui-galway.jpg", width=120, height=40))),
+#                  fluidRow(column(width = 5, h5("shanecrinion@gmail.com")),
+#                           column(width = 2, align = "center",
+#                                  img(src="nui-galway.jpg", 
+#                                      width=120, height=40)))
+
       
       tabItem(tabName = "patient",
               box(title="Controls",
                   # Input: Selector for choosing dataset ----
                   selectInput(inputId = "patient_dataset_1",
                               label = "Choose a dataset:",
-                              choices = c("all data",
-                                          "allergies",
+                              choices = c(
+                                     #     "allergies", # no allergy data in this dataset
                                           "careplans",
                                           "conditions",
                                           "encounters",
@@ -55,15 +132,78 @@ ui <- dashboardPage(
                               "Number of Observations", 
                               1, 100, 150)),
               box(title="Data Sources")),
+
+      tabItem(tabName="PatientNu",
+              
+              box(title="Patient Query", collapsible = TRUE,
+                  h5("Enter patient ID below to query current records in each dataset"),
+                  searchInput(value = "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",
+                    inputId = "search", label = "Patient search",
+                    placeholder = "Enter Patient ID number",
+                    btnSearch = icon("search"),
+                    btnReset = icon("remove"),
+                    width = "450px")),
+
+#              box(title="Patient Query",
+#                  textInput("search_bar", 
+#                            label = "Enter patient name..."),
+#                  actionButton(inputId = "search_button", 
+#                               icon = icon("search"),
+#                               label = "Go"),
+#                  collapsible = T),
+              
+              box(title = "Data Sources", collapsible = TRUE,
+                  tags$ul(
+                    tags$li("Clinical guidelines"), 
+                    tags$li("Caremaps from clinician input and CPGs"), 
+                    tags$li("Publicly available documentation")
+                  ),
+                  h5("Sources collected on the internet for demographic information include the
+                  US Census Bureau demographics, Centers for Disease Control and Prevention prevalence and incidence rates, 
+                     and National Institutes of Health reports. "),
+                  collapsable = T),
+              box(title = "Data Tables", 
+                  width = 12,
+                tabsetPanel(
+#                           tabPanel("Allergies",  
+#                                   dataTableOutput("patient_allergies_dt")), 
+                           tabPanel("Careplans",  
+                                   dataTableOutput("patient_careplans_dt")),
+                           tabPanel("Conditions",  
+                                   dataTableOutput("patient_conditions_dt")),
+                           tabPanel("Encounters",  
+                                   dataTableOutput("patient_encounters_dt")), 
+                           tabPanel("Imaging Studies", 
+                                   dataTableOutput("patient_imaging_studies_dt")),
+                           tabPanel("Immunizations", 
+                                    dataTableOutput("patient_immunizations_dt")),  
+                           tabPanel("Medications",  
+                                   dataTableOutput("patient_medications_dt")), 
+                           tabPanel("Observations",  
+                                   dataTableOutput("patient_observations_dt")),
+                           tabPanel("Organizations", 
+                                   dataTableOutput("patient_organizations_dt")),
+                           tabPanel("Patients",  
+                                   dataTableOutput("patient_patients_dt")), 
+                           tabPanel("Procedures",  
+                                   dataTableOutput("patient_procedures_dt")),
+                           tabPanel("Providers",  
+                                   dataTableOutput("patient_providers_dt"))))),
+                  
+#                   p("The first checkbox group controls the second"),
+#                   checkboxGroupInput("inCheckboxGroup", "Input checkbox",
+#                                      choiceNames = 
+#                                      c(observations.csv)),
+#                   checkboxGroupInput("inCheckboxGroup2", "Input checkbox 2",
+#                                      c("Item A", "Item B", "Item C")))
       
       tabItem(tabName = "cohort",
-              
               box(title="Controls", collapsible = TRUE,
                   # Input: Selector for choosing dataset ----
                   selectInput(inputId = "patient_dataset_2",
                               label = "Choose a dataset:",
-                              choices = c("all data",
-                                          "allergies",
+                              choices = c(
+                                # "allergies", # no allergy data in this dataset
                                           "careplans",
                                           "conditions",
                                           "encounters",
@@ -72,53 +212,113 @@ ui <- dashboardPage(
                                           "observations",
                                           "patients",
                                           "procedures")),
+                  
 #                  checkboxGroupInput(inputId = "headers", 
 #                                     "Included data", 
 #                                     choices = names(input$patient_dataset_2)),
                   sliderInput("slider_2", 
                               "Number of Observations", 
                               1, 100, 150)),
-              
+box(title = "Data Sources", collapsible = TRUE,
+    tags$ul(
+      tags$li("US Census Bureau demographics"), 
+      tags$li("Centers for Disease Control and Prevention prevalence"), 
+      tags$li("National Institutes of Health reports.")),
+    collapsable = T),
               box(title="Available Data", width = 12,
                 tabsetPanel(
                   tabPanel(
-                    "DataTable", tableOutput("genTable")),
+                    "DataTable", dataTableOutput("genTable")),
                   tabPanel("Graphs",
                     tabsetPanel(
                       tabPanel("Ethnicity", plotOutput("plot1")),
-                      tabPanel("Hg Measurements", plotOutput("plot2"))))))
+                      tabPanel("Hg Measurements", plotOutput("plot2")),
+                      tabPanel("Disease Prevalence", plotOutput("plot3"))))))
                   ))))
 
-server <- function(input, output) { 
+
+
+server <- function(input, output, session) { 
+
+#### PATIENT DATA ####
+
+  #### DATA TABLES
   
-  datasetInput <- reactive({
-    switch(input$patient_dataset_1,
-           "all data" = clinical_data,
-           "allergies" = allergies.csv,
-           "careplans" = careplans.csv,
-           "conditions" = conditions.csv,
-           "encounters" = encounters.csv,
-           "immunization" = immunizations.csv,
-           "medications" = medications.csv,
-           "observations" = observations.csv,
-           "patients" = patients.csv,
-           "procedures" = procedures.csv)
+#  output$patient_allergies_dt <- renderDataTable({allergies.csv})
+  output$patient_careplans_dt <- renderDataTable({subset(careplans.csv, PATIENT == input$search)})
+  output$patient_conditions_dt <- renderDataTable({subset(conditions.csv, PATIENT == input$search)})
+  output$patient_encounters_dt <- renderDataTable({subset(encounters.csv, PATIENT == input$search)})
+  output$patient_imaging_studies_dt <- renderDataTable({subset(imaging_studies.csv, PATIENT == input$search)})
+  output$patient_immunizations_dt <- renderDataTable({subset(immunizations.csv, PATIENT == input$search)})
+  output$patient_medications_dt <- renderDataTable({subset(medications.csv, PATIENT == input$search)})
+  output$patient_observations_dt <- renderDataTable({subset(observations.csv, PATIENT == input$search)})
+  output$patient_organizations_dt <- renderDataTable({subset(organizations.csv, Id == input$search)})
+  output$patient_patients_dt <- renderDataTable({subset(patients.csv, Id == input$search)})
+  output$patient_procedures_dt <- renderDataTable({subset(procedures.csv, PATIENT == input$search)})
+  output$patient_providers_dt <- renderDataTable({subset(providers.csv, Id == input$search)})
+  
+  #output$pa <- renderTable({
+  #  patient_dataset_1 <- datasetInput()
+  #  head(x=patient_dataset_1, n = input$slider_1)
+  #}) 
+  
+  
+  
+    
+
+  
+#### COHORT DATA #####
+  
+  observe({
+    x <- input$datasetInput
+    if (is.null(x))
+      x <- character(0)
+    updateCheckboxGroupInput(session, 
+                             inputId = "inCheckboxGroup2",
+                             label = paste("headings", length(x)),
+                             choices = names(x),
+                             selected=names(x))
   })
   
-  output$genTable <- renderTable({
-    patient_dataset_1 <- datasetInput()
-    head(x=patient_dataset_1, n = input$slider_1)
-  }) 
   
+
+  ###SELECTION OF THE 
+##  datasetInput <- reactive({
+##    switch(input$patient_dataset_1,
+##           "all data" = clinical_data,
+##           "allergies" = allergies.csv,
+##           "careplans" = careplans.csv,
+##           "conditions" = conditions.csv,
+#           "encounters" = encounters.csv,
+#           "immunization" = immunizations.csv,
+#           "medications" = medications.csv,
+#           "observations" = observations.csv,
+#           "patients" = patients.csv,
+#           "procedures" = procedures.csv)
+    
+#  })
+  
+
+    # Can use character(0) to remove all choices
+    #    if (is.null(x))
+    #      x <- character(0)
+    
+    # Can also set the label and select items
+    #updateCheckboxGroupInput(session, "inCheckboxGroup2",
+    #                        label = paste("Checkboxgroup label", length(x)),
+    #    #                        choices = names(x),
+    #                   selected = x
+    #    )
+    #})
+
   
   output$plot1 <- renderPlot({
-#    data <- histdata[seq_len(input$slider_2)]
-#    hist(data)
     library(ggplot2)
     
     ggplot(as.data.frame(patients.csv$ETHNICITY),
            aes(x=patients.csv$ETHNICITY, 
                color=patients.csv$GENDER)) +
+      
       geom_histogram(fill = "white", 
                      alpha = 0.3, 
                      position = "identity", 
@@ -132,27 +332,27 @@ server <- function(input, output) {
       theme(legend.position = "top", 
             axis.text.x = element_text(face = "bold", 
                                        size = 8, 
-                                       angle = 90)) 
+                                       angle = 90),
+            panel.background = element_rect(fill = "white", colour = "white",
+                                            size = 2, linetype = "solid"),
+            panel.grid.major = element_line(size = 0.5, linetype = 'solid',
+                                            colour = "#d3d3d3"), 
+            panel.grid.minor = element_line(size = 0.25, linetype = 'solid',
+                                            colour = "white")) 
     
-      })
+  })
   
   
   output$plot2 <- renderPlot({
-    
-    library(ggplot2)
+
+    ## load libraries    
+    #  library(ggplot2)
     library(ggridges)
     library(lattice)
     
     
-    ##merge the data
-    observations_merge <- merge(x = patients.csv, 
-                                y = observations.csv, 
-                                by.x = "Id", 
-                                by.y= "PATIENT") 
-    
-    
-    
     ## could alternatively do the below command using to obsevation code (probably better)
+    
     hemoglobin_measurements <- 	
       subset(observations_merge,
              subset = (observations_merge$DESCRIPTION == "Hemoglobin A1c/Hemoglobin.total in Blood"))
@@ -160,7 +360,8 @@ server <- function(input, output) {
     hemoglobin_measurements$BIRTHDATE <- 
       substring(hemoglobin_measurements$BIRTHDATE, 1, 4) 
     
-    hemoglobin_measurements$DECADE <- 10*(as.integer(as.numeric(hemoglobin_measurements$BIRTHDATE/10)))
+    #    hemoglobin_measurements$DECADE <- 
+    #  10*as.integer(as.numeric(hemoglobin_measurements$BIRTHDATE/10))
     
     hemoglobin_measurements$DECADE <- 
       10*as.integer(as.numeric(as.character(hemoglobin_measurements$BIRTHDATE)) / 10)
@@ -191,7 +392,43 @@ server <- function(input, output) {
         panel.grid.major.y =element_line(colour = "gray95"),
         panel.grid.major.x =element_line(colour = "gray95"),
         panel.grid.minor.x =element_line(colour = "gray95"))
+    
   })
+  
+output$plot3 <- renderPlot({
+    
+  library(viridis)
+  disorders_vector <- as.vector(count(conditions.csv$DESCRIPTION))
+  #disorders_vector$freqs <- as.numeric(disorders_vector$freqs)
+  
+  par(mar=c(2, 28, 5, 5))
+  
+  xlim <- c(0, 1.1*max(disorders_vector$freq))
+  
+  xx <- barplot(disorders_vector$freq,
+                xaxt = 'n',
+                horiz = TRUE,
+                col=viridis(27),
+                width = 12,
+                xlim = xlim,
+                main = "Frequency of each metabolics disorder",
+                xlab = "Frequency")
+  
+  ## Add text at top of bars
+  text(y = xx, x = disorders_vector$freq,
+       label = disorders_vector$freq,
+       pos = 4,
+       cex = 0.5,
+       col = magma(1))
+  ## Add x-axis labels
+  axis(side = 2, at=xx,
+       labels=disorders_vector$x,
+       tick=FALSE,
+       las=2,
+       line=-0.5,
+       cex.axis=0.5)
+  
+})
     
   datasetInput <- reactive({
     switch(input$patient_dataset_2,
@@ -208,7 +445,7 @@ server <- function(input, output) {
   })
   
 
-  output$genTable <- renderTable({
+  output$genTable <- renderDataTable({
     patient_dataset_2 <- datasetInput()
     head(x=patient_dataset_2, n = input$slider_2)
   }) 
