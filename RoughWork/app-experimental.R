@@ -1,13 +1,13 @@
 #import csv files
-temp = list.files(pattern="*.csv")
-for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
+#temp = list.files(pattern="*.csv")
+#for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 
 
 #merging the data
-library(plyr)
-clinical_data <- ldply(.data = list.files(pattern="*.csv"),
-                       .fun = read.csv,
-                       header=TRUE)
+#library(plyr)
+#clinical_data <- ldply(.data = list.files(pattern="*.csv"),
+#                       .fun = read.csv,
+#                       header=TRUE)
 
 
 
@@ -48,8 +48,10 @@ ui <- dashboardPage(
       tabItem(tabName = "overview", 
               box(title = "Welcome to the Interactive Integrated Electronic Health Record (I2EHR)", 
                   tabsetPanel(
-                    tabPanel(title = "Study", h3(textOutput("Reason for Study"))),
-                    tabPanel(title = "Synthea", textOutput("Information")),
+                    tabPanel(title = "Study", 
+                             h3(textOutput("Reason for Study"))),
+                    tabPanel(title = "Synthea", 
+                             textOutput("Information")),
                     tabPanel(title= "GEO", textOutput("Integration of GEO data"))),
                   width=21, footer="contact: shanecrinion@gmail.com"),
               box(title="Motivation", collapsible = TRUE),
@@ -91,8 +93,8 @@ ui <- dashboardPage(
               box(title = "Data Tables", 
                   width = 12,
                 tabsetPanel(
-                           tabPanel("Allergies",  
-                                   dataTableOutput("patient_allergies_dt")), 
+#                           tabPanel("Allergies",  
+#                                   dataTableOutput("patient_allergies_dt")), 
                            tabPanel("Careplans",  
                                    dataTableOutput("patient_careplans_dt")),
                            tabPanel("Conditions",  
@@ -100,9 +102,9 @@ ui <- dashboardPage(
                            tabPanel("Encounters",  
                                    dataTableOutput("patient_encounters_dt")), 
                            tabPanel("Imaging Studies", 
-                                   dataTableOutput("patient_imaging_studies")),
+                                   dataTableOutput("patient_imaging_studies_dt")),
                            tabPanel("Immunizations", 
-                                    dataTableOutput("patient_immunizations")),  
+                                    dataTableOutput("patient_immunizations_dt")),  
                            tabPanel("Medications",  
                                    dataTableOutput("patient_medications_dt")), 
                            tabPanel("Observations",  
@@ -165,14 +167,23 @@ server <- function(input, output, session) {
 
   #### DATA TABLES
   
-  output$patient_allergies_dt <- renderDataTable({allergies.csv})
+#  output$patient_allergies_dt <- renderDataTable({allergies.csv})
   output$patient_careplans_dt <- renderDataTable({careplans.csv})
-  output$patient_conditions_dt <- renderDataTable(conditions.csv)
+  output$patient_conditions_dt <- renderDataTable({conditions.csv})
+  output$patient_encounters_dt <- renderDataTable({encounters.csv})
+  output$patient_imaging_studies_dt <- renderDataTable({imaging_studies.csv})
+  output$patient_immunizations_dt <- renderDataTable({immunizations.csv})
+  output$patient_medications_dt <- renderDataTable({medications.csv})
+  output$patient_observations_dt <- renderDataTable({observations.csv})
+  output$patient_organizations_dt <- renderDataTable({organizations.csv})
+  output$patient_patients_dt <- renderDataTable({patients.csv})
+  output$patient_procedures_dt <- renderDataTable({procedures.csv})
+  output$patient_providers_dt <- renderDataTable({providers.csv})
   
-  output$pa <- renderTable({
-    patient_dataset_1 <- datasetInput()
-    head(x=patient_dataset_1, n = input$slider_1)
-  }) 
+  #output$pa <- renderTable({
+  #  patient_dataset_1 <- datasetInput()
+  #  head(x=patient_dataset_1, n = input$slider_1)
+  #}) 
   
   
   
@@ -232,6 +243,7 @@ server <- function(input, output, session) {
     ggplot(as.data.frame(patients.csv$ETHNICITY),
            aes(x=patients.csv$ETHNICITY, 
                color=patients.csv$GENDER)) +
+      
       geom_histogram(fill = "white", 
                      alpha = 0.3, 
                      position = "identity", 
@@ -245,9 +257,15 @@ server <- function(input, output, session) {
       theme(legend.position = "top", 
             axis.text.x = element_text(face = "bold", 
                                        size = 8, 
-                                       angle = 90)) 
+                                       angle = 90),
+            panel.background = element_rect(fill = "#d3d3d3", colour = "#d3d3d3",
+                                            size = 2, linetype = "solid"),
+            panel.grid.major = element_line(size = 0.5, linetype = 'solid',
+                                            colour = "white"), 
+            panel.grid.minor = element_line(size = 0.25, linetype = 'solid',
+                                            colour = "white")) 
     
-      })
+  })
   
   
   output$plot2 <- renderPlot({
