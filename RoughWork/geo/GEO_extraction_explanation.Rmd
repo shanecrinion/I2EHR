@@ -1,0 +1,141 @@
+---
+title: "GEO query"
+author: "Shane Crinion"
+date: "24 May 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## GEO query
+
+Load up the data from GEO and download the dataset:
+
+```{r}
+library(GEOquery)
+## get the GEO accession for type 2 diabetes patients
+# this contains the R structure for GDS3884
+gds <- getGEO("GDS3884")
+```
+
+
+Get the data from GEO:
+
+```{r}
+# Look at Column descriptions:
+Columns(gds)
+```
+
+The columns indicate there are 10  (6F/4M) type 2 diabetes samples, 15 (8F/7M) normoglycemic family histoy-negative control individuals (FH(–)) and 25 (14F/11M) normoglycemic but insulin-resistant subjects with a parental family history (FH(+)) of T2D. 
+
+Human muscle biopsies from patients with T2D were used due to insulin resistance in skeletal muscle being a key phenotype associated with type 2 diabetes. 
+
+
+The GDS files contains further information in the columns:
+
+```{r}
+Columns(gds)[,1:3]
+```
+
+
+### Conversion of the data 
+The GDS files require two functions, GDS2MA and GDS2eSet to accomplish conversion of the data to the limma and biobase data structure.
+
+Using the gds set above:
+
+```{r}
+eset <- GDS2eSet(gds,do.log2 = TRUE)
+```
+
+This converts it to an expressionset containing the same data as the GEO dataset
+
+```{r}
+eset
+```
+
+```{r}
+pData(eset)[,1:3]
+```
+
+##Converting GDS to an MAList
+
+```{r}
+#get the platform from the GDS metadata
+Meta(gds)$platform
+
+```
+
+```{r}
+#So use this information in a call to getGEO
+gpl <- getGEO(filename=system.file("extdata/GPL570.annot.gz",package="GEOquery"))
+```
+
+When doing this, make sure to relocate the files to the "extdata" folder for the package. This doesn't work like normal file searching and instead finds files within the GEOquery package system files. 
+
+
+The above contains GPL5 data from GEO but does not include gene annotation movie; this is generaed using GDS2MA:
+
+```{r}
+MA <- GDS2MA(gds, GPL=gpl)
+class(MA)
+```
+
+
+##Converting GDS to an MAList
+- Will leave this for now as it and do the conversion if necessary.
+
+
+##Accessing Raw Data from GEO
+This is to access ger the .CEL files; I am familiar with microarray analysis using these so will obtain the raw data. 
+
+```{r}
+filegetGEOSuppFiles("GDS3884")
+```
+
+
+##Ways to use the data
+#1. Getting all series records for a given platform
+The GPL contains all the accessions that reference it and identify that the data was sequenced using "[HG-U133_Plus_2] Affymetrix Human Genome U133 Plus 2.0 Array" 
+
+```{r}
+
+gpl570 <- getGEO('GPL570')
+Meta(gpl570)$title
+```
+
+```{r}
+head(Meta(gpl570)$series_id)
+```
+
+The above gives the names of the series. The below gives the number of series associated with the platform.
+
+```{r}
+length(Meta(gpl570)$series_id)
+```
+
+So there are 5136 series 
+
+```{r}
+head(Meta(gpl570)$sample_id)
+```
+
+This prints the names of the samples. The number of samples is given by below:
+
+```{r}
+length(Meta(gpl570)$sample_id)
+```
+
+So there are 148655 samples.
+
+These are group of related samples considered to be part of a group - perhaps sex, FH status and diabetes status.
+
+The below can be used to download all samples or series:
+
+```{r}
+gsmids <- Meta(gpl570)$sample_id
+gsmlist <- sapply(gsmids[1:5],getGEO)
+names(gsmlist)
+```
+
