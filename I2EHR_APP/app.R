@@ -32,6 +32,8 @@ ui <- dashboardPage(
                icon = icon("id-card")),
       menuItem("Patient Data",
                tabName="PatientNu",
+               menuSubItem("Clinical data", "patient-clinical"), 
+               menuSubItem("Genomic data", "patient-genomic"),
                icon=icon("id-card")),
 #      menuItem("Patient", 
 #               tabName = "patient", 
@@ -125,7 +127,8 @@ restrictions.")))),
                                           "encounters",
                                           "immunization",
                                           "medications", 
-                                          "observations",
+                                          "observations_merge <- merge(x = patients.csv,
+observations",
                                           "patients",
                                           "procedures")),
                   sliderInput("slider_1", 
@@ -133,7 +136,7 @@ restrictions.")))),
                               1, 100, 150)),
               box(title="Data Sources")),
 
-      tabItem(tabName="PatientNu",
+      tabItem(tabName="patient-clinical",
               
               box(title="Patient Query", collapsible = TRUE,
                   h5("Enter patient ID below to query current records in each dataset"),
@@ -196,7 +199,12 @@ restrictions.")))),
 #                                      c(observations.csv)),
 #                   checkboxGroupInput("inCheckboxGroup2", "Input checkbox 2",
 #                                      c("Item A", "Item B", "Item C")))
-      
+      tabItem(tabName = "patient-genomic",
+              box(title="Genomic expression profiles",
+                  h5("Gene expression profiles available from GEO are used to analyse the gene expression associated with 
+                 clinical observations. Identification of genotypic patterns can then be mapped be to recordings from clinical encounters and create links 
+                 between treatment and improvemnts or disprovements"))),
+
       tabItem(tabName = "cohort",
               box(title="Controls", collapsible = TRUE,
                   # Input: Selector for choosing dataset ----
@@ -233,7 +241,8 @@ box(title = "Data Sources", collapsible = TRUE,
                     tabsetPanel(
                       tabPanel("Ethnicity", plotOutput("plot1")),
                       tabPanel("Hg Measurements", plotOutput("plot2")),
-                      tabPanel("Disease Prevalence", plotOutput("plot3"))))))
+                      tabPanel("Disease Prevalence", plotOutput("plot3")),
+                      tabPanel("BMI", plotOutput("plot4"))))))
                   ))))
 
 
@@ -442,6 +451,69 @@ output$plot3 <- renderPlot({
            "observations" = observations.csv,
            "patients" = patients.csv,
            "procedures" = procedures.csv)
+  })
+  
+  
+  
+  output$plot4 <- renderPlot({
+    
+  library(ggplot2)
+  library(ggridges)
+  library(lattice)
+  
+  
+  ##merge the data
+  observations_merge <- merge(x = patients.csv, 
+                              y = observations.csv, 
+                              by.x = "Id", 
+                              by.y= "PATIENT") 
+  
+  
+  
+  ## could alternatively do the below command using to obsevation code (probably better)
+  bmi_measurements <- 	
+    subset(observations_merge,
+           subset = (observations_merge$DESCRIPTION == "Body Mass Index"))
+  
+  bmi_measurements$BIRTHDATE <- 
+    substring(bmi_measurements$BIRTHDATE, 1, 4) 
+  
+  bmi_measurements$DEATHDATE <- substring(bmi_measurements$DEATHDATE, 1, 4)
+  #  bmi_measurements$DECADE <- 
+  #    10*as.integer(as.numeric(bmi_measurements$BIRTHDATE/10))
+  
+  bmi_measurements$DECADE <- 
+    10*as.integer(as.numeric(as.character(bmi_measurements$BIRTHDATE)) / 10)
+  
+  bmi_measurements$VALUEBIN <- 
+    1*as.integer(as.numeric(as.character(bmi_measurements$VALUE)) / 1)
+  
+  #plot the two
+  ggplot(bmi_measurements) + 
+    geom_density_ridges(aes(x = VALUEBIN, 
+                            y = DECADE, 
+                            group = interaction(GENDER, DECADE),
+                            fill = GENDER), 
+                        alpha = 0.6, 
+                        scale = 0.8) +
+    
+#    geom_vline(xintercept = 5.7, 
+#               color = "lightskyblue1", size=0.5) +
+    
+#    geom_vline(xintercept = 6.2, 
+#               color = "tomato", size=0.5) +
+    
+    scale_fill_manual(values=c("#0571b0", "#ca0020")) +
+    
+    theme_classic() +
+    theme(
+      axis.text.x= element_text(angle = 30),
+      panel.grid.major.y =element_line(colour = "gray95"),
+      panel.grid.major.x =element_line(colour = "gray95"),
+      panel.grid.minor.x =element_line(colour = "gray95"))
+  
+  
+  
   })
   
 

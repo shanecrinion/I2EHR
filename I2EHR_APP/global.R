@@ -10,3 +10,7 @@ clinical_data <- ldply(.data = list.files(pattern="*.csv"),
                        .fun = read.csv,
                        header=TRUE)
 
+observations_merge <- merge(x = patients.csv, 
+                            y = observations.csv, 
+                            by.x = "Id", 
+                            by.y = "PATIENT")
