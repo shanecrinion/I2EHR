@@ -116,4 +116,57 @@ plotMDS(normData,
 
 
 ##### ---- Linear Modelling and Gene Ontology Enrichment Analysis
+# Limma is used or differential expression
+# Gene ontology enrichment is performed using topGO 
+
+
+#Create a design matrix for group-means model
+design <- cbind(
+  G0=as.numeric(pd$studyGroup=="G0"),
+  G1=as.numeric(pd$studyGroup=="G1"),
+  G2=as.numeric(pd$studyGroup=="G2"))
+
+#Calculate array weights and visualize with barplot, then fit the linear model
+#This estimates the quality for each array in the multi-array experiment
+
+aw <- arrayWeights(normData, design)
+barplot(aw)
+
+## linear model of expected gene expression
+fit <- lmFit(normData, design, weight=aw)
+#Make a contrasts matrix for the sample comparisons we want to make and do the comparison
+#Calculate a moderated F-statistic
+cm <- makeContrasts(G0-G1,G1-G2,G2-G0, levels=design)
+fit2 <- contrasts.fit(fit, cm)
+fit2 <- eBayes(fit2)
+
+## get top genes from comparison
+#Create the top table for the comparison (coef) we want
+top<-topTable(fit2, coef=3, n=nrow(fit2))
+sig <- top[top$adj.P.Val <= 0.05 & abs(top$logFC) >= 1,]
+
+#Create an excel-readable table with the specified columns for sig gene only
+#Note that we could subset out only the columns of interest if required
+
+write.table(sig, "DEG_list.csv", sep="", row.names=FALSE)
+
+#Extract the expression values for the DEGs
+e <- exprs(normData)
+sig_exprs<-rownames(e)
+
+#Volcano plot 
+#Create volcano plot for DEGs
+plot(top$logFC, -log10(top$adj.P.Val), pch="*", xlab="Log2 Fold Change", ylab="-10log (adjusted
+p-value)")
+abline(h=-log10(0.05), v=c(-1, 1), col="red", lty=2)
+points(sig$logFC, -log10(sig$adj.P.Val), col="red", pch="*")
+
+#Heatmap 
+heatmap.2(sig_exprs, trace="none", scale="row", col="redgreen", cexRow=0.2, cexCol=0.7)
+
+
+#### GO
+library(topGO)
+library(org.Hs.eg.db)
+library(Rgraphviz)
 
