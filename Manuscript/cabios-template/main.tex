@@ -31,7 +31,7 @@ online.}
 
 \section{Introduction}
 
-The widespread implementation of the electronic health record (EHR) has improved healthcare through reduced processing times and cost, improved quality of patient care and detailed clinical information through longitudinal storage \citealp{PheWAS} 
+The widespread implementation of the electronic health record (EHR) has improved healthcare through reduced processing times and cost, improved quality of patient care and detailed clinical information through longitudinal storage \citealp{PheWAS}. Longitudinal clinical data be be useful for applied clinical research like identifying drug adverse effects or respositioning of drugs.
 {\ldots}{\ldots} text follows.
 \begin{equation}
 \sum \text{\it x}+ \text{\it y} =\text{\it Z}\label{eq:01}\vspace*{-10pt}
@@ -51,9 +51,9 @@ Text Text Text  Text Text Text Text Text Text  Text Text.
 
 \begin{methods}
 \section{Methods}
+\subsection{Population}
+The clinical data modelling diabetes patients was generated using modules from Synthea, a synthetic patient generator. The population consisted of 1000 individuals originating from Massachusetts, MA. The selection criteria were that they suffered from a metabolic disorder. The wellness encounters module provide was used to generate useful observations including BMI. Diabetes is stored in 2 modules namely metabolic syndrome disease and metabolic syndrome care. These contain diabetes specific measurements including hemoglobin levels. 
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
 Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
 Text Text Text  Text Text Text Text Text Text  Text Text.
 \citealp{Boffelli03} might want to know about  text text text text
@@ -97,9 +97,25 @@ Text Text Text Text Text Text Text Text Text Text Text.
 \citealp{Boffelli03} might want to know about text text text text
 Text Text Text Text Text Text  Text Text Text Text Text Text Text
 Text Text Text Text Text Text Text Text.
+\subsection{Genotypic Data}
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text\vadjust{\newpage}.
+Genotypic data was extracted from the Gene Expression Omnibus. Montesanto et. al indicate that CAT, FTO and UCP1 are all associated with type 2 diabetes. Search each of these genes with type 2 diabetes directs me to the same series: GSE25462. To model the effect of medication on gene expression, the commonly prescribed drug Simvastatin 20 MG Oral Tablet (n = 46) was used in the search. The search term 
+
+
+\begin{verbatim}
+type[All Fields] AND 2[All Fields] 
+AND diabetes[All Fields] 
+AND Simvastatin[All Fields])
+AND ("Homo sapiens"[Organism] 
+AND ("50"[n_samples]:"100"[n_samples])
+
+\end{verbatim}
+
+was used to find gene expression variation associated with the disease and drug and the . The top result measured APOC3 levels in subgroups Type 2 diabetic and insulin-resistant but normoglycemic cohorts in skeletal muscle cells. The primary outcome of the search was to identify a suitable model for diabetes associated gene expression variation. Studies have suggested a linked between mitochondrial oxidative homeostasis and predisposition to diabetic vascular complications (Alberto Montesanto, 2018). Plasma APOC3 associates with almost half of HDL (Zvintzou E, 2017); HDL-associated apoA-I and lysosphingolipids protect against ATP reduction resulting from reverse cholesterol transport in mitochondria CR White, 2017). When sorting this by subset effect, TPM1 comes up as highest. 
+
+Genotyping was performed using [\ HG-U133 Plus 2 ]\ Affymetrix Human Genome U133 Plus 2.0 Array which, according to their website, provides the greatest accuracy and reproducibility of any microarray platform. 
+
+ Text\vadjust{\newpage}.
 Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
 Text Text Text  Text Text Text Text Text Text  Text Text.
 \citealp{Boffelli03} might want to know about text text text text
@@ -153,17 +169,9 @@ Text Text Text  Text Text Text Text Text Text  Text Text.
 Text Text Text Text Text Text Text Text Text Text Text Text Text
 Text Text  Text Text Text Text Text Text.
 
-\subsection{This is subheading}
+\subsection{Development of integrated genomic and clinical data}
+The generated data contained numerous CSV files containing: allergies, careplans, conditions, encounters, imaging studies, observations, organizations, patients and procedures. The observations were merged with patients to put the name to each wellness and disease associated measurement. The medical coding or the associated observation description could then be used to compar
 
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text  Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text Text Text Text Text Text Text  Text Text.
 \citealp{Boffelli03} might want to know about  text text text text
 Text Text Text Text Text Text Text Text Text Text Text Text Text
 Text Text  Text Text Text Text Text Text.
