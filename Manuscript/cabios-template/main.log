@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.9)  28 MAY 2019 15:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.9)  29 MAY 2019 13:25
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -447,7 +447,8 @@ Type  H <return>  for immediate help.
  ...                                              
                                                   
 l.34 ...ough longitudinal storage \citealp{PheWAS}
-                                                  
+                                                  . Longitudinal clinical da...
+
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
@@ -560,6 +561,25 @@ l.53 \section{Methods}
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.54 \subsection{Population}
+                            
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 1622) in paragraph at lines 55--56
+\OT1/ptm/m/n/8 The clinical data modelling diabetes patients was generated usin
+g
+ []
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -771,14 +791,30 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.103 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
+l.100 \subsection{Genotypic Data}
+                                 
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 1 undefined on input line 103.
+Underfull \hbox (badness 1024) in paragraph at lines 102--103
+\OT1/ptm/m/n/8 Genotypic data was extracted from the Gene Expression Omnibus.
+ []
+
+
+Underfull \hbox (badness 2173) in paragraph at lines 102--103
+\OT1/ptm/m/n/8 directs me to the same series: GSE25462. To model the effect
+ []
+
+
+Underfull \hbox (badness 1400) in paragraph at lines 102--103
+\OT1/ptm/m/n/8 of medication on gene expression, the commonly prescribed drug
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -787,119 +823,19 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.105 \citealp{Boffelli03}
-                           might want to know about text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.108 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 1 undefined on input line 108.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.110 \citealp{Boffelli03}
-                           might want to know about text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.113 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 1 undefined on input line 113.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.115 \citealp{Boffelli03}
-                           might want to know about text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.118 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 1 undefined on input line 118.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.120 \citealp{Boffelli03}
-                           might want to know about text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.123 
+l.103 
       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-LaTeX Font Info:    Try loading font information for OMS+phv on input line 123.
+LaTeX Font Info:    Try loading font information for OMS+phv on input line 103.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsphv.fd
 File: omsphv.fd 
 )
 LaTeX Font Info:    Font shape `OMS/phv/m/n' in size <7> not available
-(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 123.
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 103.
 
 Overfull \hbox (1.52002pt too wide) has occurred while \output is active
  []
@@ -912,7 +848,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.123 
+l.103 
       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -930,14 +866,32 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.127 Figure~2\vphantom{\ref{fig:02}}
+l.105 \begin{verbatim}
+                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 105.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.119 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 127.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 119.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -946,7 +900,123 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.129 \citealp{Boffelli03}
+l.121 \citealp{Boffelli03}
+                           might want to know about text text text text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.124 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 124.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.126 \citealp{Boffelli03}
+                           might want to know about text text text text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.129 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 129.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.131 \citealp{Boffelli03}
+                           might want to know about text text text text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.134 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 134.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.136 \citealp{Boffelli03}
+                           might want to know about text text text text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.143 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 143.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.145 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -959,14 +1029,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.132 Figure~2\vphantom{\ref{fig:02}}
+l.148 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 132.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 148.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -975,7 +1045,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.134 \citealp{Boffelli03}
+l.150 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -988,14 +1058,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.137 Figure~2\vphantom{\ref{fig:02}}
+l.153 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 137.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 153.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1004,7 +1074,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.139 \citealp{Boffelli03}
+l.155 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1017,14 +1087,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.145 Figure~2\vphantom{\ref{fig:02}}
+l.161 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 145.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 161.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1033,7 +1103,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.147 \citealp{Boffelli03}
+l.163 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1046,14 +1116,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.150 Figure~2\vphantom{\ref{fig:02}}
+l.166 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 150.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 166.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1062,7 +1132,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.152 \citealp{Boffelli03}
+l.168 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1075,11 +1145,22 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.156 \subsection{This is subheading}
-                                     
+l.172 ... of integrated genomic and clinical data}
+                                                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 3354) in paragraph at lines 173--174
+\OT1/ptm/m/n/8 careplans, conditions, encounters, imaging studies, observations
+,
+ []
+
+
+Underfull \hbox (badness 3460) in paragraph at lines 173--174
+\OT1/ptm/m/n/8 measurement. The medical coding or the associated observation
+ []
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1088,23 +1169,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.160 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 160.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.162 \citealp{Boffelli03}
+l.175 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1117,14 +1182,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.165 Figure~2\vphantom{\ref{fig:02}}
+l.178 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 165.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 178.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1133,36 +1198,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.167 \citealp{Boffelli03}
-                           might want to know about  text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.170 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 170.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.172 \citealp{Boffelli03}
+l.180 \citealp{Boffelli03}
                            might want to know about  text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1175,14 +1211,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.175 Figure~2\vphantom{\ref{fig:02}}
+l.183 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 175.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 183.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1191,7 +1227,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.177 \citealp{Boffelli03}
+l.185 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1204,14 +1240,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.180 Figure~2\vphantom{\ref{fig:02}}
+l.188 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 180.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 188.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1220,7 +1256,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.182 \citealp{Boffelli03}
+l.190 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1233,14 +1269,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.185 Figure~2\vphantom{\ref{fig:02}}
+l.193 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 185.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 193.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1249,7 +1285,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.187 \citealp{Boffelli03}
+l.195 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1262,14 +1298,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.190 Figure~2\vphantom{\ref{fig:02}}
+l.198 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 190.
+LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 198.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1278,7 +1314,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.192 \citealp{Boffelli03}
+l.200 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1291,7 +1327,41 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.197 \subsubsection{This is subsubheading}
+l.205 \subsubsection
+                    {This is subsubheading}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <8> not available
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 205.
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.205 \subsubsection
+                    {This is subsubheading}
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[2]
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.205 \subsubsection{This is subsubheading}
                                            
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1304,7 +1374,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.197 \subsubsection{This is subsubheading}
+l.205 \subsubsection{This is subsubheading}
                                            
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1317,14 +1387,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.201 Figure~2\vphantom{\ref{fig:02}}
+l.209 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 201.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 209.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1333,7 +1403,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.203 \citealp{Boffelli03}
+l.211 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1346,14 +1416,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.206 Figure~2\vphantom{\ref{fig:02}}
+l.214 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 206.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 214.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1362,36 +1432,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.208 \citealp{Boffelli03}
-                           might want to know about  text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.211 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 211.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.213 \citealp{Boffelli03}
+l.216 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1411,7 +1452,7 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 219.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 219.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1433,14 +1474,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.224 Figure~2\vphantom{\ref{fig:02}}
+l.227 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 224.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 227.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1449,7 +1490,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.226 \citealp{Boffelli03}
+l.229 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1462,14 +1503,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.229 Figure~2\vphantom{\ref{fig:02}}
+l.232 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 229.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 232.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1478,8 +1519,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.231 \citealp{Boffelli03}
-                           might want to know about  text text\break
+l.234 \citealp{Boffelli03}
+                           might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
@@ -1498,7 +1539,7 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 237.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 237.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1508,6 +1549,35 @@ Type  H <return>  for immediate help.
  ...                                              
                                                   
 l.239 \citealp{Boffelli03}
+                           might want to know about  text text\break
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.245 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 245.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.247 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1520,14 +1590,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.242 Figure~2\vphantom{\ref{fig:02}}
+l.250 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 242.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 250.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1536,7 +1606,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.244 \citealp{Boffelli03}
+l.252 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1549,14 +1619,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.247 Figure~2\vphantom{\ref{fig:02}}
+l.255 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 247.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 255.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1565,7 +1635,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.249 \citealp{Boffelli03}
+l.257 \citealp{Boffelli03}
                            might want to know about  text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1578,14 +1648,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.252 Figure~2\vphantom{\ref{fig:02}}
+l.260 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 252.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 260.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1594,7 +1664,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.254 \citealp{Boffelli03}
+l.262 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1607,14 +1677,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.257 Figure~2\vphantom{\ref{fig:02}}
+l.265 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 257.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 265.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1623,7 +1693,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.259 \citealp{Boffelli03}
+l.267 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1636,14 +1706,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.262 Figure~2\vphantom{\ref{fig:02}}
+l.270 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 262.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 270.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1652,7 +1722,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.264 \citealp{Boffelli03}
+l.272 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1665,14 +1735,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.267 Figure~2\vphantom{\ref{fig:02}}
+l.275 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 267.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 275.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1681,7 +1751,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.269 \citealp{Boffelli03}
+l.277 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1694,14 +1764,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.278 Figure~2\vphantom{\ref{fig:02}}
+l.286 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 278.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 286.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1710,7 +1780,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.280 \citealp{Boffelli03}
+l.288 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1723,14 +1793,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.283 Figure~2\vphantom{\ref{fig:02}}
+l.291 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 283.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 291.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1739,79 +1809,12 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.285 \citealp{Boffelli03}
+l.293 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.288 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 2 undefined on input line 288.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.290 \citealp{Boffelli03}
-                           might want to know about  text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.291 
-      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <8> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 291.
-
-Overfull \hbox (252.0pt too wide) has occurred while \output is active
-[][] 
- []
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.291 
-      
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-[2]
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
 
@@ -1842,20 +1845,24 @@ Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
 ! LaTeX Error: Encoding scheme `LY1' unknown.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.301 Figure~2\vphantom{\ref{fig:02}}
+l.304 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 301.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 304.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1864,7 +1871,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.303 \citealp{Boffelli03}
+l.306 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1877,14 +1884,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.306 Figure~2\vphantom{\ref{fig:02}}
+l.309 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 306.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 309.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1893,7 +1900,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.308 \citealp{Boffelli03}
+l.311 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1906,14 +1913,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.313 Figure~2\vphantom{\ref{fig:02}}
+l.314 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 313.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 314.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1922,7 +1929,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.315 \citealp{Boffelli03}
+l.316 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1935,14 +1942,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.318 Figure~2\vphantom{\ref{fig:02}}
+l.321 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 318.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 321.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1951,7 +1958,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.320 \citealp{Boffelli03}
+l.323 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1964,14 +1971,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.323 Figure~2\vphantom{\ref{fig:02}}
+l.326 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 323.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 326.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -1980,7 +1987,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.325 \citealp{Boffelli03}
+l.328 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1993,14 +2000,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.329 Figure~2\vphantom{\ref{fig:02}}
+l.331 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 329.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 331.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2009,7 +2016,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.331 \citealp{Boffelli03}
+l.333 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2022,14 +2029,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.334 Figure~2\vphantom{\ref{fig:02}}
+l.337 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 334.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 337.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2038,7 +2045,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.336 \citealp{Boffelli03}
+l.339 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2051,14 +2058,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.339 Figure~2\vphantom{\ref{fig:02}}
+l.342 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 339.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 342.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2067,7 +2074,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.341 \citealp{Boffelli03}
+l.344 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2080,14 +2087,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.344 Figure~2\vphantom{\ref{fig:02}}
+l.347 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 344.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 347.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2096,7 +2103,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.346 \citealp{Boffelli03}
+l.349 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2109,14 +2116,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.353 Figure~2\vphantom{\ref{fig:02}}
+l.352 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 353.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 352.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2125,7 +2132,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.355 \citealp{Boffelli03}
+l.354 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2138,14 +2145,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.358 Figure~2\vphantom{\ref{fig:02}}
+l.361 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 358.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 361.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2154,7 +2161,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.360 \citealp{Boffelli03}
+l.363 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2167,14 +2174,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.363 Figure~2\vphantom{\ref{fig:02}}
+l.366 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 363.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 366.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2183,7 +2190,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.365 \citealp{Boffelli03}
+l.368 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2196,59 +2203,88 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.367 \begin{table}[!t]
+l.371 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 371.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.373 \citealp{Boffelli03}
+                           might want to know about  text text text text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.375 \begin{table}[!t]
                        
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 374.
+LaTeX Font Info:    Calculating math sizes for size <7.5> on input line 382.
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <7.5> not available
-(Font)              size <7> substituted on input line 374.
+(Font)              size <7> substituted on input line 382.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <3.75> not available
-(Font)              size <5> substituted on input line 374.
+(Font)              size <5> substituted on input line 382.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <7.5> not available
-(Font)              size <7> substituted on input line 374.
+(Font)              size <7> substituted on input line 382.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <3.75> not available
-(Font)              size <5> substituted on input line 374.
+(Font)              size <5> substituted on input line 382.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <7.5> not available
-(Font)              size <7> substituted on input line 374.
+(Font)              size <7> substituted on input line 382.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <3.75> not available
-(Font)              size <5> substituted on input line 374.
+(Font)              size <5> substituted on input line 382.
 
-LaTeX Font Info:    Try loading font information for OT1+phb on input line 374.
+LaTeX Font Info:    Try loading font information for OT1+phb on input line 382.
 
-LaTeX Font Info:    No file OT1phb.fd. on input line 374.
+LaTeX Font Info:    No file OT1phb.fd. on input line 382.
 
 LaTeX Font Warning: Font shape `OT1/phb/m/n' undefined
-(Font)              using `OT1/cmr/m/n' instead on input line 374.
+(Font)              using `OT1/cmr/m/n' instead on input line 382.
 
 
 LaTeX Font Warning: Font shape `OT1/phb/m/n' in size <7.5> not available
-(Font)              size <7> substituted on input line 374.
+(Font)              size <7> substituted on input line 382.
 
 
 LaTeX Font Warning: Font shape `OT1/phb/bx/n' undefined
-(Font)              using `OT1/phb/m/n' instead on input line 374.
+(Font)              using `OT1/phb/m/n' instead on input line 382.
 
 
-Underfull \hbox (badness 5787) in paragraph at lines 374--374
+Underfull \hbox (badness 5787) in paragraph at lines 382--382
 []\OT1/phb/m/n/7 Table 1. This is table
  []
 
 
-Overfull \hbox (12.0pt too wide) in paragraph at lines 374--374
+Overfull \hbox (12.0pt too wide) in paragraph at lines 382--382
 []$[]$ 
  []
 
@@ -2259,20 +2295,20 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.379 \begin{figure}[!tpb]
+l.387 \begin{figure}[!tpb]
                           %figure1
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Overfull \hbox (1.0pt too wide) in paragraph at lines 382--384
+Overfull \hbox (1.0pt too wide) in paragraph at lines 390--392
 [][][][][][][] 
  []
 
 
 LaTeX Font Warning: Font shape `OT1/phb/m/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 384.
+(Font)              size <6> substituted on input line 392.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2281,14 +2317,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.384 \caption{Caption, caption.}
+l.392 \caption{Caption, caption.}
                                  \label{fig:01}
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <6.5> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 384.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 392.
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
 
@@ -2296,14 +2332,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.394 Figure~2\vphantom{\ref{fig:02}}
+l.402 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 394.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 402.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2312,7 +2348,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.396 \citealp{Boffelli03}
+l.404 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2325,14 +2361,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.399 Figure~2\vphantom{\ref{fig:02}}
+l.407 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 399.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 407.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2341,7 +2377,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.401 \citealp{Boffelli03}
+l.409 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2354,14 +2390,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.404 Figure~2\vphantom{\ref{fig:02}}
+l.412 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 404.
+LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 412.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2370,7 +2406,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.406 \citealp{Boffelli03}
+l.414 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2383,175 +2419,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.409 \subsection{Test1}
-                        
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.413 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 413.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.415 \citealp{Boffelli03}
-                           might want to know about  text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.418 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 418.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.420 \citealp{Boffelli03}
-                           might want to know about  text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.426 \section{Discussion}
-                          
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.429 Figure~2\vphantom{\ref{fig:02}}
-                                      Talk about a second use of I2EHR. Talk...
-
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 429.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.430 \citealp{Boffelli03}
-                           might want to know about  text text text text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-Underfull \hbox (badness 3148) in paragraph at lines 435--437
-\OT1/ptm/m/n/8 Synthea improved efficiency by allowing instant usage and data
- []
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.440 ...ext Text. Figure~2\vphantom{\ref{fig:02}}
-                                                   shows that
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 440.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.442 Text Text. Figure~2\vphantom{\ref{fig:02}}
-                                                 shows that the above
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 442.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.444 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method Text
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 3 undefined on input line 444.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.467 \section
-              {Conclusion}
+l.415 
+      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
@@ -2568,8 +2437,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.467 \section
-              {Conclusion}
+l.415 
+      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
@@ -2582,7 +2451,78 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.467 \section{Conclusion}
+l.417 \subsection{Test1}
+                        
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.421 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 421.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.423 \citealp{Boffelli03}
+                           might want to know about  text text text text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.426 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 426.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.428 \citealp{Boffelli03}
+                           might want to know about  text text text text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.434 \section{Discussion}
                           
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2595,14 +2535,15 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.471 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
+l.437 Figure~2\vphantom{\ref{fig:02}}
+                                      Talk about a second use of I2EHR. Talk...
+
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 471.
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 437.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2611,7 +2552,102 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.473 \citealp{Boffelli03}
+l.438 \citealp{Boffelli03}
+                           might want to know about  text text text text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 3148) in paragraph at lines 443--445
+\OT1/ptm/m/n/8 Synthea improved efficiency by allowing instant usage and data
+ []
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.448 ...ext Text. Figure~2\vphantom{\ref{fig:02}}
+                                                   shows that
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 448.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.450 Text Text. Figure~2\vphantom{\ref{fig:02}}
+                                                 shows that the above
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 450.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.452 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 452.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.475 \section{Conclusion}
+                          
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.479 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 479.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.481 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2624,14 +2660,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.476 Figure~2\vphantom{\ref{fig:02}}
+l.484 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 476.
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 484.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2640,7 +2676,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.478 \citealp{Boffelli03}
+l.486 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2653,14 +2689,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.481 Figure~2\vphantom{\ref{fig:02}}
+l.489 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 481.
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 489.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2669,14 +2705,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.488 Figure~2\vphantom{\ref{fig:02}}
+l.496 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 488.
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 496.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2685,7 +2721,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.490 \citealp{Boffelli03}
+l.498 \citealp{Boffelli03}
                            might want to know about  text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2698,7 +2734,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.493 \item t
+l.501 \item t
              his is item, use enumerate
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2711,7 +2747,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.494 \item t
+l.502 \item t
              his is item, use enumerate
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2724,7 +2760,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.495 \item t
+l.503 \item t
              his is item, use enumerate
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2737,14 +2773,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.500 Figure~2\vphantom{\ref{fig:02}}
+l.508 Figure~2\vphantom{\ref{fig:02}}
                                       shows\vadjust{\pagebreak} that the
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 500.
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 508.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2753,7 +2789,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.502 Text Text.  \citealp{Boffelli03}
+l.510 Text Text.  \citealp{Boffelli03}
                                        might want to know about text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2766,14 +2802,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.505 Figure~2\vphantom{\ref{fig:02}}
+l.513 Figure~2\vphantom{\ref{fig:02}}
                                       shows that the above method  Text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 505.
+LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 513.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2782,7 +2818,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.507 \citealp{Boffelli03}
+l.515 \citealp{Boffelli03}
                            might want to know about text text text text
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2799,14 +2835,16 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.514 Figure~2\vphantom{\ref{fig:02}}
-                                      shows that the above method  Text
+l.518 
+      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 514.
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -2815,7 +2853,37 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.518 \section*{Acknowledgements}
+l.518 
+      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[4]
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.522 Figure~2\vphantom{\ref{fig:02}}
+                                      shows that the above method  Text
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: Reference `fig:02' on page 5 undefined on input line 522.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.526 \section*{Acknowledgements}
                                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2828,7 +2896,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.520 ...xt Text  Text Text.  \citealp{Boffelli03}
+l.528 ...xt Text  Text Text.  \citealp{Boffelli03}
                                                    might want to know about ...
 
 Your command was ignored.
@@ -2842,7 +2910,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.523 \section*{Funding}
+l.531 \section*{Funding}
                         
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2855,7 +2923,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.538 \begin{thebibliography}{}
+l.546 \begin{thebibliography}{}
                                
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2868,7 +2936,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.541 ..., Name2, Name3 (2003) Article title, {\it
+l.549 ..., Name2, Name3 (2003) Article title, {\it
                                                    Journal Name}, {\bf 199},...
 
 Your command was ignored.
@@ -2882,14 +2950,14 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.541 ...) Article title, {\it Journal Name}, {\bf
+l.549 ...) Article title, {\it Journal Name}, {\bf
                                                    199}, 133-154.
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <7> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 541.
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 549.
 Missing character: There is no â in font ptmr7t!
 Missing character: There is no € in font ptmr7t!
 Missing character: There is no “ in font ptmr7t!
@@ -2900,7 +2968,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.547 ..., Name2, Name3 (2001) Article title, {\it
+l.555 ..., Name2, Name3 (2001) Article title, {\it
                                                    Journal Name}, {\bf 99}, ...
 
 Your command was ignored.
@@ -2914,40 +2982,37 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.547 ...) Article title, {\it Journal Name}, {\bf
+l.555 ...) Article title, {\it Journal Name}, {\bf
                                                    99}, 33-54.
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 559--562
+Underfull \hbox (badness 10000) in paragraph at lines 567--570
 []\OT1/ptm/m/n/7 Crenshaw, B.,III, and Jones, W.B.,Jr (2003) The future of clin
 ical
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 559--562
+Underfull \hbox (badness 10000) in paragraph at lines 567--570
 \OT1/ptm/m/n/7 cancer management: one tumor, one chip. \OT1/ptm/m/it/7 Bioinfor
 matics\OT1/ptm/m/n/7 ,
  []
 
 
-Underfull \hbox (badness 1178) in paragraph at lines 569--573
+Underfull \hbox (badness 1178) in paragraph at lines 577--581
 []\OT1/ptm/m/n/7 Bardet, G. (1920) Sur un syndrome d'obesite infantile avec pol
 ydactylie et
  []
 
-Extra height:28.0pt when 340.86597pt
-Extra height:28.0pt when 341.86597pt
-Extra height:28.0pt when 342.86597pt
-Extra height:0.0pt when 343.86597pt
-(2)Left:343.86597pt Right:343.0pt Output:343.86597pt
+Extra height:0.0pt when 198.5pt
+(2)Left:198.5pt Right:178.0pt Output:198.5pt
 - LAST -
 Extra skip:0.0pt
-Left:343.86597pt
-Right:343.0pt
-Output:343.86597pt
+Left:198.5pt
+Right:178.0pt
+Output:198.5pt
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
 
@@ -2955,7 +3020,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.575 \end{document}
+l.583 \end{document}
                     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -2973,13 +3038,15 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.575 \end{document}
+l.583 \end{document}
                     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[4] (./main.aux)
+[5
+
+] (./main.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 1.25pt have occurred.
@@ -2992,13 +3059,13 @@ LaTeX Warning: There were undefined references.
 
  ) 
 Here is how much of TeX's memory you used:
- 3510 strings out of 494923
- 43339 string characters out of 6180742
- 116750 words of memory out of 5000000
- 6706 multiletter control sequences out of 15000+600000
- 68815 words of font info for 135 fonts, out of 8000000 for 9000
+ 3545 strings out of 494923
+ 43837 string characters out of 6180742
+ 118750 words of memory out of 5000000
+ 6736 multiletter control sequences out of 15000+600000
+ 69330 words of font info for 137 fonts, out of 8000000 for 9000
  18 hyphenation exceptions out of 8191
- 41i,10n,28p,367b,344s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,10n,28p,799b,344s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy9.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cmextra/cmex8.pfb></usr/share/texlive/t
@@ -3006,17 +3073,18 @@ exmf-dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dis
 t/fonts/type1/public/amsfonts/cm/cmr7.pfb></usr/share/texlive/texmf-dist/fonts/
 type1/public/amsfonts/cm/cmr8.pfb></usr/share/texlive/texmf-dist/fonts/type1/pu
 blic/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/am
-sfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhv
-b8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></us
-r/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8ac.pfb></usr/share/tex
-live/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/urw/helvetic/uhvro8ac.pfb></usr/share/texlive/texmf-dist/fonts
-/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/time
-s/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
-Output written on main.pdf (4 pages, 146107 bytes).
+sfonts/cm/cmsy7.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/courier/ucrr
+8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/texli
+ve/texmf-dist/fonts/type1/urw/helvetic/uhvr8ac.pfb></usr/share/texlive/texmf-di
+st/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/urw/helvetic/uhvro8ac.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/ti
+mes/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on main.pdf (5 pages, 161142 bytes).
 PDF statistics:
- 83 PDF objects out of 1000 (max. 8388607)
- 59 compressed objects within 1 object stream
+ 90 PDF objects out of 1000 (max. 8388607)
+ 64 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
  6 words of extra memory for PDF output out of 10000 (max. 10000000)
 

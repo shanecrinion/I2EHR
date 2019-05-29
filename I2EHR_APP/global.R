@@ -1,3 +1,4 @@
+setwd("I2EHR_APP/")
 
 #import csv files
 temp = list.files(pattern="*.csv")

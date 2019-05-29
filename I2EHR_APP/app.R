@@ -1,18 +1,24 @@
 #import csv files
-#temp = list.files(pattern="*.csv")
-#for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
+temp = list.files(pattern="*.csv")
+for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 
 
 #merging the data
-#library(plyr)
-#clinical_data <- ldply(.data = list.files(pattern="*.csv"),
-#                       .fun = read.csv,
-#                       header=TRUE)
+library(plyr)
+clinical_data <- ldply(.data = list.files(pattern="*.csv"),
+                       .fun = read.csv,
+                       header=TRUE)
 
+
+##merge the data
+observations_merge <- merge(x = patients.csv, 
+                            y = observations.csv, 
+                            by.x = "Id", 
+                            by.y= "PATIENT") 
 
 ### install the required packages
 
-list.of.packages <- c("ggplot2", "ggridges", "lattice","viridis","shiny","shinydashboard","DiagrammeR")
+list.of.packages <- c("ggplot2", "ggridges", "lattice","viridis","shiny","shinydashboard","DiagrammeR", "shinyWidgets")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
@@ -21,6 +27,7 @@ if(length(new.packages)) install.packages(new.packages)
 
 library(shiny) 
 library(shinydashboard)
+library(shinyWidgets)
 
 ui <- dashboardPage(
   skin = "green",
@@ -132,8 +139,8 @@ observations",
                                           "patients",
                                           "procedures")),
                   sliderInput("slider_1", 
-                              "Number of Observations", 
-                              1, 100, 150)),
+                              "Number of Observations",
+                              value = 5)),
               box(title="Data Sources")),
 
       tabItem(tabName="patient-clinical",
