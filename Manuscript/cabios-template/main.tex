@@ -414,22 +414,18 @@ Text Text Text  Text Text Text Text Text Text  Text Text.
 \citealp{Boffelli03} might want to know about  text text text text
 
 
-\subsection{Test1}
+\subsection{Gene Expression Analysis}
+The Affymetrix GeneChip Human Genome U133 Plus 2.0 Array is a one-colour microarray that human array that identically represents the GeneChip Human Genome U133 set. The .CEL raw data files were imported and analysed using Bioconductor packages limma and oligo on R 3.5.3 "Great Truth".(possibly used Affy too?). Other software that can be used for the analysis is Galaxy, GenePattern, GeneSpring.
 
 
-
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
-Text Text Text Text Text Text Text Text Text Text Text Text Text
-Text Text  Text Text Text Text Text Text.
-Figure~2\vphantom{\ref{fig:02}} shows that the above method  Text
-Text Text Text  Text Text Text Text Text Text  Text Text.
-\citealp{Boffelli03} might want to know about  text text text text
+Quality control: R is used to make plots that can be used to identify poor quality probes or technical issues that could effect the results. 
 
 
+Normalisation prevents technical variation between assays from displaying as biological variation. The robust multi-array average (RMA) is used from the 'oligo' package to 
 
+Differential expression analysis is used to identify the genes that differ under biological conditions. Multiple testing correction is performed using the 'limma' method for log2 fold change ratio between test and control conditions and provides an 'adjusted' p-value for the differences due to multiple testing. 
 
+ 
 
 \section{Discussion}
 
@@ -443,6 +439,8 @@ This approach intends to give clinical researchers the insight required to impro
 Synthea proved very useful for the acquisition of clinical data; Synthea improved efficiency by allowing instant usage and data manipulation to model the cohort effectively and eliminating waiting time. Efficiency is also improved by the elimination of issues associated with privacy including de-personalising the data and requesting new data privileges. 
 Issue with Synthea is the discrepancies with demographic data that have been noted (ref). Synthea developers have addressed this and are continuously improving the likelyness to real data through their GitHub account (link). 
 
+
+Limitations of microarrays: limitations include cross-hybridisation induced high background limitations
 
 Table~\ref{Tab:01} shows that Text Text Text Text Text  Text Text
 Text Text Text Text. Figure~2\vphantom{\ref{fig:02}} shows that
