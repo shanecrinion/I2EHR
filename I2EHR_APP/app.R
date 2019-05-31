@@ -140,7 +140,9 @@ observations",
                                           "procedures")),
                   sliderInput("slider_1", 
                               "Number of Observations",
-                              value = 5)),
+                              min = 1, 
+                              value = 5,
+                              max = 100)),
               box(title="Data Sources")),
 
       tabItem(tabName="patient-clinical",
@@ -208,9 +210,18 @@ observations",
 #                                      c("Item A", "Item B", "Item C")))
       tabItem(tabName = "patient-genomic",
               box(title="Genomic expression profiles",
-                  h5("Gene expression profiles available from GEO are used to analyse the gene expression associated with 
-                 clinical observations. Identification of genotypic patterns can then be mapped be to recordings from clinical encounters and create links 
-                 between treatment and improvemnts or disprovements"))),
+                  h5("Gene expression profiles available from GEO are used to analyse 
+the gene expression associated with 
+                 clinical observations. Identification of genotypic patterns 
+can then be mapped be to recordings from clinical encounters and create links 
+                 between treatment and improvemnts or disprovements")),
+              box(title = "The data used in this model, GSE25462, consists of samples of
+                  individuals of 3 subgroups: diabetes patients, normoglycemic but insulin resistant patients with parental family history (FH+)
+                  and family history negative control individuals (FH-).
+                  The expression of serum response factor (SRF) and cofactor (MKL1) have increased expression in 
+                  T2D and FH+ groups. The medication most commmonly used to treat insulin resistance is metformin; the key pathophysiological result of T2D. 
+                  This study identifies an increase in the expression of actin cytoskeleton mediating genes such as SRF and MKL1 and indicate that these genes may mediate alterations in glucose reuptake
+                  that consequently create insul")),
 
       tabItem(tabName = "cohort",
               box(title="Controls", collapsible = TRUE,
@@ -233,7 +244,8 @@ observations",
 #                                     choices = names(input$patient_dataset_2)),
                   sliderInput("slider_2", 
                               "Number of Observations", 
-                              1, 100, 150)),
+                              min = 1, value=5, 
+                              max = 300)),
 box(title = "Data Sources", collapsible = TRUE,
     tags$ul(
       tags$li("US Census Bureau demographics"), 
