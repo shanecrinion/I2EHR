@@ -15,7 +15,6 @@ Load the required libraries for the analysis:
 
 ```{r libraries}
 
-suppressMessages(
 #General Bioconductor packages
     library(Biobase)
     library(oligoClasses)
@@ -54,7 +53,7 @@ suppressMessages(
     library(genefilter)
     library(openxlsx)
    #library(devtools)
-)
+
 
 ```
 
@@ -108,6 +107,19 @@ The log2 is taken of the above as quality control and as is standard for express
 PCA is first performed using fasting glucose, however the fasting glucose levels, the results were quite messy.
 
 ```{r}
+
+# make the empty column 
+gse25462[[1]]$insulin_category <- 0
+
+# assign each column to its appropriate bin 
+gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$characteristics_ch1.9))>=8] <- "diabetic"
+
+gse25462[[1]]$insulin_category[((as.numeric(gse25462[[1]]$characteristics_ch1.9))< 8 
+                               & (as.numeric(gse25462[[1]]$characteristics_ch1.9))> 3)] <- "optimal"
+
+gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$characteristics_ch1.9))< 3] <- "low"
+
+
 #log 2
 exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
 #pca
@@ -119,7 +131,7 @@ sd_ratio <- sqrt(percentVar[2] / percentVar[1])
 
 dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
                     Disease = pData(gse25462[[1]])$characteristics_ch1.3,# disease state
-                    Phenotype = pData(gse25462[[1]])$characteristics_ch1.8, #fasting glucose levels
+                    Phenotype = pData(gse25462[[1]])$insulin_category, #fasting glucose levels
                     Individual = pData(gse25462[[1]])$title)
 
 ggplot(dataGG, aes(PC1, PC2)) +
@@ -193,9 +205,51 @@ The graph indicates that there is a high level of variation, especially on the f
 
 
 ```{r}
-arrayQualityMetrics(expressionset = gse25462,
+
+arrayQualityMetrics(expressionset = gse25462[[1]],
     outdir = tempdir(),
     force = TRUE, do.logtransform = TRUE,
-    intgroup = c("Factor.Value.disease.", "Factor.Value.phenotype."))
+    intgroup = c("characteristics_ch1.3", "characteristics_ch1.8"))
 ```
+
+## Background adjustments
+Summarisation
+
+```{r}
+
+head(ls("package:hugene10sttranscriptcluster.db"))
+```
+
+
+Normalisation: 
+The normalisation of an ExpressionSet can be perfomed using the package affyPLM below. The transfn function is useful when dealing with the log values. 
+
+```{r}
+library(affyPLM)
+gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+
+```
+
+Plotting the Relative Log Expression
+
+```{r}
+row_medians_assayData <- 
+  Biobase::rowMedians(as.matrix(Biobase::exprs(gse_norm)))
+
+RLE_data <- sweep(Biobase::exprs(gse_norm), 1, row_medians_assayData)
+
+RLE_data <- as.data.frame(RLE_data)
+RLE_data_gathered <- 
+  tidyr::gather(RLE_data, patient_array, log2_expression_deviation)
+
+ggplot2::ggplot(RLE_data_gathered, aes(patient_array,
+                                       log2_expression_deviation)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  ylim(c(-2, 2)) + 
+  theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                  angle = 60, size = 6.5, hjust = 1 ,
+                                  face = "bold"))
+```
+
+The above indicates that there are no batch effects as seen by the lack of y-directed deviation and therefore no outliers need to be removed. 
 
