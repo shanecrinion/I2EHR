@@ -23,11 +23,26 @@ new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"
 if(length(new.packages)) install.packages(new.packages)
 
 
+
 ### Worksheet 1 ####
 
 library(shiny) 
 library(shinydashboard)
 library(shinyWidgets)
+library(ggridges)
+library(ggplot2)
+library(lattice)
+library(viridis)
+library(DiagrammeR)
+library(GEOquery)
+
+
+### load GEO data 
+
+gse25462 <- getGEO("GSE25462", GSEMatrix = TRUE)
+
+
+###  UI
 
 ui <- dashboardPage(
   skin = "green",
@@ -36,19 +51,21 @@ ui <- dashboardPage(
     sidebarMenu(
       menuItem("Overview", 
                tabName = "overview", 
-               icon = icon("id-card")),
+               icon = icon("info")),
       menuItem("Patient Data",
-               tabName="PatientNu",
+               icon=icon("user"),
+               tabName="PatientTab",
                menuSubItem("Clinical data", "patient-clinical"), 
-               menuSubItem("Genomic data", "patient-genomic"),
-               icon=icon("id-card")),
+               menuSubItem("Genomic data", "patient-genomic")),
 #      menuItem("Patient", 
 #               tabName = "patient", 
 #               icon = icon("id-card")),
-      menuItem("Cohort", icon = icon("poll"), 
-               tabName = "cohort",
-               badgeLabel = "new", 
-               badgeColor = "green"))),
+      menuItem("Cohort Data", 
+               tabName = "CohortTab",
+               icon = icon("users"), 
+               menuSubItem("Clinical data", "cohort-clinical"), 
+               menuSubItem("Genomic data", "cohort-genomic")))),
+
 #      menuItem("Cohort Data",
 #               tabName="CohortNu",
 #               icon=icon("poll")))),
@@ -121,93 +138,69 @@ restrictions.")))),
 #                                  img(src="nui-galway.jpg", 
 #                                      width=120, height=40)))
 
-      
-      tabItem(tabName = "patient",
-              box(title="Controls",
-                  # Input: Selector for choosing dataset ----
-                  selectInput(inputId = "patient_dataset_1",
-                              label = "Choose a dataset:",
-                              choices = c(
-                                     #     "allergies", # no allergy data in this dataset
-                                          "careplans",
-                                          "conditions",
-                                          "encounters",
-                                          "immunization",
-                                          "medications", 
-                                          "observations_merge <- merge(x = patients.csv,
-observations",
-                                          "patients",
-                                          "procedures")),
-                  sliderInput("slider_1", 
-                              "Number of Observations",
-                              min = 1, 
-                              value = 5,
-                              max = 100)),
-              box(title="Data Sources")),
+#  -------------------------- PATIENT DATA UNUSED?     
 
-      tabItem(tabName="patient-clinical",
-              
-              box(title="Patient Query", collapsible = TRUE,
-                  h5("Enter patient ID below to query current records in each dataset"),
-                  searchInput(value = "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",
-                    inputId = "search", label = "Patient search",
-                    placeholder = "Enter Patient ID number",
-                    btnSearch = icon("search"),
-                    btnReset = icon("remove"),
-                    width = "450px")),
+#  -------------------------- PATIENT DATA CLINICAL TAB   
 
-#              box(title="Patient Query",
-#                  textInput("search_bar", 
-#                            label = "Enter patient name..."),
-#                  actionButton(inputId = "search_button", 
-#                               icon = icon("search"),
-#                               label = "Go"),
-#                  collapsible = T),
-              
-              box(title = "Data Sources", collapsible = TRUE,
-                  tags$ul(
-                    tags$li("Clinical guidelines"), 
-                    tags$li("Caremaps from clinician input and CPGs"), 
-                    tags$li("Publicly available documentation")
-                  ),
-                  h5("Sources collected on the internet for demographic information include the
+
+tabItem(tabName="patient-clinical",
+        box(title = "Patient Query", 
+            collapsible = TRUE,
+            tabsetPanel(
+              tabPanel("Search options", 
+                       h5("Enter patient ID below to query current records in each dataset"),
+                       searchInput(value = "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",
+                                   inputId = "search", 
+                                   label = "Patient search",
+                                   placeholder = "Enter Patient ID number",
+                                   btnSearch = icon("search"),
+                                   btnReset = icon("remove"),
+                                   width = "450px")), 
+              tabPanel("Data sources", 
+                       tags$ul(
+                         tags$li("Clinical guidelines"), 
+                         tags$li("Caremaps from clinician input and CPGs"), 
+                         tags$li("Publicly available documentation")
+                       ),
+                       h5("Sources collected on the internet for demographic information include the
                   US Census Bureau demographics, Centers for Disease Control and Prevention prevalence and incidence rates, 
-                     and National Institutes of Health reports. "),
-                  collapsable = T),
-              box(title = "Data Tables", 
-                  width = 12,
-                tabsetPanel(
-#                           tabPanel("Allergies",  
-#                                   dataTableOutput("patient_allergies_dt")), 
-                           tabPanel("Careplans",  
-                                   dataTableOutput("patient_careplans_dt")),
-                           tabPanel("Conditions",  
-                                   dataTableOutput("patient_conditions_dt")),
-                           tabPanel("Encounters",  
-                                   dataTableOutput("patient_encounters_dt")), 
-                           tabPanel("Imaging Studies", 
-                                   dataTableOutput("patient_imaging_studies_dt")),
-                           tabPanel("Immunizations", 
-                                    dataTableOutput("patient_immunizations_dt")),  
-                           tabPanel("Medications",  
-                                   dataTableOutput("patient_medications_dt")), 
-                           tabPanel("Observations",  
-                                   dataTableOutput("patient_observations_dt")),
-                           tabPanel("Organizations", 
-                                   dataTableOutput("patient_organizations_dt")),
-                           tabPanel("Patients",  
-                                   dataTableOutput("patient_patients_dt")), 
-                           tabPanel("Procedures",  
-                                   dataTableOutput("patient_procedures_dt")),
-                           tabPanel("Providers",  
-                                   dataTableOutput("patient_providers_dt"))))),
-                  
-#                   p("The first checkbox group controls the second"),
-#                   checkboxGroupInput("inCheckboxGroup", "Input checkbox",
-#                                      choiceNames = 
-#                                      c(observations.csv)),
-#                   checkboxGroupInput("inCheckboxGroup2", "Input checkbox 2",
-#                                      c("Item A", "Item B", "Item C")))
+                     and National Institutes of Health reports. "))
+            )),
+        
+        box(title = "Patient Data", 
+            collapsible = TRUE,
+            width = 12,
+            tabsetPanel(
+              # "Allergies",  
+              # dataTableOutput("patient_allergies_dt")), 
+              tabPanel("Careplans",  
+                       dataTableOutput("patient_careplans_dt"),
+                       plotOutput("patient_careplans_plot")),
+              tabPanel("Conditions",  
+                       dataTableOutput("patient_conditions_dt")),
+              tabPanel("Encounters",  
+                       dataTableOutput("patient_encounters_dt")), 
+              tabPanel("Imaging Studies", 
+                       dataTableOutput("patient_imaging_studies_dt")),
+              tabPanel("Immunizations", 
+                       dataTableOutput("patient_immunizations_dt")),  
+              tabPanel("Medications",  
+                       dataTableOutput("patient_medications_dt")), 
+              tabPanel("Observations",  
+                       dataTableOutput("patient_observations_dt")),
+              tabPanel("Organizations", 
+                       dataTableOutput("patient_organizations_dt")),
+              tabPanel("Patients",  
+                       dataTableOutput("patient_patients_dt")), 
+              tabPanel("Procedures",  
+                       dataTableOutput("patient_procedures_dt")),
+              tabPanel("Providers",  
+                       dataTableOutput("patient_providers_dt"))))),
+
+#  -------------------------- PATIENT DATA CLINICAL TAB
+
+#  -------------------------- PATIENT DATA GENOMIC TAB
+
       tabItem(tabName = "patient-genomic",
               box(title="Genomic expression profiles",
                   h5("Gene expression profiles available from GEO are used to analyse 
@@ -215,15 +208,37 @@ the gene expression associated with
                  clinical observations. Identification of genotypic patterns 
 can then be mapped be to recordings from clinical encounters and create links 
                  between treatment and improvemnts or disprovements")),
-              box(title = "The data used in this model, GSE25462, consists of samples of
+              box(title = h5("The data used in this model, GSE25462, consists of samples of
                   individuals of 3 subgroups: diabetes patients, normoglycemic but insulin resistant patients with parental family history (FH+)
                   and family history negative control individuals (FH-).
                   The expression of serum response factor (SRF) and cofactor (MKL1) have increased expression in 
                   T2D and FH+ groups. The medication most commmonly used to treat insulin resistance is metformin; the key pathophysiological result of T2D. 
                   This study identifies an increase in the expression of actin cytoskeleton mediating genes such as SRF and MKL1 and indicate that these genes may mediate alterations in glucose reuptake
                   that consequently create insul")),
+              box(title="Analysis results", 
+                  width = 12,
+                  tabsetPanel(
+                    tabPanel("GEOdata", 
+                             dataTableOutput("gse25462_table")),
+                    tabPanel("Multidimensional Scaling",
+                             img(src="microarray_MDS.png")),
+                    tabPanel("Microarray Expression Density", 
+                             img(src="microarray_expression_density.png")),
+                    tabPanel("Data Distribution", 
+                             img(src="microarray_boxplot_raw.png"),
+                             img(src="microarray_boxplot_normalised.png")),
+                    tabPanel("Heatmap", 
+                             img(src="microarray_heatmap.png")),
+                    tabPanel("H1Ac levels", 
+                             plotOutput("PCA_h1Ac")),
+                    tabPanel("Insulin_resistance", 
+                             plotOutput("PCA_IR"))
+                  ))),
 
-      tabItem(tabName = "cohort",
+#  -------------------------- PATIENT DATA GENOMIC TAB
+
+
+      tabItem(tabName = "cohort-clinical",
               box(title="Controls", collapsible = TRUE,
                   # Input: Selector for choosing dataset ----
                   selectInput(inputId = "patient_dataset_2",
@@ -238,6 +253,7 @@ can then be mapped be to recordings from clinical encounters and create links
                                           "observations",
                                           "patients",
                                           "procedures")),
+                  uiOutput("secondSelection"),
                   
 #                  checkboxGroupInput(inputId = "headers", 
 #                                     "Included data", 
@@ -246,23 +262,25 @@ can then be mapped be to recordings from clinical encounters and create links
                               "Number of Observations", 
                               min = 1, value=5, 
                               max = 300)),
-box(title = "Data Sources", collapsible = TRUE,
-    tags$ul(
-      tags$li("US Census Bureau demographics"), 
-      tags$li("Centers for Disease Control and Prevention prevalence"), 
-      tags$li("National Institutes of Health reports.")),
-    collapsable = T),
-              box(title="Available Data", width = 12,
-                tabsetPanel(
-                  tabPanel(
-                    "DataTable", dataTableOutput("genTable")),
-                  tabPanel("Graphs",
-                    tabsetPanel(
-                      tabPanel("Ethnicity", plotOutput("plot1")),
-                      tabPanel("Hg Measurements", plotOutput("plot2")),
-                      tabPanel("Disease Prevalence", plotOutput("plot3")),
-                      tabPanel("BMI", plotOutput("plot4"))))))
-                  ))))
+
+          box(title = "Data Sources", 
+              collapsible = TRUE,
+              tags$ul(
+                tags$li("US Census Bureau demographics"), 
+                tags$li("Centers for Disease Control and Prevention prevalence"), 
+                tags$li("National Institutes of Health reports."))),
+
+              box(title="Data Table", 
+                  width = 12, 
+                  dataTableOutput("genTable"))),
+
+      tabItem(tabName ="cohort-genomic",
+        box(title="Graphs", collapsible = TRUE,
+            tabsetPanel(
+              tabPanel("Ethnicity", plotOutput("plot1")),
+              tabPanel("Hg Measurements", plotOutput("plot2")),
+              tabPanel("Disease Prevalence", plotOutput("plot3")),
+              tabPanel("BMI", plotOutput("plot4"))))))))
 
 
 
@@ -270,8 +288,15 @@ server <- function(input, output, session) {
 
 #### PATIENT DATA ####
 
-  #### DATA TABLES
+  output$patient_dataset_selection <- renderUI({
+    selectInput("X Value", 
+                "Date:", 
+                choices = names(input$patient_dataset_1))
+  })
   
+  #### DATA TABLES
+
+    
 #  output$patient_allergies_dt <- renderDataTable({allergies.csv})
   output$patient_careplans_dt <- renderDataTable({subset(careplans.csv, PATIENT == input$search)})
   output$patient_conditions_dt <- renderDataTable({subset(conditions.csv, PATIENT == input$search)})
@@ -372,15 +397,8 @@ server <- function(input, output, session) {
   
   
   output$plot2 <- renderPlot({
-
-    ## load libraries    
-    #  library(ggplot2)
-    library(ggridges)
-    library(lattice)
     
-    
-    ## could alternatively do the below command using to obsevation code (probably better)
-    
+    # Hemoglobin measurements and plots 
     hemoglobin_measurements <- 	
       subset(observations_merge,
              subset = (observations_merge$DESCRIPTION == "Hemoglobin A1c/Hemoglobin.total in Blood"))
@@ -388,16 +406,13 @@ server <- function(input, output, session) {
     hemoglobin_measurements$BIRTHDATE <- 
       substring(hemoglobin_measurements$BIRTHDATE, 1, 4) 
     
-    #    hemoglobin_measurements$DECADE <- 
-    #  10*as.integer(as.numeric(hemoglobin_measurements$BIRTHDATE/10))
-    
     hemoglobin_measurements$DECADE <- 
       10*as.integer(as.numeric(as.character(hemoglobin_measurements$BIRTHDATE)) / 10)
     
     hemoglobin_measurements$VALUEBIN <- 
       1*as.integer(as.numeric(as.character(hemoglobin_measurements$VALUE)) / 1)
     
-    #plot the two
+    # Plot hemoglobin measurements
     ggplot(hemoglobin_measurements) + 
       geom_density_ridges(aes(x = VALUEBIN, 
                               y = DECADE, 
@@ -405,15 +420,11 @@ server <- function(input, output, session) {
                               fill = GENDER), 
                           alpha = 0.6, 
                           scale = 0.8) +
-      
       geom_vline(xintercept = 5.7, 
                  color = "lightskyblue1", size=0.5) +
-      
       geom_vline(xintercept = 6.2, 
                  color = "tomato", size=0.5) +
-      
       scale_fill_manual(values=c("#0571b0", "#ca0020")) +
-      
       theme_classic() +
       theme(
         axis.text.x= element_text(angle = 30),
@@ -424,8 +435,6 @@ server <- function(input, output, session) {
   })
   
 output$plot3 <- renderPlot({
-    
-  library(viridis)
   disorders_vector <- as.vector(count(conditions.csv$DESCRIPTION))
   #disorders_vector$freqs <- as.numeric(disorders_vector$freqs)
   
@@ -473,6 +482,10 @@ output$plot3 <- renderPlot({
   })
   
   
+  output$secondSelection <- renderUI({
+    selectInput("Options", "X choice:", 
+                choices = colnames(input$patient_dataset_2))
+  })
   
   output$plot4 <- renderPlot({
     
@@ -521,18 +534,13 @@ output$plot3 <- renderPlot({
     
 #    geom_vline(xintercept = 6.2, 
 #               color = "tomato", size=0.5) +
-    
     scale_fill_manual(values=c("#0571b0", "#ca0020")) +
-    
     theme_classic() +
     theme(
       axis.text.x= element_text(angle = 30),
       panel.grid.major.y =element_line(colour = "gray95"),
       panel.grid.major.x =element_line(colour = "gray95"),
       panel.grid.minor.x =element_line(colour = "gray95"))
-  
-  
-  
   })
   
 
@@ -540,6 +548,98 @@ output$plot3 <- renderPlot({
     patient_dataset_2 <- datasetInput()
     head(x=patient_dataset_2, n = input$slider_2)
   }) 
+  
+ #### GEO DATA
+  
+  output$gse25462_table <- renderDataTable({
+    pData(phenoData(gse25462[[1]]))
+  })
+  
+  output$PCA_h1Ac <- renderPlot({
+    # make the empty column 
+    gse25462[[1]]$diabetes_status <- 0
+    
+    # assign each column to its appropriate bin 
+    gse25462[[1]]$diabetes_status[gse25462[[1]]$`hemoglobin a1c:ch1`>=6.5] <- "diabetic levels"
+    
+    gse25462[[1]]$diabetes_status[(gse25462[[1]]$`hemoglobin a1c:ch1`< 6.5 
+                                   & gse25462[[1]]$`hemoglobin a1c:ch1`> 6)] <- "pre-diabetic levels"
+    
+    gse25462[[1]]$diabetes_status[gse25462[[1]]$`hemoglobin a1c:ch1`< 6] <- "normal levels"
+    
+    
+    #log 2
+    exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
+    #pca
+    PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
+    
+    percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
+    sd_ratio <- sqrt(percentVar[2] / percentVar[1])
+    
+    dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
+                         Disease = pData(gse25462[[1]])$characteristics_ch1.3,# disease state
+                         Phenotype = pData(gse25462[[1]])$diabetes_status, #fasting glucose levels
+                         Individual = pData(gse25462[[1]])$title)
+    
+    ggplot(dataGG, aes(PC1, PC2)) +
+      geom_point(
+        aes(shape = Disease, 
+            colour = Phenotype)) +
+      
+      ggtitle("PCA plot of the log-transformed raw expression data") +
+      
+      xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
+      
+      ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
+      
+      theme(plot.title = element_text(hjust = 0.5))+
+      
+      coord_fixed(ratio = sd_ratio) 
+  }) 
+  
+  output$PCA_IR <- renderPlot({
+    # make the empty column 
+    gse25462[[1]]$insulin_category <- 0
+    
+    # assign each column to its appropriate bin 
+    gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$characteristics_ch1.9))>=8] <- "diabetic"
+    
+    gse25462[[1]]$insulin_category[((as.numeric(gse25462[[1]]$characteristics_ch1.9))< 8 
+                                    & (as.numeric(gse25462[[1]]$characteristics_ch1.9))> 3)] <- "optimal"
+    
+    gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$characteristics_ch1.9))< 3] <- "low"
+    
+    
+    #log 2
+    exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
+    #pca
+    PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
+    
+    
+    percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
+    sd_ratio <- sqrt(percentVar[2] / percentVar[1])
+    
+    dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
+                         Disease = pData(gse25462[[1]])$characteristics_ch1.3,# disease state
+                         Phenotype = pData(gse25462[[1]])$insulin_category, #fasting glucose levels
+                         Individual = pData(gse25462[[1]])$title)
+    
+    ggplot(dataGG, aes(PC1, PC2)) +
+      geom_point(
+        aes(shape = Disease, 
+            colour = Phenotype)) +
+      
+      ggtitle("PCA plot of the log-transformed raw expression data") +
+      
+      xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
+      
+      ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
+      
+      theme(plot.title = element_text(hjust = 0.5))+
+      
+      coord_fixed(ratio = sd_ratio) 
+  })
+  
   
 #  genTable <- reactive({
 #    validate(
