@@ -18,7 +18,7 @@ observations_merge <- merge(x = patients.csv,
 
 ### install the required packages
 
-list.of.packages <- c("ggplot2", "ggridges", "lattice","viridis","shiny","shinydashboard","DiagrammeR", "shinyWidgets")
+list.of.packages <- c("ggplot2", "ggridges", "lattice","viridis","shiny","shinydashboard","DiagrammeR", "plotly","shinyWidgets")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
@@ -35,6 +35,7 @@ library(lattice)
 library(viridis)
 library(DiagrammeR)
 library(GEOquery)
+library(plotly)
 
 
 ### load GEO data 
@@ -125,7 +126,16 @@ gene expression data analysis including differential expression analysis [62].
 Gene expression data will be integrated with Synthea generated patients to
 model gene expression variation associated with disease. The project will provide
 a framework for combined clinical and molecular analytics without legal or ethical
-restrictions.")))),
+restrictions."),
+                             br(),
+                             em("Plan with GEO data: There are 10 diabetes patients, 15 family history negative (control) and 15 family history positive (being treated). 
+                                Drug of choice is metformin. Assign the diabetes patients as nontreated patients. 
+                                Assign the FH+ as those being treated to show a decrease in effect. 
+                                Assign the FH- as those with no symptoms of diabetes as and no treatment as a control.
+                                Compare gene expression for the diabetes patients to treated family history people to compare drug and 
+                                claim that the difference is drug to application of the drug
+                                Compare the diabetes to family history negative and claim the difference is due to disease.
+                                Compare the FH+ to FH- and claim the difference is due to treated individual regressing to the expression of a normal individual")))),
               
               
               box(title="Contact Details", width = 4,
@@ -166,7 +176,10 @@ tabItem(tabName="patient-clinical",
                   US Census Bureau demographics, Centers for Disease Control and Prevention prevalence and incidence rates, 
                      and National Institutes of Health reports. "))
             )),
-        
+        box(title= "Patient Plots",
+            collapsible = TRUE, 
+            width = 12,
+            plotlyOutput("PatientBMI")),
         box(title = "Patient Data", 
             collapsible = TRUE,
             width = 12,
@@ -214,26 +227,7 @@ can then be mapped be to recordings from clinical encounters and create links
                   The expression of serum response factor (SRF) and cofactor (MKL1) have increased expression in 
                   T2D and FH+ groups. The medication most commmonly used to treat insulin resistance is metformin; the key pathophysiological result of T2D. 
                   This study identifies an increase in the expression of actin cytoskeleton mediating genes such as SRF and MKL1 and indicate that these genes may mediate alterations in glucose reuptake
-                  that consequently create insul")),
-              box(title="Analysis results", 
-                  width = 12,
-                  tabsetPanel(
-                    tabPanel("GEOdata", 
-                             dataTableOutput("gse25462_table")),
-                    tabPanel("Multidimensional Scaling",
-                             img(src="microarray_MDS.png")),
-                    tabPanel("Microarray Expression Density", 
-                             img(src="microarray_expression_density.png")),
-                    tabPanel("Data Distribution", 
-                             img(src="microarray_boxplot_raw.png"),
-                             img(src="microarray_boxplot_normalised.png")),
-                    tabPanel("Heatmap", 
-                             img(src="microarray_heatmap.png")),
-                    tabPanel("H1Ac levels", 
-                             plotOutput("PCA_h1Ac")),
-                    tabPanel("Insulin_resistance", 
-                             plotOutput("PCA_IR"))
-                  ))),
+                  that consequently create insul"))),
 
 #  -------------------------- PATIENT DATA GENOMIC TAB
 
@@ -262,31 +256,53 @@ can then be mapped be to recordings from clinical encounters and create links
                               "Number of Observations", 
                               min = 1, value=5, 
                               max = 300)),
-
           box(title = "Data Sources", 
               collapsible = TRUE,
               tags$ul(
                 tags$li("US Census Bureau demographics"), 
                 tags$li("Centers for Disease Control and Prevention prevalence"), 
                 tags$li("National Institutes of Health reports."))),
-
-              box(title="Data Table", 
-                  width = 12, 
-                  dataTableOutput("genTable"))),
+          box(title="Graphs", 
+              collapsible = TRUE,
+              width = 12,
+              tabsetPanel(
+                tabPanel("Ethnicity", plotOutput("plot1")),
+                tabPanel("Hg Measurements", plotOutput("plot2")),
+                tabPanel("Disease Prevalence", plotOutput("plot3")),
+                tabPanel("BMI", plotOutput("plot4")))),
+          box(title="Data Table", 
+              width = 12, 
+              dataTableOutput("genTable"))),
 
       tabItem(tabName ="cohort-genomic",
-        box(title="Graphs", collapsible = TRUE,
-            tabsetPanel(
-              tabPanel("Ethnicity", plotOutput("plot1")),
-              tabPanel("Hg Measurements", plotOutput("plot2")),
-              tabPanel("Disease Prevalence", plotOutput("plot3")),
-              tabPanel("BMI", plotOutput("plot4"))))))))
+              box(title="Analysis results", 
+                  width = 12,
+                  tabsetPanel(
+                    tabPanel("GEOdata", 
+                             dataTableOutput("gse25462_table")),
+                    tabPanel("Multidimensional Scaling",
+                             box(
+                             img(src="microarray_MDS.png"))),
+                    tabPanel("Microarray Expression Density", 
+                             img(src="microarray_expression_density.png")),
+                    tabPanel("Data Distribution", 
+                             img(src="microarray_boxplot_raw.png"),
+                             plotOutput("Log2_Microarray_Exp"),
+                             img(src="microarray_boxplot_normalised.png")),
+                    tabPanel("Heatmap", 
+                             img(src="microarray_heatmap.png")),
+                    tabPanel("H1Ac levels", 
+                             plotOutput("PCA_h1Ac")),
+                    tabPanel("Insulin_resistance", 
+                             plotOutput("PCA_IR"))
+                  ))))))
 
 
 
 server <- function(input, output, session) { 
 
 #### PATIENT DATA ####
+  
 
   output$patient_dataset_selection <- renderUI({
     selectInput("X Value", 
@@ -315,7 +331,37 @@ server <- function(input, output, session) {
   #  head(x=patient_dataset_1, n = input$slider_1)
   #}) 
   
+  output$PatientBMI <- renderPlotly({
+    #replace x with input$dropdown
+    #bmi_all <- observations.csv[observations.csv$DESCRIPTION == "Body Mass Index",]
+    #replace x with input$dropdown
+    
+    bmi_all <- observations.csv[observations.csv$DESCRIPTION == "Body Mass Index",]
+    bmi_all$DATE <- as.character(bmi_all$DATE)
+    bmi_all$VALUE <- as.numeric(as.character(bmi_all$VALUE))
+    
+    f <- list(
+      family = "Courier New, monospace",
+      size = 18,
+      color = "#7f7f7f"
+    )        
+    
+    x <- list(
+      title = "Date of observation",
+      titlefont = f
+    )
+    y <- list(
+      title = "BMI measurement (kg/m2)",
+      titlefont = f
+    )
+    bmi_all[bmi_all$PATIENT == "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",]  %>% 
+      plot_ly(
+        x = ~DATE, y =~VALUE, 
+        colors = "green", 
+        type = "scatter")
+  })
   
+
   
     
 
@@ -500,8 +546,6 @@ output$plot3 <- renderPlot({
                               by.x = "Id", 
                               by.y= "PATIENT") 
   
-  
-  
   ## could alternatively do the below command using to obsevation code (probably better)
   bmi_measurements <- 	
     subset(observations_merge,
@@ -551,6 +595,13 @@ output$plot3 <- renderPlot({
   
  #### GEO DATA
   
+  output$Log2_Microarray_Exp <- renderPlot({
+    oligo::boxplot(exp_raw, target = "core", las=2,
+                   main = "Boxplot of log2-intensitites for the raw data")
+    par(cex.lab=0.5)
+  })
+  
+  
   output$gse25462_table <- renderDataTable({
     pData(phenoData(gse25462[[1]]))
   })
@@ -558,16 +609,11 @@ output$plot3 <- renderPlot({
   output$PCA_h1Ac <- renderPlot({
     # make the empty column 
     gse25462[[1]]$diabetes_status <- 0
-    
     # assign each column to its appropriate bin 
     gse25462[[1]]$diabetes_status[gse25462[[1]]$`hemoglobin a1c:ch1`>=6.5] <- "diabetic levels"
-    
     gse25462[[1]]$diabetes_status[(gse25462[[1]]$`hemoglobin a1c:ch1`< 6.5 
                                    & gse25462[[1]]$`hemoglobin a1c:ch1`> 6)] <- "pre-diabetic levels"
-    
     gse25462[[1]]$diabetes_status[gse25462[[1]]$`hemoglobin a1c:ch1`< 6] <- "normal levels"
-    
-    
     #log 2
     exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
     #pca
@@ -597,47 +643,39 @@ output$plot3 <- renderPlot({
       coord_fixed(ratio = sd_ratio) 
   }) 
   
+  
+  #--- plot of insulin resistance levels
   output$PCA_IR <- renderPlot({
     # make the empty column 
     gse25462[[1]]$insulin_category <- 0
-    
     # assign each column to its appropriate bin 
-    gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$characteristics_ch1.9))>=8] <- "diabetic"
-    
-    gse25462[[1]]$insulin_category[((as.numeric(gse25462[[1]]$characteristics_ch1.9))< 8 
-                                    & (as.numeric(gse25462[[1]]$characteristics_ch1.9))> 3)] <- "optimal"
-    
-    gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$characteristics_ch1.9))< 3] <- "low"
-    
+    gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) >= 8] <- "diabetic"
+    gse25462[[1]]$insulin_category[((as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 8 
+                                    & (as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) > 3)] <- "optimal"
+    gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 3] <- "low"
     
     #log 2
     exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
     #pca
     PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
-    
-    
     percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
     sd_ratio <- sqrt(percentVar[2] / percentVar[1])
-    
     dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
                          Disease = pData(gse25462[[1]])$characteristics_ch1.3,# disease state
                          Phenotype = pData(gse25462[[1]])$insulin_category, #fasting glucose levels
                          Individual = pData(gse25462[[1]])$title)
-    
     ggplot(dataGG, aes(PC1, PC2)) +
       geom_point(
         aes(shape = Disease, 
             colour = Phenotype)) +
-      
       ggtitle("PCA plot of the log-transformed raw expression data") +
-      
       xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
-      
       ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
-      
       theme(plot.title = element_text(hjust = 0.5))+
-      
       coord_fixed(ratio = sd_ratio) 
+    #  scale_shape_manual(values = c(4,15)) + 
+    # scale_color_manual(values = c("darkorange2", "dodgerblue4", "gold", "deepskyblue1"))
+    
   })
   
   

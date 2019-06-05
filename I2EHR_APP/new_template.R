@@ -68,8 +68,8 @@ ui <- dashboardPage(
       
       # 2.3.1 Font set-up
       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")),
-
-      tabItems(
+    
+    tabItems(
       # 2.3.2 Introductory information and aims
       tabItem(tabName = "overview", 
               box(title = "Welcome to the Interactive Integrated Electronic Health Record (I2EHR)", 
@@ -133,7 +133,7 @@ ui <- dashboardPage(
       ### --- 2.3.3 Patient clinical data
       
       tabItem(tabName="patient-clinical",
-
+              
               # Controls and data ources
               box(title = "Patient Query", 
                   collapsible = TRUE,
