@@ -110,43 +110,30 @@ PCA is first performed using fasting glucose, however the fasting glucose levels
 
 # make the empty column 
 gse25462[[1]]$insulin_category <- 0
-
 # assign each column to its appropriate bin 
 gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) >= 8] <- "diabetic"
-
 gse25462[[1]]$insulin_category[((as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 8 
                                 & (as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) > 3)] <- "optimal"
-
 gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 3] <- "low"
-
 
 #log 2
 exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
 #pca
 PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
-
-
 percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
 sd_ratio <- sqrt(percentVar[2] / percentVar[1])
-
 dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
                     Disease = pData(gse25462[[1]])$characteristics_ch1.3,# disease state
                     Phenotype = pData(gse25462[[1]])$insulin_category, #fasting glucose levels
                     Individual = pData(gse25462[[1]])$title)
-
 ggplot(dataGG, aes(PC1, PC2)) +
       geom_point(
         aes(shape = Disease, 
             colour = Phenotype)) +
-  
   ggtitle("PCA plot of the log-transformed raw expression data") +
-  
   xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
-  
   ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
-  
   theme(plot.title = element_text(hjust = 0.5))+
-  
   coord_fixed(ratio = sd_ratio) 
 #  scale_shape_manual(values = c(4,15)) + 
 # scale_color_manual(values = c("darkorange2", "dodgerblue4", "gold", "deepskyblue1"))
@@ -196,8 +183,9 @@ The PCA plot shows the log intensity scale calculated from the raw data. It indi
 The probe intensities can also be shown by their individual microarray using a boxplot:
 
 ```{r}
-oligo::boxplot(gse25462[[1]], target = "core", 
+oligo::boxplot(exp_raw, target = "core", las=2,
                main = "Boxplot of log2-intensitites for the raw data")
+par(cex.lab=0.5)
 ```
 
 
@@ -207,9 +195,10 @@ The graph indicates that there is a high level of variation, especially on the f
 ```{r}
 
 arrayQualityMetrics(expressionset = gse25462[[1]],
-    outdir = tempdir(),
+    outdir = getwd(),
     force = TRUE, do.logtransform = TRUE,
     intgroup = c("characteristics_ch1.3"))
+
 ```
 
 ## Background adjustments
@@ -288,15 +277,13 @@ Heatamp clustering
 
 ```{r}
 
-
-
 phenotype_names <- unique(gse_norm$characteristics_ch1.3)
 disease_names <- unique(gse_norm$insulin_category)
 
 annotation_for_heatmap <- 
   data.frame(Phenotype = phenotype_names,  Disease = disease_names)
 
-row.names(annotation_for_heatmap) <- row.names(pData(gse_norm))
+row.names(annotation_for_heatmap) <- row.names(pData(gse25462[[1]]))
 
 ```
 

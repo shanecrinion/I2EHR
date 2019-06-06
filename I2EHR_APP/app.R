@@ -1,3 +1,4 @@
+
 #import csv files
 temp = list.files(pattern="*.csv")
 for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
@@ -56,7 +57,8 @@ ui <- dashboardPage(
       menuItem("Patient Data",
                icon=icon("user"),
                tabName="PatientTab",
-               menuSubItem("Clinical data", "patient-clinical"), 
+               menuSubItem("Clinical data", "patient-clinical"),
+               menuSubItem("Observations", "patient-observations"), 
                menuSubItem("Genomic data", "patient-genomic")),
 #      menuItem("Patient", 
 #               tabName = "patient", 
@@ -65,7 +67,8 @@ ui <- dashboardPage(
                tabName = "CohortTab",
                icon = icon("users"), 
                menuSubItem("Clinical data", "cohort-clinical"), 
-               menuSubItem("Genomic data", "cohort-genomic")))),
+               menuSubItem("Genomic data", "cohort-genomic"),
+               menuSubItem("Disease query", "cohort-query")))),
 
 #      menuItem("Cohort Data",
 #               tabName="CohortNu",
@@ -210,9 +213,21 @@ tabItem(tabName="patient-clinical",
               tabPanel("Providers",  
                        dataTableOutput("patient_providers_dt"))))),
 
-#  -------------------------- PATIENT DATA CLINICAL TAB
+
+
+#  -------------------------- PATIENT DATA OBSERVATIONS TAB
+
+
+      tabItem(tabName = "patient_observations", 
+              box(title = "Observations selection",
+                  selectInput(inputId = "patient_observation_selection", 
+                              choices = names(observations.csv$DESCRIPTION),
+                              selected = "Body Mass Index"))),
 
 #  -------------------------- PATIENT DATA GENOMIC TAB
+      
+
+
 
       tabItem(tabName = "patient-genomic",
               box(title="Genomic expression profiles",
@@ -246,7 +261,9 @@ can then be mapped be to recordings from clinical encounters and create links
                                           "medications", 
                                           "observations",
                                           "patients",
-                                          "procedures")),
+                                          "procedures"),
+                              selected = "observations"),
+                  
                   uiOutput("secondSelection"),
                   
 #                  checkboxGroupInput(inputId = "headers", 
@@ -273,8 +290,6 @@ can then be mapped be to recordings from clinical encounters and create links
           box(title="Data Table", 
               width = 12, 
               dataTableOutput("genTable"))),
-
-      tabItem(tabName ="cohort-genomic",
               box(title="Analysis results", 
                   width = 12,
                   tabsetPanel(
@@ -295,7 +310,7 @@ can then be mapped be to recordings from clinical encounters and create links
                              plotOutput("PCA_h1Ac")),
                     tabPanel("Insulin_resistance", 
                              plotOutput("PCA_IR"))
-                  ))))))
+                  )))))
 
 
 
@@ -676,6 +691,15 @@ output$plot3 <- renderPlot({
     #  scale_shape_manual(values = c(4,15)) + 
     # scale_color_manual(values = c("darkorange2", "dodgerblue4", "gold", "deepskyblue1"))
     
+  })
+  
+  
+  
+  output$patient_observations <- renderPlot({
+    ggplot(data = observations.csv[observations.csv$DESCRIPTION == input$patient_observations_selection,], 
+           aes_string(x = observations.csv[observations.csv$DESCRIPTION == input$patient_observations_selection,]$DATE, 
+                      y = observations.csv[observations.csv$DESCRIPTION == input$patient_observations_selection,]$VALUE)) +
+      geom_point()
   })
   
   
