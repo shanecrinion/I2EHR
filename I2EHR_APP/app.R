@@ -67,8 +67,9 @@ ui <- dashboardPage(
                tabName = "CohortTab",
                icon = icon("users"), 
                menuSubItem("Clinical data", "cohort-clinical"), 
-               menuSubItem("Genomic data", "cohort-genomic"),
-               menuSubItem("Disease query", "cohort-query")))),
+               menuSubItem("Genomic data", "cohort-genomic"))
+               #    menuSubItem("Disease query", "cohort-query")#
+               )),
 
 #      menuItem("Cohort Data",
 #               tabName="CohortNu",
@@ -183,6 +184,7 @@ tabItem(tabName="patient-clinical",
             collapsible = TRUE, 
             width = 12,
             plotlyOutput("PatientBMI")),
+        
         box(title = "Patient Data", 
             collapsible = TRUE,
             width = 12,
@@ -218,11 +220,16 @@ tabItem(tabName="patient-clinical",
 #  -------------------------- PATIENT DATA OBSERVATIONS TAB
 
 
-      tabItem(tabName = "patient_observations", 
-              box(title = "Observations selection",
-                  selectInput(inputId = "patient_observation_selection", 
-                              choices = names(observations.csv$DESCRIPTION),
-                              selected = "Body Mass Index"))),
+      tabItem(tabName = "patient-observations",
+              textInput(inputId = "observations_patient",
+                        label = "Select a patient",
+                        placeholder = "Enter patient ID:",
+                        value="1425bcf6-2853-4c3a-b4c5-64fbe03d43d2"),
+              selectInput(inputId= "observation_selection",
+                          label = "Select an observation for comparison",
+                          choices = c(sort(as.character(unique(observations.csv$DESCRIPTION)))),
+                          selected = "Body Mass Index"),
+              plotlyOutput(outputId = "observations_plot")),
 
 #  -------------------------- PATIENT DATA GENOMIC TAB
       
@@ -290,27 +297,28 @@ can then be mapped be to recordings from clinical encounters and create links
           box(title="Data Table", 
               width = 12, 
               dataTableOutput("genTable"))),
-              box(title="Analysis results", 
-                  width = 12,
-                  tabsetPanel(
-                    tabPanel("GEOdata", 
-                             dataTableOutput("gse25462_table")),
-                    tabPanel("Multidimensional Scaling",
-                             box(
-                             img(src="microarray_MDS.png"))),
-                    tabPanel("Microarray Expression Density", 
-                             img(src="microarray_expression_density.png")),
-                    tabPanel("Data Distribution", 
-                             img(src="microarray_boxplot_raw.png"),
-                             plotOutput("Log2_Microarray_Exp"),
-                             img(src="microarray_boxplot_normalised.png")),
-                    tabPanel("Heatmap", 
-                             img(src="microarray_heatmap.png")),
-                    tabPanel("H1Ac levels", 
-                             plotOutput("PCA_h1Ac")),
-                    tabPanel("Insulin_resistance", 
-                             plotOutput("PCA_IR"))
-                  )))))
+
+      tabItem(tabName = "cohort-genomic", 
+                  box(title="Microarray analysis results", 
+                      width = 12,
+                      tabsetPanel(
+                        tabPanel("GEOdata", 
+                                 dataTableOutput("gse25462_table")),
+                        tabPanel("Multidimensional Scaling",
+                                   img(src="microarray_MDS.png")),
+                        tabPanel("Microarray Expression Density", 
+                                 img(src="microarray_expression_density.png")),
+                        tabPanel("Data Distribution", 
+                                 img(src="microarray_boxplot_raw.png"),
+                                 plotOutput("Log2_Microarray_Exp"),
+                                 img(src="microarray_boxplot_normalised.png")),
+                        tabPanel("Heatmap", 
+                                 img(src="microarray_heatmap.png")),
+                        tabPanel("H1Ac levels", 
+                                 plotOutput("PCA_h1Ac")),
+                        tabPanel("Insulin_resistance", 
+                                 plotOutput("PCA_IR"))))
+                  ))))
 
 
 
@@ -360,7 +368,6 @@ server <- function(input, output, session) {
       size = 18,
       color = "#7f7f7f"
     )        
-    
     x <- list(
       title = "Date of observation",
       titlefont = f
@@ -369,17 +376,13 @@ server <- function(input, output, session) {
       title = "BMI measurement (kg/m2)",
       titlefont = f
     )
+    
     bmi_all[bmi_all$PATIENT == "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",]  %>% 
       plot_ly(
         x = ~DATE, y =~VALUE, 
         colors = "green", 
         type = "scatter")
   })
-  
-
-  
-    
-
   
 #### COHORT DATA #####
   
@@ -693,15 +696,45 @@ output$plot3 <- renderPlot({
     
   })
   
-  
-  
-  output$patient_observations <- renderPlot({
-    ggplot(data = observations.csv[observations.csv$DESCRIPTION == input$patient_observations_selection,], 
-           aes_string(x = observations.csv[observations.csv$DESCRIPTION == input$patient_observations_selection,]$DATE, 
-                      y = observations.csv[observations.csv$DESCRIPTION == input$patient_observations_selection,]$VALUE)) +
-      geom_point()
+  output$observations_plot <- renderPlotly({
+    
+    ## create merger to grab patient names
+    patients.csv$PATIENT <- patients.csv$Id 
+    observations_names <- merge(observations.csv,patients.csv, by  = "PATIENT") 
+    
+    patient <- input$observations_patient
+    patient_data <- observations_names[observations_names$PATIENT == patient,]
+    observation <- input$observation_selection
+    patient_observation_data <- patient_data[patient_data$DESCRIPTION == observation,]
+    
+    
+    f <- list(
+      family = "Courier New, monospace",
+      size = 18,
+      color = "#7f7f7f"
+    )
+    x <- list(
+      title = "Date of Observation",
+      titlefont = f
+    )
+    
+    y <- list(
+      title = paste(patient_observation_data$DESCRIPTION[1], "(",
+                    patient_observation_data$UNITS[1], ")"),
+      titlefont = f
+    )
+    
+    patient_observation_data  %>% 
+      plot_ly(
+        x = ~DATE, y =~as.numeric(as.character(VALUE)), 
+        type = "scatter")  %>% 
+      layout(xaxis = x, yaxis = y, 
+             title= paste(patient_observation_data$DESCRIPTION[1], "for",
+                          patient_observation_data$FIRST[[1]],
+                          patient_observation_data$LAST[[1]]))
   })
-  
+
+
   
 #  genTable <- reactive({
 #    validate(
