@@ -12,16 +12,7 @@ ui <- fluidPage(
   
   selectInput(inputId= "observation_selection",
               label = "Select an observation for comparison",
-              choices = c(
-                
-                
-                
-                
-                
-                
-                
-                
-              ),
+              choices = c(sort(as.character(unique(observations.csv$DESCRIPTION)))),
               selected = "Body Mass Index"),
   plotlyOutput(outputId = "observations_plot"))
 
