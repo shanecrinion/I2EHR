@@ -103,7 +103,8 @@ obtain statistical data at a patient and cohort level.")),
                              h5("Synthea (https://synthetichealth.github.io/synthea) is an open-source package
 containing synthetic EHRs encoded in FHIR standard. Synthea models the
 lifespan of patients based on the top 10 chronic conditions and reasons for medical
-care encounters in the US. The objective of Synthea is to address the legal and ethical limitations that has caused lagging in health record technology [40]. The
+care encounters in the US. The objective of Synthea is to address the legal and ethical limitations that 
+has caused lagging in health record technology [40]. The
 framework for Synthea is based on the Publicly Available Data Approach to the
 Realistic Synthetic Data (PADARSER). The model uses publicly
 available health statistics as inputs to generate data from clinical workflow and
@@ -177,8 +178,8 @@ tabItem(tabName="patient-clinical",
                          tags$li("Publicly available documentation")
                        ),
                        h5("Sources collected on the internet for demographic information include the
-                  US Census Bureau demographics, Centers for Disease Control and Prevention prevalence and incidence rates, 
-                     and National Institutes of Health reports. "))
+                  US Census Bureau demographics, Centers for Disease Control and Prevention prevalence 
+                  and incidence rates, and National Institutes of Health reports. "))
             )),
         box(title= "Patient Plots",
             collapsible = TRUE, 
@@ -221,10 +222,14 @@ tabItem(tabName="patient-clinical",
 
 
       tabItem(tabName = "patient-observations",
-              textInput(inputId = "observations_patient",
-                        label = "Select a patient",
-                        placeholder = "Enter patient ID:",
-                        value="1425bcf6-2853-4c3a-b4c5-64fbe03d43d2"),
+              box(title="Patient info", 
+                  textInput(inputId = "observations_patient",
+                            label = "Select a patient",
+                            placeholder = "Enter patient ID:",
+                            value="1425bcf6-2853-4c3a-b4c5-64fbe03d43d2"),
+                  fluidRow(column(DT::dataTableOutput(outputId="info_patient", width = "100%"), 
+                                  width = 12)), status = "success", width = 12),
+              
               selectInput(inputId= "observation_selection",
                           label = "Select an observation for comparison",
                           choices = c(sort(as.character(unique(observations.csv$DESCRIPTION)))),
@@ -383,6 +388,8 @@ server <- function(input, output, session) {
         colors = "green", 
         type = "scatter")
   })
+  
+
   
 #### COHORT DATA #####
   
@@ -696,6 +703,18 @@ output$plot3 <- renderPlot({
     
   })
   
+  
+  
+  output$info_patient <- DT::renderDataTable ({
+    
+    patient <- input$observations_patient
+    mydf <- patients.csv[patients.csv$Id == patient,]
+    
+    mydf[, colSums(mydf != "") != 0]
+
+  })
+
+  
   output$observations_plot <- renderPlotly({
     
     ## create merger to grab patient names
@@ -735,6 +754,8 @@ output$plot3 <- renderPlot({
   })
 
 
+  
+  
   
 #  genTable <- reactive({
 #    validate(

@@ -9,7 +9,8 @@ list.of.packages <- c("ggplot2",
                       "shiny",
                       "shinydashboard",
                       "DiagrammeR",
-                      "shinyWidgets")
+                      "shinyWidgets", 
+                      "plotly")
 
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
@@ -25,6 +26,7 @@ library(lattice)
 library(viridis)
 library(DiagrammeR)
 library(GEOquery)
+library(plotly)
 
 ### --- 1.3 File imports
 
@@ -54,10 +56,12 @@ ui <- dashboardPage(
                icon = icon("id-card")),
       menuItem("Patient Data",
                tabName="PatientNu",
-               menuSubItem("Clinical data", "patient-clinical"), 
+               menuSubItem("Clinical data", "patient-clinical"),
+               menuSubItem("Observations", "patient-observations"),
                menuSubItem("Genomic data", "patient-genomic"),
                icon=icon("id-card")),
-      menuItem("Cohort", icon = icon("poll"), 
+      menuItem("Cohort", 
+               icon = icon("poll"), 
                tabName = "cohort",
                menuSubItem("Clinical data", "cohort-clinical"), 
                menuSubItem("Genomic data", "cohort-genomic")))),

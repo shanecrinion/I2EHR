@@ -277,6 +277,18 @@ Heatamp clustering
 
 ```{r}
 
+# convert to information to character format
+gse_norm$characteristics_ch1.3 <- as.character(gse_norm$characteristics_ch1.3)
+# limit to three values for clustering
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history negative"] <- "FH-"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: DM"] <- "T2D"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 2 parents"] <- "FH+"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
+# convert back to avoid creating future problems
+gse_norm$characteristics_ch1.3 <- as.factor(gse_norm$characteristics_ch1.3)
+
+
+
 phenotype_names <- unique(gse_norm$characteristics_ch1.3)
 disease_names <- unique(gse_norm$insulin_category)
 
