@@ -74,6 +74,7 @@ ui <- dashboardPage(
       tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")),
     
     tabItems(
+      
       # 2.3.2 Introductory information and aims
       tabItem(tabName = "overview", 
               box(title = "Welcome to the Interactive Integrated Electronic Health Record (I2EHR)", 
@@ -193,14 +194,29 @@ ui <- dashboardPage(
                     tabPanel("Providers",  
                              dataTableOutput("patient_providers_dt"))))),
       
-      ### --- 2.3.4 Patient genomic data
+      ### --- 2.3.4 Patient observations data
       
-      tabItem(tabName = "patient-genomic", 
+      tabItem(tabName = "patient-tbc", 
               box(title = "Add checkboxes for data"),
               box(title = "Add tables for summary GEO data which
                   could be a selection of the data for each series")),
       
-      # 2.3.4 Patient genomic data
+      tabItem(tabName = "patient-observations",
+              box(title="Patient info", 
+                  textInput(inputId = "observations_patient",
+                            label = "Select a patient",
+                            placeholder = "Enter patient ID:",
+                            value="1425bcf6-2853-4c3a-b4c5-64fbe03d43d2"),
+                  fluidRow(column(DT::dataTableOutput(outputId="info_patient", width = "100%"), 
+                                  width = 12)), status = "success", width = 12),
+              
+              selectInput(inputId= "observation_selection",
+                          label = "Select an observation for comparison",
+                          choices = c(sort(as.character(unique(observations.csv$DESCRIPTION)))),
+                          selected = "Body Mass Index"),
+              plotlyOutput(outputId = "observations_plot")),
+      
+      ## ---  2.3.5 Patient genomic data
       
       tabItem(tabName = "patient-genomic",
               
@@ -226,4 +242,50 @@ ui <- dashboardPage(
                   alterations in glucose reuptake that consequently create insulin")),
               
               
+      ## ---  2.3.5 Cohort clinical data
+      
+      tabItem(tabName = "cohort-clinical",
+              
+              # controls: select the dataset 
+              box(title="Controls", collapsible = TRUE,
+                  # Input: Selector for choosing dataset ----
+                  selectInput(inputId = "patient_dataset_2",
+                              label = "Choose a dataset:",
+                              choices = c(
+                                # "allergies", # no allergy data in this dataset
+                                "careplans",
+                                "conditions",
+                                "encounters",
+                                "immunization",
+                                "medications", 
+                                "observations",
+                                "patients",
+                                "procedures"),
+                              selected = "observations"),
+                  
+                  # controls: select the column from the  
+                  uiOutput("secondSelection"),
+                  
+                  sliderInput("slider_2", 
+                              "Number of Observations", 
+                              min = 1, value=5, 
+                              max = 300)),
+              box(title = "Data Sources", 
+                  collapsible = TRUE,
+                  tags$ul(
+                    tags$li("US Census Bureau demographics"), 
+                    tags$li("Centers for Disease Control and Prevention prevalence"), 
+                    tags$li("National Institutes of Health reports."))),
+              box(title="Graphs", 
+                  collapsible = TRUE,
+                  width = 12,
+                  tabsetPanel(
+                    tabPanel("Ethnicity", plotOutput("plot1")),
+                    tabPanel("Hg Measurements", plotOutput("plot2")),
+                    tabPanel("Disease Prevalence", plotOutput("plot3")),
+                    tabPanel("BMI", plotOutput("plot4")))),
+              box(title="Data Table", 
+                  width = 12, 
+                  dataTableOutput("genTable"))),
+      
       
