@@ -22,7 +22,8 @@ server <- function(input, output) {
     
     ## create merger to grab patient names
     patients.csv$PATIENT <- patients.csv$Id 
-    observations_names <- merge(observations.csv,patients.csv, by  = "PATIENT") 
+    observations_names <- merge(observations.csv,
+                                patients.csv, by  = "PATIENT") 
     
     patient <- input$observations_patient
     patient_data <- observations_names[observations_names$PATIENT == patient,]

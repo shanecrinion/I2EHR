@@ -83,7 +83,9 @@ ui <- dashboardPage(
     tabItems(
       tabItem(tabName = "overview", 
               box(title = "Welcome to the Interactive Integrated Electronic Health Record (I2EHR)", 
-                  width=8,
+                  width=8, 
+                  status = "success", 
+                  solidHeader = TRUE,
                   tabsetPanel(
                     
                     
@@ -143,7 +145,9 @@ restrictions."),
                                 Compare the FH+ to FH- and claim the difference is due to treated individual regressing to the expression of a normal individual")))),
               
               
-              box(title="Contact Details", width = 4,
+              box(title="Contact Details", 
+                  background = "black",
+                  width = 4,
                   h4("Shane Crinion"),
                   h4("shanecrinion@gmail.com"), 
                   h4("+ 353 858018212"),
@@ -160,6 +164,8 @@ restrictions."),
 
 tabItem(tabName="patient-clinical",
         box(title = "Patient Query", 
+            status="primary",
+            solidHeader = TRUE,
             collapsible = TRUE,
             tabsetPanel(
               tabPanel("Search options", 
@@ -223,6 +229,7 @@ tabItem(tabName="patient-clinical",
 
       tabItem(tabName = "patient-observations",
               box(title="Patient info", 
+                  solidHeader = TRUE,
                   textInput(inputId = "observations_patient",
                             label = "Select a patient",
                             placeholder = "Enter patient ID:",
@@ -307,6 +314,16 @@ can then be mapped be to recordings from clinical encounters and create links
                   box(title="Microarray analysis results", 
                       width = 12,
                       tabsetPanel(
+                        tabPanel("Report",
+                                 includeHTML("index.html")),
+                        tabPanel("RLE",
+                                 plotOutput("RLE")),
+                        tabPanel("PCA", 
+                                 plotOutput("PCA_2D_normalised")),
+                        tabPanel("Intensity Filtering",
+                                 plotOutput("Intensity_Filtering")),
+                        tabPanel("Heatmap_Samples",
+                                 plotlyOutput("Heatmap_Samples")),
                         tabPanel("GEOdata", 
                                  dataTableOutput("gse25462_table")),
                         tabPanel("Multidimensional Scaling",
@@ -625,6 +642,117 @@ output$plot3 <- renderPlot({
                    main = "Boxplot of log2-intensitites for the raw data")
     par(cex.lab=0.5)
   })
+
+  
+  output$RLE <- renderPlot({
+    
+    row_medians_assayData <- 
+      Biobase::rowMedians(as.matrix(
+        log2(Biobase::exprs(gse25462[[1]]))))
+    
+    RLE_data <- sweep(log2(Biobase::exprs(gse25462[[1]])), 1, row_medians_assayData)
+    
+    
+    #### categorise data
+    # convert to information to character format
+    gse25462[[1]]$disease_cat <- 0
+    gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history negative"] <- "FH-"
+    gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: DM"] <- "T2D"
+    gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: Family history positive - 2 parents"] <- "FH+"
+    gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history positive - 1 parent"] <- "FH+"
+    
+    
+    # class for the fill
+    RLE_class <- data.frame(patient_array = rownames(pData(gse25462[[1]])), disease_cat=gse25462[[1]]$disease_cat)
+    
+    RLE_data <- as.data.frame(RLE_data)
+    
+    
+    RLE_data_gathered <- 
+      tidyr::gather(RLE_data, patient_array, log2_expression_deviation)
+    
+    RLE_data_gathered_diagnosis <- 
+      merge(RLE_data_gathered, RLE_class, by="patient_array")
+    
+    
+    ggplot2::ggplot(RLE_data_gathered_diagnosis, aes(patient_array,
+                                                     log2_expression_deviation, 
+                                                     fill=disease_cat)) + 
+      geom_boxplot(outlier.shape = NA) + 
+      
+      ylim(c(-2, 2)) + 
+      theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                       angle = 60, size = 6.5, hjust = 1 ,
+                                       face = "bold"))
+    
+  })
+  
+  output$PCA_2D_normalised <-  renderPlot({
+    
+    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+    
+    ### expression oof the normalised data
+    exp_gse <- Biobase::exprs(gse_norm)
+    ### get the prinicipal component values
+    
+    PCA <- prcomp(t(exp_gse), scale = FALSE)
+   
+    percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
+    
+    barplot(percentVar, 
+            main = "Variation Explained per PC", 
+            col=rainbow(50), xlab="Principal Component", 
+            ylab="%", names=c(1:50), 
+            ylim=c(0,30), 
+            las=2)
+    
+  })
+  
+  output$Intensity_Filtering <- renderPlot({
+    
+    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+    gse_medians <- rowMedians(Biobase::exprs(gse_norm))
+    man_threshold <- 60
+    hist_res <- hist(gse_medians, 
+                     breaks=10000,
+                     xlim=c(0,10000),
+                     ylim=c(0,0.002),
+                     col = "cornsilk1", 
+                     freq = FALSE, 
+                     main = "Histogram of the median intensities", 
+                     border = "antiquewhite4",
+                     xlab = "Median intensities")
+    hist_res
+    abline(v = man_threshold, col = "coral4", lwd = 1)
+    
+  })
+  
+  
+  
+  output$Heatmap_Samples <- renderPlotly({
+    
+    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+    ### expression oof the normalised data
+    exp_gse <- Biobase::exprs(gse_norm)
+    
+    dists <- as.matrix(dist(t(exp_gse), method = "manhattan"))
+    
+    rownames(dists) <- row.names(pData(gse_norm))
+    
+    hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
+    
+    colnames(dists) <- NULL
+    diag(dists) <- NA
+    
+    pheatmap(dists, col = (hmcol), 
+             legend = TRUE, 
+             treeheight_row = 0,
+             legend_breaks = c(min(dists, na.rm = TRUE), 
+                               max(dists, na.rm = TRUE)), 
+             legend_labels = (c("small distance", "large distance")),
+             main = "Clustering heatmap for the calibrated samples")
+    
+  })
   
   
   output$gse25462_table <- renderDataTable({
@@ -645,6 +773,7 @@ output$plot3 <- renderPlot({
     PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
     
     percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
+    
     sd_ratio <- sqrt(percentVar[2] / percentVar[1])
     
     dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],

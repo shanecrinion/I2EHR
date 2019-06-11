@@ -74,6 +74,12 @@ The data is then inspected to ensure that it the skeletal muscle samples as expe
 show(pData(phenoData(gse25462[[1]])))
 ```
 
+```{r}
+colnames(pData(phenoData(gse25462[[1]])))
+
+```
+
+
 Columns of interest include disease status (title), gender (characteristics_ch1.1), age (characteristics_ch1.2), BMI (characteristics_ch1.4) and hemoglobin a1c levels (characteristics_ch1.7).
 
 ## 3. Quality control 
@@ -81,9 +87,13 @@ This is useful for checking for outliers and identifying clusters depending on t
 
 ```{r}
 Biobase::exprs(gse25462[[1]])[1:5, 1:50]
+
 ```
 
+Exprs() generates a matrix containing expression level for each probe.
+
 The log2 is taken of the above as quality control and as is standard for expression data. The principal component analysis (PCA) is plotted also to indicate the sample variation. 
+
 
 ((--- unnecessary) As shown above by the phenotype data, the samples indicate the disease state in the 'title' column but are incompatible for grouping due to their numbered format (eg. Muscle-FamilyHistoryNegative-1, Muscle-FamilyHistoryNegative-2). The samples labels are edited before PCA for compatibility: ((--- unnecessary)))
 
@@ -223,46 +233,93 @@ gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
 Plotting the Relative Log Expression
 
 ```{r}
-row_medians_assayData <- 
-  Biobase::rowMedians(as.matrix(Biobase::exprs(gse_norm)))
 
-RLE_data <- sweep(Biobase::exprs(gse_norm), 1, row_medians_assayData)
+row_medians_assayData <- 
+  Biobase::rowMedians(as.matrix(
+    log2(Biobase::exprs(gse25462[[1]]))))
+
+RLE_data <- sweep(log2(Biobase::exprs(gse25462[[1]])), 1, row_medians_assayData)
+
+
+#### categorise data
+# convert to information to character format
+gse25462[[1]]$disease_cat <- 0
+gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history negative"] <- "FH-"
+gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: DM"] <- "T2D"
+gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: Family history positive - 2 parents"] <- "FH+"
+gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history positive - 1 parent"] <- "FH+"
+
+
+# class for the fill
+RLE_class <- data.frame(patient_array = rownames(pData(gse25462[[1]])), disease_cat=gse25462[[1]]$disease_cat)
 
 RLE_data <- as.data.frame(RLE_data)
+
+
 RLE_data_gathered <- 
   tidyr::gather(RLE_data, patient_array, log2_expression_deviation)
 
-ggplot2::ggplot(RLE_data_gathered, aes(patient_array,
-                                       log2_expression_deviation)) + 
+RLE_data_gathered_diagnosis <- 
+  merge(RLE_data_gathered, RLE_class, by="patient_array")
+
+
+ggplot2::ggplot(RLE_data_gathered_diagnosis, aes(patient_array,
+                                       log2_expression_deviation, 
+                                       fill=disease_cat)) + 
   geom_boxplot(outlier.shape = NA) + 
+  
   ylim(c(-2, 2)) + 
   theme(axis.text.x = element_text(colour = "aquamarine4", 
                                   angle = 60, size = 6.5, hjust = 1 ,
                                   face = "bold"))
+
 ```
 
-The above indicates that there are no batch effects as seen by the lack of y-directed deviation and therefore no outliers need to be removed. 
+The above indicates the degree of variation from the mean for each sample. The samples with higher deviation from the mean indicate these samples have different expression in some way. 
 
+The row median calculation indicates the median gene expression for each gene. The boxplot gives a general sense of the expression variation per sample by indicating 
 
 
 Quality assessment of the calibrated data
 
+
+2D PCA
+
 ```{r}
+### expression oof the normalised data
 exp_gse <- Biobase::exprs(gse_norm)
+### get the prinicipal component values
+
 PCA <- prcomp(t(exp_gse), scale = FALSE)
 
+# get the percentage of variance
+# indicates that 28.4 pct of variance is from the first, maybe use only 2
 percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
+
+
+
 sd_ratio <- sqrt(percentVar[2] / percentVar[1])
 
+
+# convert to information to character format
+gse_norm$characteristics_ch1.3 <- as.character(gse_norm$characteristics_ch1.3)
+# limit to three values for clustering
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history negative"] <- "FH-"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: DM"] <- "T2D"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 2 parents"] <- "FH+"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
+# convert back to avoid creating future problems
+gse_norm$characteristics_ch1.3 <- as.factor(gse_norm$characteristics_ch1.3)
+
+
 dataGG <- data.frame(PC1 = PCA$x[,1], PC2 = PCA$x[,2],
-                    Disease = 
+                    Disease_Category = 
                      Biobase::pData(gse_norm)$characteristics_ch1.3,
-                    Phenotype = 
+                    Insulin_Resistance = 
                      Biobase::pData(gse_norm)$insulin_category)
 
-
 ggplot(dataGG, aes(PC1, PC2)) +
-      geom_point(aes(shape = Disease, colour = Phenotype)) +
+      geom_point(aes(shape = Disease_Category, colour = Insulin_Resistance)) +
   ggtitle("PCA plot of the calibrated, summarized data") +
   xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
   ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
@@ -272,6 +329,12 @@ ggplot(dataGG, aes(PC1, PC2)) +
 #  scale_color_manual(values = c("darkorange2", "dodgerblue4", "green", "orange"))
 
 ```
+
+
+
+
+
+
 
 Heatamp clustering 
 
@@ -286,7 +349,6 @@ gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history
 gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
 # convert back to avoid creating future problems
 gse_norm$characteristics_ch1.3 <- as.factor(gse_norm$characteristics_ch1.3)
-
 
 
 phenotype_names <- unique(gse_norm$characteristics_ch1.3)
