@@ -152,6 +152,7 @@ ggplot(dataGG, aes(PC1, PC2)) +
 
 
 Given that Synthea data contains many records for H1Ac levels, it may be useful to identify the association between Ha1c levels and diabetes status. The windows for diabetic levels Hemoglobin A1c (HbA1c) are < 6% is considered healthy, between 6% and 6.4% is pre-diabetic and 6.5% or above is diabetic. 
+
 ```{r}
 # make the empty column 
 gse25462[[1]]$diabetes_status <- 0
@@ -196,6 +197,7 @@ The probe intensities can also be shown by their individual microarray using a b
 oligo::boxplot(exp_raw, target = "core", las=2,
                main = "Boxplot of log2-intensitites for the raw data")
 par(cex.lab=0.5)
+
 ```
 
 
@@ -296,8 +298,6 @@ PCA <- prcomp(t(exp_gse), scale = FALSE)
 # indicates that 28.4 pct of variance is from the first, maybe use only 2
 percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
 
-
-
 sd_ratio <- sqrt(percentVar[2] / percentVar[1])
 
 
@@ -327,6 +327,8 @@ ggplot(dataGG, aes(PC1, PC2)) +
   coord_fixed(ratio = sd_ratio)
 #  scale_shape_manual(values = c(4,15)) + 
 #  scale_color_manual(values = c("darkorange2", "dodgerblue4", "green", "orange"))
+
+
 
 ```
 
@@ -358,6 +360,18 @@ annotation_for_heatmap <-
   data.frame(Phenotype = phenotype_names,  Disease = disease_names)
 
 row.names(annotation_for_heatmap) <- row.names(pData(gse25462[[1]]))
+
+```
+
+
+```{r}
+exp_gse <- Biobase::exprs(gse_norm)
+
+dists <- as.matrix(dist(t(exp_gse), method = "manhattan"))
+
+rownames(dists) <- row.names(pData(gse_norm))
+
+hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
 
 ```
 
