@@ -19,7 +19,7 @@ observations_merge <- merge(x = patients.csv,
 
 ### install the required packages
 
-list.of.packages <- c("ggplot2", "ggridges", "lattice","viridis","shiny","shinydashboard","DiagrammeR", "plotly","shinyWidgets")
+list.of.packages <- c("ggplot2","hgu133plus2.db","ggridges", "lattice","viridis","shiny","shinydashboard","DiagrammeR", "plotly","shinyWidgets")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
@@ -37,12 +37,13 @@ library(viridis)
 library(DiagrammeR)
 library(GEOquery)
 library(plotly)
+library(hgu133plus2.db)
 
 
 ### load GEO data 
 
 gse25462 <- getGEO("GSE25462", GSEMatrix = TRUE)
-
+gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
 
 ###  UI
 
@@ -319,11 +320,27 @@ can then be mapped be to recordings from clinical encounters and create links
                         tabPanel("RLE",
                                  plotOutput("RLE")),
                         tabPanel("PCA", 
-                                 plotOutput("PCA_2D_normalised")),
+                                 h5("Raw data PCA"),
+                                 plotOutput("PCA_IR"),
+                                 br(),
+                                 h5("Varience explained by PC"),
+                                 plotOutput("PCA_2D_normalised"),
+                                 br(),
+                                 h5("PCA following calibration"),
+                                 img(src="calibrated_PCA.png"),
+                                 plotOutput("PCA_Calibrated")),
                         tabPanel("Intensity Filtering",
                                  plotOutput("Intensity_Filtering")),
                         tabPanel("Heatmap_Samples",
-                                 plotlyOutput("Heatmap_Samples")),
+                                 tags$iframe(style="height:600px; width:100%", 
+                                             src="heatmap.pdf")),
+                        tabPanel("Array Annotation",
+                                 h5("Filtered probes due to ambiguous mapping:"),
+                                 dataTableOutput("array_annotation"),
+                                 h5("Exclusion frequency"),
+                                 tableOutput("excluded_probes")),
+                        tabPanel("Valid gene list",
+                                 dataTableOutput("valid_genes")),
                         tabPanel("GEOdata", 
                                  dataTableOutput("gse25462_table")),
                         tabPanel("Multidimensional Scaling",
@@ -337,9 +354,7 @@ can then be mapped be to recordings from clinical encounters and create links
                         tabPanel("Heatmap", 
                                  img(src="microarray_heatmap.png")),
                         tabPanel("H1Ac levels", 
-                                 plotOutput("PCA_h1Ac")),
-                        tabPanel("Insulin_resistance", 
-                                 plotOutput("PCA_IR"))))
+                                 plotOutput("PCA_h1Ac"))))
                   ))))
 
 
@@ -708,6 +723,51 @@ output$plot3 <- renderPlot({
     
   })
   
+  
+  output$PCA_Calibrated <- renderPlot({
+
+    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+    exp_gse <- Biobase::exprs(gse_norm)
+    ### get the prinicipal component values
+    
+    PCA <- prcomp(t(exp_gse), scale = FALSE)
+    
+    # get the percentage of variance
+    # indicates that 28.4 pct of variance is from the first, maybe use only 2
+    percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
+    
+    sd_ratio <- sqrt(percentVar[2] / percentVar[1])
+    
+    
+    # convert to information to character format
+    gse_norm$characteristics_ch1.3 <- as.character(gse_norm$characteristics_ch1.3)
+    # limit to three values for clustering
+    gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history negative"] <- "FH-"
+    gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: DM"] <- "T2D"
+    gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 2 parents"] <- "FH+"
+    gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
+    # convert back to avoid creating future problems
+    gse_norm$characteristics_ch1.3 <- as.factor(gse_norm$characteristics_ch1.3)
+    
+    
+    dataGG <- data.frame(PC1 = PCA$x[,1], PC2 = PCA$x[,2],
+                         Disease_Category = 
+                           Biobase::pData(gse_norm)$characteristics_ch1.3,
+                         Insulin_Resistance = 
+                           Biobase::pData(gse_norm)$insulin_category)
+    
+    ggplot(dataGG, aes(PC1, PC2)) +
+      geom_point(aes(shape = Disease_Category, colour = Insulin_Resistance)) +
+      ggtitle("PCA plot of the calibrated, summarized data") +
+      xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
+      ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
+      theme(plot.title = element_text(hjust = 0.5)) +
+      coord_fixed(ratio = sd_ratio)
+    
+  })
+    
+  
+  
   output$Intensity_Filtering <- renderPlot({
     
     gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
@@ -723,11 +783,11 @@ output$plot3 <- renderPlot({
                      border = "antiquewhite4",
                      xlab = "Median intensities")
     hist_res
-    abline(v = man_threshold, col = "coral4", lwd = 1)
+    abline(v = man_threshold, col = "coral4", lwd = 2)
     
   })
   
-  
+  ###### need to fix this issue 
   
   output$Heatmap_Samples <- renderPlotly({
     
@@ -754,6 +814,74 @@ output$plot3 <- renderPlot({
     
   })
   
+  
+  output$array_annotation <- renderDataTable({
+    
+    anno_gse <- AnnotationDbi::select(hgu133plus2.db,
+                                      keys = (featureNames(gse_norm)),
+                                      columns = c("SYMBOL", "GENENAME"),
+                                      keytype = "PROBEID")
+    
+    anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
+    
+    anno_gse
+    
+    head(anno_summarized)
+    
+    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
+    
+    anno_filtered
+    
+  })
+    
+    
+  
+  
+  output$excluded_probes <- renderTable({
+    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+    anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
+    anno_grouped <- group_by(anno_gse, PROBEID)
+    anno_summarized <- 
+      dplyr::summarize(anno_grouped, no_of_matches = n_distinct(SYMBOL))
+    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
+    probe_stats <- anno_filtered 
+    ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
+    table(ids_to_exlude)
+  })
+  
+  
+  output$valid_genes <- renderDataTable({
+    
+    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+    anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
+    anno_grouped <- group_by(anno_gse, PROBEID)
+    anno_summarized <- 
+      dplyr::summarize(anno_grouped, no_of_matches = n_distinct(SYMBOL))
+    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
+    probe_stats <- anno_filtered 
+    ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
+    gse_final <- subset(gse_norm, !ids_to_exlude)
+    
+    fData(gse_final)$PROBEID <- rownames(fData(gse_final))
+    fData(gse_final) <- left_join(fData(gse_final), anno_gse)
+    rownames(fData(gse_final)) <- fData(gse_final)$PROBEID 
+    fData(gse_final)
+    
+  })
+  
+  output$gene_features <- renderDataTable({
+    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+    anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
+    anno_grouped <- group_by(anno_gse, PROBEID)
+    anno_summarized <- 
+      dplyr::summarize(anno_grouped, no_of_matches = n_distinct(SYMBOL))
+    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
+    probe_stats <- anno_filtered 
+    ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
+    gse_final <- subset(gse_norm, !ids_to_exlude)
+    
+    fData(gse_final)
+  })
   
   output$gse25462_table <- renderDataTable({
     pData(phenoData(gse25462[[1]]))
@@ -800,6 +928,7 @@ output$plot3 <- renderPlot({
   
   #--- plot of insulin resistance levels
   output$PCA_IR <- renderPlot({
+    
     # make the empty column 
     gse25462[[1]]$insulin_category <- 0
     # assign each column to its appropriate bin 
