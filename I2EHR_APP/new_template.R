@@ -16,17 +16,54 @@ new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"
 if(length(new.packages)) install.packages(new.packages)
 
 ### --- 1.2 Load libraries 
-
+#Shiny requirements
 library(shiny) 
 library(shinydashboard)
 library(shinyWidgets)
-library(ggridges)
-library(ggplot2)
-library(lattice)
-library(viridis)
-library(DiagrammeR)
+
+
+
+library(affyPLM)
+
+#General Bioconductor packages
+library(Biobase)
+library(oligoClasses)
+#Annotation and data import packages
 library(GEOquery)
+library(pd.hugene.1.0.st.v1)
+library(hgu133plus2.db)
+#Quality control and pre-processing packages
+library(oligo)
+library(arrayQualityMetrics)
+library(affyPLM)
+#Analysis and statistics packages
+library(limma)
+library(topGO)
+library(ReactomePA)
+library(clusterProfiler)
+#Plotting and color options packages
+library(DiagrammeR)
+library(gplots)
+library(ggplot2)
+library(geneplotter)
+library(ggridges)
+library(lattice)
+library(pheatmap)
 library(plotly)
+library(RColorBrewer)
+library(viridis)
+
+#Formatting/documentation packages
+#library(rmarkdown)
+#library(BiocStyle)
+library(dplyr)
+library(tidyr)
+
+#Helpers:
+library(stringr)
+library(matrixStats)
+library(genefilter)
+library(openxlsx)
 
 ### --- 1.3 File imports
 

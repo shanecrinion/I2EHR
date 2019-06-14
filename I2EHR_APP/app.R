@@ -19,7 +19,17 @@ observations_merge <- merge(x = patients.csv,
 
 ### install the required packages
 
-list.of.packages <- c("ggplot2","hgu133plus2.db","ggridges", "lattice","viridis","shiny","shinydashboard","DiagrammeR", "plotly","shinyWidgets")
+list.of.packages <- c("ggplot2",
+                      "affyPLM",
+                      "hgu133plus2.db",
+                      "ggridges",
+                      "lattice",
+                      "viridis",
+                      "shiny",
+                      "shinydashboard",
+                      "DiagrammeR",
+                      "plotly",
+                      "shinyWidgets")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
@@ -38,12 +48,108 @@ library(DiagrammeR)
 library(GEOquery)
 library(plotly)
 library(hgu133plus2.db)
+library(affyPLM)
+
+### Microarray Libraries
+
+#General Bioconductor packages
+library(Biobase)
+library(oligoClasses)
+#Annotation and data import packages
+library(GEOquery)
+library(pd.hugene.1.0.st.v1)
+library(hugene10sttranscriptcluster.db)
+#Quality control and pre-processing packages
+library(oligo)
+library(arrayQualityMetrics)
+#Analysis and statistics packages
+library(limma)
+library(topGO)
+library(ReactomePA)
+library(clusterProfiler)
+#Plotting and color options packages
+library(gplots)
+library(ggplot2)
+library(geneplotter)
+library(RColorBrewer)
+library(pheatmap)
+
+#Formatting/documentation packages
+#library(rmarkdown)
+#library(BiocStyle)
+library(dplyr)
+library(tidyr)
+
+#Helpers:
+library(stringr)
+library(matrixStats)
+library(genefilter)
+library(openxlsx)
+#library(devtools)
+
 
 
 ### load GEO data 
 
 gse25462 <- getGEO("GSE25462", GSEMatrix = TRUE)
+
+# add additional categories
+
+# make the empty column 
+gse25462[[1]]$insulin_category <- 0
+# assign each column to its appropriate bin 
+gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) >= 8] <- "diabetic"
+gse25462[[1]]$insulin_category[((as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 8 
+                                & (as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) > 3)] <- "optimal"
+gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 3] <- "low"
+
+#### categorise data
+# convert to information to character format
+gse25462[[1]]$disease_cat <- 0
+gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history negative"] <- "FH-"
+gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: DM"] <- "T2D"
+gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: Family history positive - 2 parents"] <- "FH+"
+gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history positive - 1 parent"] <- "FH+"
+
+
+
 gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+
+# convert to information to character format
+gse_norm$characteristics_ch1.3 <- as.character(gse_norm$characteristics_ch1.3)
+# limit to three values for clustering
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history negative"] <- "FH-"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: DM"] <- "T2D"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 2 parents"] <- "FH+"
+gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
+# convert back to avoid creating future problems
+gse_norm$characteristics_ch1.3 <- as.factor(gse_norm$characteristics_ch1.3)
+
+
+exp_gse <- Biobase::exprs(gse_norm)
+
+exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
+
+anno_gse <- AnnotationDbi::select(hgu133plus2.db,
+                                  keys = (featureNames(gse_norm)),
+                                  columns = c("SYMBOL", "GENENAME"),
+                                  keytype = "PROBEID")
+anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
+
+anno_grouped <- group_by(anno_gse, PROBEID)
+
+anno_summarized <- 
+  dplyr::summarize(anno_grouped, 
+                   no_of_matches = n_distinct(SYMBOL))
+
+anno_filtered <- filter(anno_summarized, no_of_matches > 1)
+
+probe_stats <- anno_filtered 
+
+ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
+
+
+
 
 ###  UI
 
@@ -538,6 +644,7 @@ server <- function(input, output, session) {
   })
   
 output$plot3 <- renderPlot({
+  
   disorders_vector <- as.vector(count(conditions.csv$DESCRIPTION))
   #disorders_vector$freqs <- as.numeric(disorders_vector$freqs)
   
@@ -665,34 +772,31 @@ output$plot3 <- renderPlot({
       Biobase::rowMedians(as.matrix(
         log2(Biobase::exprs(gse25462[[1]]))))
     
-    RLE_data <- sweep(log2(Biobase::exprs(gse25462[[1]])), 1, row_medians_assayData)
-    
-    
-    #### categorise data
-    # convert to information to character format
-    gse25462[[1]]$disease_cat <- 0
-    gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history negative"] <- "FH-"
-    gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: DM"] <- "T2D"
-    gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: Family history positive - 2 parents"] <- "FH+"
-    gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history positive - 1 parent"] <- "FH+"
-    
-    
+    RLE_data <- sweep(log2(Biobase::exprs(gse25462[[1]])), 1, 
+                      row_medians_assayData)
+
+
     # class for the fill
-    RLE_class <- data.frame(patient_array = rownames(pData(gse25462[[1]])), disease_cat=gse25462[[1]]$disease_cat)
+    RLE_class <- data.frame(patient_array = rownames(pData(gse25462[[1]])), 
+                            disease_cat=gse25462[[1]]$disease_cat)
     
     RLE_data <- as.data.frame(RLE_data)
     
     
     RLE_data_gathered <- 
-      tidyr::gather(RLE_data, patient_array, log2_expression_deviation)
+      tidyr::gather(RLE_data, 
+                    patient_array, 
+                    log2_expression_deviation)
     
     RLE_data_gathered_diagnosis <- 
-      merge(RLE_data_gathered, RLE_class, by="patient_array")
+      merge(RLE_data_gathered, 
+            RLE_class, 
+            by="patient_array")
     
-    
-    ggplot2::ggplot(RLE_data_gathered_diagnosis, aes(patient_array,
-                                                     log2_expression_deviation, 
-                                                     fill=disease_cat)) + 
+    ggplot2::ggplot(RLE_data_gathered_diagnosis, 
+                    aes(patient_array,
+                        log2_expression_deviation, 
+                        fill=disease_cat)) + 
       geom_boxplot(outlier.shape = NA) + 
       
       ylim(c(-2, 2)) + 
@@ -703,11 +807,7 @@ output$plot3 <- renderPlot({
   })
   
   output$PCA_2D_normalised <-  renderPlot({
-    
-    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
-    
-    ### expression oof the normalised data
-    exp_gse <- Biobase::exprs(gse_norm)
+
     ### get the prinicipal component values
     
     PCA <- prcomp(t(exp_gse), scale = FALSE)
@@ -726,8 +826,6 @@ output$plot3 <- renderPlot({
   
   output$PCA_Calibrated <- renderPlot({
 
-    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
-    exp_gse <- Biobase::exprs(gse_norm)
     ### get the prinicipal component values
     
     PCA <- prcomp(t(exp_gse), scale = FALSE)
@@ -737,19 +835,7 @@ output$plot3 <- renderPlot({
     percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
     
     sd_ratio <- sqrt(percentVar[2] / percentVar[1])
-    
-    
-    # convert to information to character format
-    gse_norm$characteristics_ch1.3 <- as.character(gse_norm$characteristics_ch1.3)
-    # limit to three values for clustering
-    gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history negative"] <- "FH-"
-    gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: DM"] <- "T2D"
-    gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 2 parents"] <- "FH+"
-    gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
-    # convert back to avoid creating future problems
-    gse_norm$characteristics_ch1.3 <- as.factor(gse_norm$characteristics_ch1.3)
-    
-    
+
     dataGG <- data.frame(PC1 = PCA$x[,1], PC2 = PCA$x[,2],
                          Disease_Category = 
                            Biobase::pData(gse_norm)$characteristics_ch1.3,
@@ -766,11 +852,8 @@ output$plot3 <- renderPlot({
     
   })
     
-  
-  
   output$Intensity_Filtering <- renderPlot({
     
-    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
     gse_medians <- rowMedians(Biobase::exprs(gse_norm))
     man_threshold <- 60
     hist_res <- hist(gse_medians, 
@@ -790,10 +873,8 @@ output$plot3 <- renderPlot({
   ###### need to fix this issue 
   
   output$Heatmap_Samples <- renderPlotly({
-    
-    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
-    ### expression oof the normalised data
-    exp_gse <- Biobase::exprs(gse_norm)
+
+    ### expression oof the normalised dat
     
     dists <- as.matrix(dist(t(exp_gse), method = "manhattan"))
     
@@ -813,53 +894,24 @@ output$plot3 <- renderPlot({
              main = "Clustering heatmap for the calibrated samples")
     
   })
-  
+
   
   output$array_annotation <- renderDataTable({
-    
-    anno_gse <- AnnotationDbi::select(hgu133plus2.db,
-                                      keys = (featureNames(gse_norm)),
-                                      columns = c("SYMBOL", "GENENAME"),
-                                      keytype = "PROBEID")
-    
-    anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
-    
-    anno_gse
-    
+
     head(anno_summarized)
-    
-    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
-    
     anno_filtered
     
   })
     
-    
-  
-  
   output$excluded_probes <- renderTable({
-    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
-    anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
-    anno_grouped <- group_by(anno_gse, PROBEID)
-    anno_summarized <- 
-      dplyr::summarize(anno_grouped, no_of_matches = n_distinct(SYMBOL))
-    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
-    probe_stats <- anno_filtered 
-    ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
+
+
     table(ids_to_exlude)
   })
   
   
   output$valid_genes <- renderDataTable({
-    
-    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
-    anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
-    anno_grouped <- group_by(anno_gse, PROBEID)
-    anno_summarized <- 
-      dplyr::summarize(anno_grouped, no_of_matches = n_distinct(SYMBOL))
-    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
-    probe_stats <- anno_filtered 
-    ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
+
     gse_final <- subset(gse_norm, !ids_to_exlude)
     
     fData(gse_final)$PROBEID <- rownames(fData(gse_final))
@@ -870,13 +922,7 @@ output$plot3 <- renderPlot({
   })
   
   output$gene_features <- renderDataTable({
-    gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
-    anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
-    anno_grouped <- group_by(anno_gse, PROBEID)
-    anno_summarized <- 
-      dplyr::summarize(anno_grouped, no_of_matches = n_distinct(SYMBOL))
-    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
-    probe_stats <- anno_filtered 
+
     ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
     gse_final <- subset(gse_norm, !ids_to_exlude)
     
@@ -928,15 +974,7 @@ output$plot3 <- renderPlot({
   
   #--- plot of insulin resistance levels
   output$PCA_IR <- renderPlot({
-    
-    # make the empty column 
-    gse25462[[1]]$insulin_category <- 0
-    # assign each column to its appropriate bin 
-    gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) >= 8] <- "diabetic"
-    gse25462[[1]]$insulin_category[((as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 8 
-                                    & (as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) > 3)] <- "optimal"
-    gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 3] <- "low"
-    
+
     #log 2
     exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
     #pca
