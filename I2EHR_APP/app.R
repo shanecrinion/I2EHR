@@ -29,6 +29,7 @@ list.of.packages <- c("ggplot2",
                       "shinydashboard",
                       "DiagrammeR",
                       "plotly",
+                      "rgl",
                       "shinyWidgets")
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
@@ -843,7 +844,8 @@ output$plot3 <- renderPlot({
                            Biobase::pData(gse_norm)$insulin_category)
     
     ggplot(dataGG, aes(PC1, PC2)) +
-      geom_point(aes(shape = Disease_Category, colour = Insulin_Resistance)) +
+      geom_point(aes(shape = Disease_Category, 
+                     colour = Insulin_Resistance)) +
       ggtitle("PCA plot of the calibrated, summarized data") +
       xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
       ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
