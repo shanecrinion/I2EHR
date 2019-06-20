@@ -59,7 +59,10 @@ library(oligoClasses)
 #Annotation and data import packages
 library(GEOquery)
 library(pd.hugene.1.0.st.v1)
+library(pd.hugene.2.0.st)
 library(hugene10sttranscriptcluster.db)
+library(hugene20sttranscriptcluster.db)
+library(gridExtra)
 #Quality control and pre-processing packages
 library(oligo)
 library(arrayQualityMetrics)
@@ -86,6 +89,7 @@ library(stringr)
 library(matrixStats)
 library(genefilter)
 library(openxlsx)
+library(data.table)
 #library(devtools)
 
 
@@ -93,6 +97,8 @@ library(openxlsx)
 ### load GEO data 
 
 gse25462 <- getGEO("GSE25462", GSEMatrix = TRUE)
+GSE115313 <- getGEO("GSE115313", GSEMatrix = TRUE)
+minguez_eset_norm <- GSE115313[[1]]
 
 # add additional categories
 
@@ -131,10 +137,12 @@ exp_gse <- Biobase::exprs(gse_norm)
 
 exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
 
-anno_gse <- AnnotationDbi::select(hgu133plus2.db,
+anno_gse <- AnnotationDbi::select(hugene20sttranscriptcluster.db,
                                   keys = (featureNames(gse_norm)),
                                   columns = c("SYMBOL", "GENENAME"),
                                   keytype = "PROBEID")
+
+
 anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
 
 anno_grouped <- group_by(anno_gse, PROBEID)
@@ -148,6 +156,7 @@ anno_filtered <- filter(anno_summarized, no_of_matches > 1)
 probe_stats <- anno_filtered 
 
 ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
+
 
 
 
@@ -175,7 +184,8 @@ ui <- dashboardPage(
                tabName = "CohortTab",
                icon = icon("users"), 
                menuSubItem("Clinical data", "cohort-clinical"), 
-               menuSubItem("Genomic data", "cohort-genomic"))
+               menuSubItem("Genomic data", "cohort-genomic"),
+               menuSubItem("GSE115313: Colon cancer", "colon-genomic"))
                #    menuSubItem("Disease query", "cohort-query")#
                )),
 
@@ -461,9 +471,62 @@ can then be mapped be to recordings from clinical encounters and create links
                         tabPanel("Heatmap", 
                                  img(src="microarray_heatmap.png")),
                         tabPanel("H1Ac levels", 
-                                 plotOutput("PCA_h1Ac"))))
-                  ))))
-
+                                 plotOutput("PCA_h1Ac"))))),
+            tabItem(tabName= "colon-genomic",
+                    box(title="Differential Expression",
+                        width=12, status="success",
+                        plotOutput("GSE115313_Differential_Expression")),
+                    box(title = "Intensity Filtering",
+                        width = 8,
+                        status="success",
+                        collapsible=TRUE,
+                        solidHeader=TRUE,
+                        plotOutput("GSE115313_IF")),
+                    box(title = "Number of samples",
+                        width = 4,
+                        status = "success",
+                        collapsible=TRUE,
+                        solidHeader=TRUE,
+                        tableOutput("GSE115313_Sample_Numbers")),
+                    box(title = "PCA",
+                        width = 7,
+                        status="success",
+                        collapsible = TRUE,
+                        solidHeader=TRUE,
+                        plotOutput("GSE115313_PCA")),
+                    box(title = "Log2 Deviation",
+                        status="success",
+                        width = 5,
+                        collapsible = TRUE,
+                        solidHeader=TRUE,
+                        plotOutput("GSE115313_Log2Deviation")),
+                    box(title = "Heatmap",
+                        status="success",
+                        collapsible=TRUE,
+                        width = 9,
+                        solidHeader=TRUE,
+                        plotOutput("GSE115313_Heatmap")),
+                    box(title = "Annotation",
+                        collapsible=TRUE,
+                        collapsed =TRUE,
+                        dataTableOutput("GSE115313_Annotation")),
+                    
+                    box(title = "GSE115313: patients with colon cancer +/- T2DM.",
+                        width = 12,
+                        status="success",
+                        collapsible=TRUE, 
+                        collapsed=TRUE,
+                        h5("This is a transcriptomics analysis contributing to a bigger project 
+                              that tries to shed light on the role of type 2 diabetes mellitus (T2DM) as a risk factor for colon cancer (CC). Here we present a gene expression screening of paired tumor and normal colon mucosa samples in a cohort of 42 CC patients, 
+                            23 of them with T2DM. Using gene set enrichment, 
+                           we identified an unexpected overlap of pathways over-represented in diabetics compared to non-diabetics, 
+                           both in tumor and normal mucosa, including diabetes-related metabolic and signaling processes. An integration with other -omic studies suggests that in diabetics, the local 
+                           micro-environment in normal colon mucosa may be a factor driving field cancerization which may promote carcinogenesis. Several of these pathways converged on the tumor initiation axis TEAD/YAP-TAZ. Cell culture studies 
+                           confirmed that high glucose concentrations upregulate this pathway in non-tumor colon cells. In conclusion, diabetes is associated to deregulation of cancer-related processes in normal colon mucosa adjacent to 
+                            tissue which has undergone a malignant transformation. 
+                           These data support the existence of the field of cancerization paradigm in 
+                           diabetes and set a new framework to study link between diabetes and cancer."))
+                    ))))
 
 
 server <- function(input, output, session) { 
@@ -913,6 +976,7 @@ output$plot3 <- renderPlot({
   
   
   output$valid_genes <- renderDataTable({
+  
 
     gse_final <- subset(gse_norm, !ids_to_exlude)
     
@@ -974,6 +1038,22 @@ output$plot3 <- renderPlot({
   }) 
   
   
+  output$GSE115313_Sample_Numbers <- renderTable({
+    
+    raw_data <- GSE115313[[1]]
+    minguez_eset_norm <- raw_data
+    no_of_samples <- 
+      table(paste0(pData(minguez_eset_norm)$'diabetes_status:ch1', "_", 
+                   pData(minguez_eset_norm)$'tissue_type:ch1'))
+    no_of_samples 
+    
+  })
+  
+ 
+  
+  output$GSE115313_pData <- renderDataTable({
+    pData(phenoData(GSE115313[[1]]))})
+  
   #--- plot of insulin resistance levels
   output$PCA_IR <- renderPlot({
 
@@ -1001,6 +1081,215 @@ output$plot3 <- renderPlot({
     
   })
   
+  output$GSE115313_Differential_Expression <- renderPlot({
+    
+    raw_data <- GSE115313[[1]]
+    
+    minguez_eset <- raw_data
+    minguez_eset_norm <- raw_data
+    
+    
+    man_threshold <- 2.5
+    
+    no_of_samples <- 
+      table(paste0(pData(minguez_eset_norm)$'diabetes_status:ch1', "_", 
+                   pData(minguez_eset_norm)$'tissue_type:ch1'))
+    no_of_samples 
+    
+    samples_cutoff <- min(no_of_samples)
+    
+    idx_man_threshold <- apply(Biobase::exprs(minguez_eset_norm), 1,
+                               function(x){
+                                 sum(x > man_threshold) >= samples_cutoff})
+    
+    minguez_manfiltered <- subset(minguez_eset_norm, idx_man_threshold)
+    
+    
+    anno_minguez <- AnnotationDbi::select(hugene20sttranscriptcluster.db,
+                                          keys = (featureNames(minguez_manfiltered)),
+                                          columns = c("SYMBOL", "GENENAME"),
+                                          keytype = "PROBEID")
+    
+    anno_minguez <- subset(anno_minguez, !is.na(SYMBOL))
+    
+    anno_grouped <- group_by(anno_minguez, PROBEID)
+    anno_summarized <- 
+      dplyr::summarize(anno_grouped, no_of_matches = n_distinct(SYMBOL))
+    
+    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
+    
+    probe_stats <- anno_filtered 
+    
+    ids_to_exlude <- (featureNames(minguez_manfiltered) %in% probe_stats$PROBEID)
+    
+    minguez_final <- subset(minguez_manfiltered, !ids_to_exlude)
+    
+    individual <- 
+      minguez_final$geo_accession
+    
+    tissue <- str_replace_all(Biobase::pData(minguez_final)$'tissue_type:ch1',
+                              " ", "_")
+    
+    tissue <- ifelse(tissue == "Colon_cancer_Tumor",
+                     "CC", "nC")
+    
+    disease <- str_replace_all(Biobase::pData(minguez_final)$'diabetes_status:ch1',
+                               " ", "_")
+    
+    disease <- ifelse(disease == "diabetic_patient",
+                      "T2D", "nD")
+    
+    tissue_T2D <- tissue[disease == "T2D"]
+    TCFL2_expr <- Biobase::exprs(minguez_final)["16709333", disease == "T2D"]
+    TCFL2_data <- as.data.frame(TCFL2_expr)
+    
+    colnames(TCFL2_data)[1] <- "org_value"
+    TCFL2_data <- mutate(TCFL2_data, 
+                         individual = i_T2D, 
+                         tissue_T2D)
+    
+    
+    TCFL2_data$tissue_T2D <- factor(TCFL2_data$tissue_T2D, 
+                                    levels = c("CC", "nC"))
+    
+    TCFL2_EC <-
+      
+      ggplot(data = TCFL2_data, aes(x = tissue_T2D, y = org_value, 
+                                    group = tissue_T2D, fill= tissue_T2D)) +
+      geom_violin() +
+      ggtitle("TCFL2 gene expression dispersal")
+    
+    grid.arrange(TCFL2_plot, TCFL2_EC, nrow = 1)
+    
+    
+  })
+  
+  output$GSE115313_IF <-  renderPlot({
+    raw_data <- GSE115313[[1]]
+    minguez_eset_norm <- raw_data
+
+    man_threshold <- 2.5
+    
+    minguez_medians <- rowMedians(Biobase::exprs(minguez_eset_norm))
+    
+    man_threshold <- 2.5
+    
+    hist(minguez_medians, 100, col = "cornsilk", freq = FALSE, 
+                     main = "Histogram of the median intensities",
+                     border = "antiquewhite4",
+                     xlab = "Median intensities")
+    
+    abline(v = man_threshold, col = "coral4", lwd = 2)
+    
+    
+  })
+  output$GSE115313_PCA <- renderPlot({
+    ## Principal Component Analysis 
+    # 1. Generate values 
+    raw_data <- GSE115313[[1]]
+    pData(raw_data) <- pData(raw_data)[,c("geo_accession", 
+                                          "characteristics_ch1.1", 
+                                          "description", 
+                                          "diabetes_status:ch1", 
+                                          "tissue_type:ch1")]
+    exp_raw <- exprs(raw_data)
+    PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
+    # 2. Get the percentage variance- understand how many components we should use
+    percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
+    sd_ratio <- sqrt(percentVar[2] / percentVar[1])
+    dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
+                         Disease = pData(raw_data)$'diabetes_status:ch1',
+                         Phenotype = pData(raw_data)$'tissue_type:ch1',
+                         Individual = pData(raw_data)$geo_accession)
+    
+    ggplot(dataGG, aes(PC1, PC2)) +
+      geom_point(aes(shape = Disease, colour = Phenotype)) +
+      ggtitle("PCA plot of the log-transformed raw expression data") +
+      xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
+      ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
+      theme(plot.title = element_text(hjust = 0.5))+
+      coord_fixed(ratio = sd_ratio) +
+      scale_shape_manual(values = c(4,15)) + 
+      scale_color_manual(values = c("darkorange2", "dodgerblue4"))
+  })
+  
+  output$GSE115313_Log2 <- renderPlot({
+    raw_data <- GSE115313[[1]]
+    pData(raw_data) <- pData(raw_data)[,c("geo_accession", 
+                                          "characteristics_ch1.1", 
+                                          "description", 
+                                          "diabetes_status:ch1", 
+                                          "tissue_type:ch1")]
+    
+    oligo::boxplot(raw_data, target = "core", 
+                   main = "Boxplot of log2-intensitites for the raw data")
+    
+
+  })
+  
+  output$GSE115313_Log2Deviation <- renderPlot({
+    minguez_eset <- raw_data
+    minguez_eset_norm <- raw_data
+    
+    row_medians_assayData <- 
+      Biobase::rowMedians(as.matrix(Biobase::exprs(minguez_eset)))
+    
+    RLE_data <- sweep(Biobase::exprs(minguez_eset), 1, row_medians_assayData)
+    
+    RLE_data <- as.data.frame(RLE_data)
+    RLE_data_gathered <- 
+      tidyr::gather(RLE_data, patient_array, log2_expression_deviation)
+    
+    
+    ggplot2::ggplot(RLE_data_gathered, aes(patient_array,
+                                           log2_expression_deviation)) + 
+      geom_boxplot(outlier.shape = NA) + 
+      ylim(c(-2, 2)) + 
+      theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                       angle = 60, size = 6.5, hjust = 1 ,
+                                       face = "bold"))
+    
+  })
+  
+
+  
+  output$GSE115313_Heatmap <- renderPlot({
+  ### heatmap
+  raw_data <- GSE115313[[1]]
+  pData(raw_data) <- pData(raw_data)[,c("geo_accession", 
+                                        "characteristics_ch1.1", 
+                                        "description", 
+                                        "diabetes_status:ch1", 
+                                        "tissue_type:ch1")]
+  
+    
+  exp_raw <- exprs(raw_data)  
+    
+  dists <- as.matrix(dist(t(exp_raw), method = "manhattan"))
+  
+  minguez_eset <- raw_data
+  minguez_eset_norm <- raw_data
+  
+  rownames(dists) <- row.names(pData(minguez_eset_norm))
+  hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
+  colnames(dists) <- NULL
+  diag(dists) <- NA
+  
+  ann_colors <- list(
+    Phenotype = c(CC = "chartreuse4", nC = "burlywood3"),
+    Disease = c(diabetic = "blue4", non_diabetic = "cadetblue2")
+  )
+  
+  
+  pheatmap(dists, col = (hmcol), 
+           annotation_row = annotation_for_heatmap,
+           annotation_colors = ann_colors,
+           legend = TRUE, 
+           treeheight_row = 0,
+           legend_breaks = c(min(dists, na.rm = TRUE), 
+                             max(dists, na.rm = TRUE)), 
+           legend_labels = (c("small distance", "large distance")),
+           main = "Clustering heatmap for the calibrated samples")})
   
   
   output$info_patient <- DT::renderDataTable ({
