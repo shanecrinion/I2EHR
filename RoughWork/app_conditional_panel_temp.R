@@ -294,7 +294,7 @@ ui <- dashboardPage(
                              h5("Sources collected on the internet for demographic information include the
                                 US Census Bureau demographics, Centers for Disease Control and Prevention prevalence 
                                 and incidence rates, and National Institutes of Health reports. "))
-                             )),
+                  )),
               box(title= "Patient Plots",
                   collapsible = TRUE, 
                   width = 12,
@@ -428,23 +428,23 @@ ui <- dashboardPage(
                                           "PCA & Normalisation"="norm",
                                           "Differential expression analysis"="DEA",
                                           "Interpretation"="interpretation"))),
-                  conditionalPanel('input.gene_expression_analysis=="qc"',
+              conditionalPanel('input.gene_expression_analysis=="qc"',
                                includeHTML("index.html"),
-                             h5("Relative Log Expression"),
+                               h5("Relative Log Expression"),
                                plotOutput("RLE")),
-                conditionalPanel('input.gene_expression_analysis=="norm"',
-                                     fluidRow(column(5, plotOutput("PCA_IR")),
-                                              column(5,plotOutput("PCA_2D_normalised"))),
-                             h5("Varience explained by PC"),
-                             plotOutput("PCA_2D_normalised"),
-                             br(),
-                             h5("PCA following calibration"),
-                             img(src="calibrated_PCA.png"),
-                             plotOutput("PCA_Calibrated"),
-                             plotOutput("Intensity_Filtering")),
-                conditionalPanel('input.gene_expression_analysis=="DEA"',
-                                 tags$iframe(style="height:600px; width:100%", 
-                                             src="heatmap.pdf"))))))
+              conditionalPanel('input.gene_expression_analysis=="norm"',
+                               fluidRow(column(5, plotOutput("PCA_IR")),
+                                        column(5,plotOutput("PCA_2D_normalised"))),
+                               h5("Varience explained by PC"),
+                               plotOutput("PCA_2D_normalised"),
+                               br(),
+                               h5("PCA following calibration"),
+                               img(src="calibrated_PCA.png"),
+                               plotOutput("PCA_Calibrated"),
+                               plotOutput("Intensity_Filtering")),
+              conditionalPanel('input.gene_expression_analysis=="DEA"',
+                               tags$iframe(style="height:600px; width:100%", 
+                                           src="heatmap.pdf"))))))
 
 
 
