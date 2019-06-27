@@ -31,6 +31,7 @@ list.of.packages <- c("ggplot2",
                       "plotly",
                       "rgl",
                       "shinyWidgets")
+
 new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
 if(length(new.packages)) install.packages(new.packages)
 
@@ -48,7 +49,6 @@ library(viridis)
 library(DiagrammeR)
 library(GEOquery)
 library(plotly)
-library(hgu133plus2.db)
 library(affyPLM)
 
 ### Microarray Libraries
@@ -98,7 +98,7 @@ library(data.table)
 
 gse25462 <- getGEO("GSE25462", GSEMatrix = TRUE)
 GSE115313 <- getGEO("GSE115313", GSEMatrix = TRUE)
-minguez_eset_norm <- GSE115313[[1]]
+CC  <- GSE115313[[1]]
 
 # add additional categories
 
@@ -120,32 +120,34 @@ gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: 
 
 
 
-gse_norm <- normalize(gse25462[[1]], transfn=c("log"))
+IR_norm <- normalize(gse25462[[1]], transfn=c("log"))
 
 # convert to information to character format
-gse_norm$characteristics_ch1.3 <- as.character(gse_norm$characteristics_ch1.3)
+IR_norm$characteristics_ch1.3 <- as.character(IR_norm$characteristics_ch1.3)
 # limit to three values for clustering
-gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history negative"] <- "FH-"
-gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: DM"] <- "T2D"
-gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 2 parents"] <- "FH+"
-gse_norm$characteristics_ch1.3[gse_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
+IR_norm$characteristics_ch1.3[IR_norm$characteristics_ch1.3 == "family history: Family history negative"] <- "FH-"
+IR_norm$characteristics_ch1.3[IR_norm$characteristics_ch1.3 == "family history: DM"] <- "T2D"
+IR_norm$characteristics_ch1.3[IR_norm$characteristics_ch1.3 == "family history: Family history positive - 2 parents"] <- "FH+"
+IR_norm$characteristics_ch1.3[IR_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
+
+
 # convert back to avoid creating future problems
-gse_norm$characteristics_ch1.3 <- as.factor(gse_norm$characteristics_ch1.3)
+IR_norm$characteristics_ch1.3 <- as.factor(IR_norm$characteristics_ch1.3)
 
 
-exp_gse <- Biobase::exprs(gse_norm)
+IR_exprs <- Biobase::exprs(IR_norm)
 
-exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
+IR_raw <- log2(Biobase::exprs(gse25462[[1]]))
 
-anno_gse <- AnnotationDbi::select(hugene20sttranscriptcluster.db,
-                                  keys = (featureNames(gse_norm)),
+anno_IR <- AnnotationDbi::select(hugene20sttranscriptcluster.db,
+                                  keys = (featureNames(IR_norm)),
                                   columns = c("SYMBOL", "GENENAME"),
                                   keytype = "PROBEID")
 
 
-anno_gse <- subset(anno_gse, !is.na("SYMBOL"))
+anno_IR <- subset(anno_IR, !is.na("SYMBOL"))
 
-anno_grouped <- group_by(anno_gse, PROBEID)
+anno_grouped <- group_by(anno_IR, PROBEID)
 
 anno_summarized <- 
   dplyr::summarize(anno_grouped, 
@@ -155,7 +157,7 @@ anno_filtered <- filter(anno_summarized, no_of_matches > 1)
 
 probe_stats <- anno_filtered 
 
-ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
+ids_to_exlude <- (featureNames(IR_norm) %in% probe_stats$PROBEID)
 
 
 
@@ -902,9 +904,9 @@ output$plot3 <- renderPlot({
 
     dataGG <- data.frame(PC1 = PCA$x[,1], PC2 = PCA$x[,2],
                          Disease_Category = 
-                           Biobase::pData(gse_norm)$characteristics_ch1.3,
+                           Biobase::pData(IR_norm)$characteristics_ch1.3,
                          Insulin_Resistance = 
-                           Biobase::pData(gse_norm)$insulin_category)
+                           Biobase::pData(IR_norm)$insulin_category)
     
     ggplot(dataGG, aes(PC1, PC2)) +
       geom_point(aes(shape = Disease_Category, 
@@ -919,7 +921,7 @@ output$plot3 <- renderPlot({
     
   output$Intensity_Filtering <- renderPlot({
     
-    gse_medians <- rowMedians(Biobase::exprs(gse_norm))
+    gse_medians <- rowMedians(Biobase::exprs(IR_norm))
     man_threshold <- 60
     hist_res <- hist(gse_medians, 
                      breaks=10000,
@@ -943,7 +945,7 @@ output$plot3 <- renderPlot({
     
     dists <- as.matrix(dist(t(exp_gse), method = "manhattan"))
     
-    rownames(dists) <- row.names(pData(gse_norm))
+    rownames(dists) <- row.names(pData(IR_norm))
     
     hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
     
@@ -978,10 +980,10 @@ output$plot3 <- renderPlot({
   output$valid_genes <- renderDataTable({
   
 
-    gse_final <- subset(gse_norm, !ids_to_exlude)
+    gse_final <- subset(IR_norm, !ids_to_exlude)
     
     fData(gse_final)$PROBEID <- rownames(fData(gse_final))
-    fData(gse_final) <- left_join(fData(gse_final), anno_gse)
+    fData(gse_final) <- left_join(fData(gse_final), anno_IR)
     rownames(fData(gse_final)) <- fData(gse_final)$PROBEID 
     fData(gse_final)
     
@@ -989,8 +991,8 @@ output$plot3 <- renderPlot({
   
   output$gene_features <- renderDataTable({
 
-    ids_to_exlude <- (featureNames(gse_norm) %in% probe_stats$PROBEID)
-    gse_final <- subset(gse_norm, !ids_to_exlude)
+    ids_to_exlude <- (featureNames(IR_norm) %in% probe_stats$PROBEID)
+    gse_final <- subset(IR_norm, !ids_to_exlude)
     
     fData(gse_final)
   })
@@ -1008,7 +1010,7 @@ output$plot3 <- renderPlot({
                                    & gse25462[[1]]$`hemoglobin a1c:ch1`> 6)] <- "pre-diabetic levels"
     gse25462[[1]]$diabetes_status[gse25462[[1]]$`hemoglobin a1c:ch1`< 6] <- "normal levels"
     #log 2
-    exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
+    IR_raw <- log2(Biobase::exprs(gse25462[[1]]))
     #pca
     PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
     
