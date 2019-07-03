@@ -1,101 +1,152 @@
+#### SHANE CRINION #####
 
-#import csv files
+#This script installs and loads packages required for a particular analysis.  You
+#can add packages to it by including them in the lists of 'requiredCRANPackages' and
+#'requiredBioconductorPackages'.  
+#add the Rstudio CRAN mirror to avoid prompting
+options(repos = c(CRAN = "http://cran.rstudio.com"))
+
+#check that the packages required for the analysis are installed, and prompt to install them
+#if not
+#check for CRAN packages
+currentInstalledPackages = installed.packages(priority=NULL)[,'Package']
+requiredCRANPackages = c("shiny",
+                         "shinydashboard",
+                         "shinyWidgets",
+                         "ggridges",
+                         "ggplot2",
+                         "lattice",
+                         "viridis",
+                         "plotly",
+                         "gridExtra",
+                         "gplots",
+                         "RColorBrewer",
+                         "pheatmap",
+                         "dplyr",
+                         "tidyr",
+                         "plyr",
+                         "stringr",
+                         "matrixStats",
+                         "openxlsx",
+                         "data.table")
+
+
+missingCRANPackages = setdiff(requiredCRANPackages,currentInstalledPackages)
+if (length(missingCRANPackages)==0){
+  message("All required CRAN packages are installed")
+} else {
+  message("Installing the following required CRAN packages")
+  print(missingCRANPackages)
+  install.packages(missingCRANPackages)
+}
+
+
+#check for Bioconductor packages
+requiredBioconductorPackages = c("Biobase", 
+                                 "GEOquery", 
+                                 "affyPLM",
+                                 "oligoClasses",
+                                 "pd.hugene.1.0.st.v1", 
+                                 "pd.hugene.2.0.st",
+                                 "hugene10sttranscriptcluster.db",
+                                 "hugene20sttranscriptcluster.db",
+                                 "oligo",
+                                 "arrayQualityMetrics",
+                                 "limma",
+                                 "topGO",
+                                 "ReactomePA",
+                                 "clusterProfiler",
+                                 "geneplotter",
+                                 "genefilter")
+
+
+missingBioconductorPackages = setdiff(requiredBioconductorPackages,currentInstalledPackages)
+if (length(missingBioconductorPackages)==0){
+  message("All required Bioconductor packages are installed")
+} else {
+  message("Installing the following required Bioconductor packages")
+  print(missingBioconductorPackages)
+  source("http://bioconductor.org/biocLite.R")
+  biocLite(missingBioconductorPackages)
+}
+
+
+
+#load the required packages
+lapply(requiredCRANPackages, require, character.only = T)
+lapply(requiredBioconductorPackages, require, character.only = T)
+
+#set up non-changing variables
+message("Setup complete")
+hasSetupScriptRun = TRUE
+
+
+suppressPackageStartupMessages(library(shiny)) 
+suppressPackageStartupMessages(library(shinydashboard)) 
+suppressPackageStartupMessages(library(shinyWidgets)) 
+suppressPackageStartupMessages(library(ggridges)) 
+suppressPackageStartupMessages(library(ggplot2)) 
+suppressPackageStartupMessages(library(lattice)) 
+suppressPackageStartupMessages(library(viridis)) 
+suppressPackageStartupMessages(library(GEOquery)) 
+suppressPackageStartupMessages(library(plotly)) 
+suppressPackageStartupMessages(library(affyPLM)) 
+
+### Microarray Libraries
+#General Bioconductor packages
+suppressPackageStartupMessages(library(Biobase))
+suppressPackageStartupMessages(library(oligoClasses))
+#Annotation and data import packages
+suppressPackageStartupMessages(library(GEOquery))
+suppressPackageStartupMessages(library(pd.hugene.1.0.st.v1))
+suppressPackageStartupMessages(library(pd.hugene.2.0.st))
+suppressPackageStartupMessages(library(hugene10sttranscriptcluster.db))
+suppressPackageStartupMessages(library(hugene20sttranscriptcluster.db))
+suppressPackageStartupMessages(library(gridExtra)) 
+#Quality control and pre-processing packages
+suppressPackageStartupMessages(library(oligo))
+suppressPackageStartupMessages(library(arrayQualityMetrics))
+#Analysis and statistics packages
+suppressPackageStartupMessages(library(limma)) 
+suppressPackageStartupMessages(library(topGO)) 
+suppressPackageStartupMessages(library(ReactomePA)) 
+suppressPackageStartupMessages(library(clusterProfiler)) 
+#Plotting and color options packages
+suppressPackageStartupMessages(library(gplots))
+suppressPackageStartupMessages(library(ggplot2))
+suppressPackageStartupMessages(library(geneplotter)) 
+suppressPackageStartupMessages(library(RColorBrewer)) 
+suppressPackageStartupMessages(library(pheatmap)) 
+
+#Formatting/documentation packages
+#suppressPackageStartupMessages(library(rmarkdown)
+#suppressPackageStartupMessages(library(BiocStyle)
+suppressPackageStartupMessages(library(dplyr)) 
+suppressPackageStartupMessages(library(tidyr)) 
+suppressPackageStartupMessages(library(plyr)) 
+
+#Helpers:
+suppressPackageStartupMessages(library(stringr)) 
+suppressPackageStartupMessages(library(matrixStats)) 
+suppressPackageStartupMessages(library(genefilter)) ON
+suppressPackageStartupMessages(library(openxlsx)) 
+suppressPackageStartupMessages(library(data.table)) 
+#suppressPackageStartupMessages(library(devtools)
+
+
+#import csv containing FHIR format patient data
 temp = list.files(pattern="*.csv")
 for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 
 
-#merging the data
-library(plyr)
-clinical_data <- ldply(.data = list.files(pattern="*.csv"),
-                       .fun = read.csv,
-                       header=TRUE)
-
-
-##merge the data
+# merge attaches the name to each patient ID
 observations_merge <- merge(x = patients.csv, 
                             y = observations.csv, 
                             by.x = "Id", 
-                            by.y= "PATIENT") 
-
-### install the required packages
-
-list.of.packages <- c("ggplot2",
-                      "affyPLM",
-                      "hgu133plus2.db",
-                      "ggridges",
-                      "lattice",
-                      "viridis",
-                      "shiny",
-                      "shinydashboard",
-                      "DiagrammeR",
-                      "plotly",
-                      "rgl",
-                      "shinyWidgets")
-
-new.packages <- list.of.packages[!(list.of.packages %in% installed.packages()[,"Package"])]
-if(length(new.packages)) install.packages(new.packages)
-
-
-
-### Worksheet 1 ####
-
-library(shiny) 
-library(shinydashboard)
-library(shinyWidgets)
-library(ggridges)
-library(ggplot2)
-library(lattice)
-library(viridis)
-library(DiagrammeR)
-library(GEOquery)
-library(plotly)
-library(affyPLM)
-
-### Microarray Libraries
-
-#General Bioconductor packages
-library(Biobase)
-library(oligoClasses)
-#Annotation and data import packages
-library(GEOquery)
-library(pd.hugene.1.0.st.v1)
-library(pd.hugene.2.0.st)
-library(hugene10sttranscriptcluster.db)
-library(hugene20sttranscriptcluster.db)
-library(gridExtra)
-#Quality control and pre-processing packages
-library(oligo)
-library(arrayQualityMetrics)
-#Analysis and statistics packages
-library(limma)
-library(topGO)
-library(ReactomePA)
-library(clusterProfiler)
-#Plotting and color options packages
-library(gplots)
-library(ggplot2)
-library(geneplotter)
-library(RColorBrewer)
-library(pheatmap)
-
-#Formatting/documentation packages
-#library(rmarkdown)
-#library(BiocStyle)
-library(dplyr)
-library(tidyr)
-
-#Helpers:
-library(stringr)
-library(matrixStats)
-library(genefilter)
-library(openxlsx)
-library(data.table)
-#library(devtools)
-
+                            by.y= "PATIENT")
 
 
 ### load GEO data 
-
 gse25462 <- getGEO("GSE25462", GSEMatrix = TRUE)
 GSE115313 <- getGEO("GSE115313", GSEMatrix = TRUE)
 CC  <- GSE115313[[1]]
@@ -139,28 +190,6 @@ IR_exprs <- Biobase::exprs(IR_norm)
 
 IR_raw <- log2(Biobase::exprs(gse25462[[1]]))
 
-anno_IR <- AnnotationDbi::select(hugene20sttranscriptcluster.db,
-                                  keys = (featureNames(IR_norm)),
-                                  columns = c("SYMBOL", "GENENAME"),
-                                  keytype = "PROBEID")
-
-
-anno_IR <- subset(anno_IR, !is.na("SYMBOL"))
-
-anno_grouped <- group_by(anno_IR, PROBEID)
-
-anno_summarized <- 
-  dplyr::summarize(anno_grouped, 
-                   no_of_matches = n_distinct(SYMBOL))
-
-anno_filtered <- filter(anno_summarized, no_of_matches > 1)
-
-probe_stats <- anno_filtered 
-
-ids_to_exlude <- (featureNames(IR_norm) %in% probe_stats$PROBEID)
-
-
-
 
 
 ###  UI
@@ -179,23 +208,23 @@ ui <- dashboardPage(
                menuSubItem("Clinical data", "patient-clinical"),
                menuSubItem("Observations", "patient-observations"), 
                menuSubItem("Genomic data", "patient-genomic")),
-#      menuItem("Patient", 
-#               tabName = "patient", 
-#               icon = icon("id-card")),
+      #      menuItem("Patient", 
+      #               tabName = "patient", 
+      #               icon = icon("id-card")),
       menuItem("Cohort Data", 
                tabName = "CohortTab",
                icon = icon("users"), 
                menuSubItem("Clinical data", "cohort-clinical"), 
                menuSubItem("Genomic data", "cohort-genomic"),
                menuSubItem("GSE115313: Colon cancer", "colon-genomic"))
-               #    menuSubItem("Disease query", "cohort-query")#
-               )),
-
-#      menuItem("Cohort Data",
-#               tabName="CohortNu",
-#               icon=icon("poll")))),
-#  sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
-#                     label = "Type patient name...")),
+      #    menuSubItem("Disease query", "cohort-query")#
+    )),
+  
+  #      menuItem("Cohort Data",
+  #               tabName="CohortNu",
+  #               icon=icon("poll")))),
+  #  sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
+  #                     label = "Type patient name...")),
   
   dashboardBody(
     tags$head(
@@ -272,81 +301,81 @@ restrictions."),
                   h4("shanecrinion@gmail.com"), 
                   h4("+ 353 858018212"),
                   img(src="nui-galway.jpg", width=120, height=40))),
-#                  fluidRow(column(width = 5, h5("shanecrinion@gmail.com")),
-#                           column(width = 2, align = "center",
-#                                  img(src="nui-galway.jpg", 
-#                                      width=120, height=40)))
-
-#  -------------------------- PATIENT DATA UNUSED?     
-
-#  -------------------------- PATIENT DATA CLINICAL TAB   
-
-
-tabItem(tabName="patient-clinical",
-        box(title = "Patient Query", 
-            status="primary",
-            solidHeader = TRUE,
-            collapsible = TRUE,
-            tabsetPanel(
-              tabPanel("Search options", 
-                       h5("Enter patient ID below to query current records in each dataset"),
-                       searchInput(value = "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",
-                                   inputId = "search", 
-                                   label = "Patient search",
-                                   placeholder = "Enter Patient ID number",
-                                   btnSearch = icon("search"),
-                                   btnReset = icon("remove"),
-                                   width = "450px")), 
-              tabPanel("Data sources", 
-                       tags$ul(
-                         tags$li("Clinical guidelines"), 
-                         tags$li("Caremaps from clinician input and CPGs"), 
-                         tags$li("Publicly available documentation")
-                       ),
-                       h5("Sources collected on the internet for demographic information include the
+      #                  fluidRow(column(width = 5, h5("shanecrinion@gmail.com")),
+      #                           column(width = 2, align = "center",
+      #                                  img(src="nui-galway.jpg", 
+      #                                      width=120, height=40)))
+      
+      #  -------------------------- PATIENT DATA UNUSED?     
+      
+      #  -------------------------- PATIENT DATA CLINICAL TAB   
+      
+      
+      tabItem(tabName="patient-clinical",
+              box(title = "Patient Query", 
+                  status="primary",
+                  solidHeader = TRUE,
+                  collapsible = TRUE,
+                  tabsetPanel(
+                    tabPanel("Search options", 
+                             h5("Enter patient ID below to query current records in each dataset"),
+                             searchInput(value = "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",
+                                         inputId = "search", 
+                                         label = "Patient search",
+                                         placeholder = "Enter Patient ID number",
+                                         btnSearch = icon("search"),
+                                         btnReset = icon("remove"),
+                                         width = "450px")), 
+                    tabPanel("Data sources", 
+                             tags$ul(
+                               tags$li("Clinical guidelines"), 
+                               tags$li("Caremaps from clinician input and CPGs"), 
+                               tags$li("Publicly available documentation")
+                             ),
+                             h5("Sources collected on the internet for demographic information include the
                   US Census Bureau demographics, Centers for Disease Control and Prevention prevalence 
                   and incidence rates, and National Institutes of Health reports. "))
-            )),
-        box(title= "Patient Plots",
-            collapsible = TRUE, 
-            width = 12,
-            plotlyOutput("PatientBMI")),
-        
-        box(title = "Patient Data", 
-            collapsible = TRUE,
-            width = 12,
-            tabsetPanel(
-              # "Allergies",  
-              # dataTableOutput("patient_allergies_dt")), 
-              tabPanel("Careplans",  
-                       dataTableOutput("patient_careplans_dt"),
-                       plotOutput("patient_careplans_plot")),
-              tabPanel("Conditions",  
-                       dataTableOutput("patient_conditions_dt")),
-              tabPanel("Encounters",  
-                       dataTableOutput("patient_encounters_dt")), 
-              tabPanel("Imaging Studies", 
-                       dataTableOutput("patient_imaging_studies_dt")),
-              tabPanel("Immunizations", 
-                       dataTableOutput("patient_immunizations_dt")),  
-              tabPanel("Medications",  
-                       dataTableOutput("patient_medications_dt")), 
-              tabPanel("Observations",  
-                       dataTableOutput("patient_observations_dt")),
-              tabPanel("Organizations", 
-                       dataTableOutput("patient_organizations_dt")),
-              tabPanel("Patients",  
-                       dataTableOutput("patient_patients_dt")), 
-              tabPanel("Procedures",  
-                       dataTableOutput("patient_procedures_dt")),
-              tabPanel("Providers",  
-                       dataTableOutput("patient_providers_dt"))))),
-
-
-
-#  -------------------------- PATIENT DATA OBSERVATIONS TAB
-
-
+                  )),
+              box(title= "Patient Plots",
+                  collapsible = TRUE, 
+                  width = 12,
+                  plotlyOutput("PatientBMI")),
+              
+              box(title = "Patient Data", 
+                  collapsible = TRUE,
+                  width = 12,
+                  tabsetPanel(
+                    # "Allergies",  
+                    # dataTableOutput("patient_allergies_dt")), 
+                    tabPanel("Careplans",  
+                             dataTableOutput("patient_careplans_dt"),
+                             plotOutput("patient_careplans_plot")),
+                    tabPanel("Conditions",  
+                             dataTableOutput("patient_conditions_dt")),
+                    tabPanel("Encounters",  
+                             dataTableOutput("patient_encounters_dt")), 
+                    tabPanel("Imaging Studies", 
+                             dataTableOutput("patient_imaging_studies_dt")),
+                    tabPanel("Immunizations", 
+                             dataTableOutput("patient_immunizations_dt")),  
+                    tabPanel("Medications",  
+                             dataTableOutput("patient_medications_dt")), 
+                    tabPanel("Observations",  
+                             dataTableOutput("patient_observations_dt")),
+                    tabPanel("Organizations", 
+                             dataTableOutput("patient_organizations_dt")),
+                    tabPanel("Patients",  
+                             dataTableOutput("patient_patients_dt")), 
+                    tabPanel("Procedures",  
+                             dataTableOutput("patient_procedures_dt")),
+                    tabPanel("Providers",  
+                             dataTableOutput("patient_providers_dt"))))),
+      
+      
+      
+      #  -------------------------- PATIENT DATA OBSERVATIONS TAB
+      
+      
       tabItem(tabName = "patient-observations",
               box(title="Patient info", 
                   solidHeader = TRUE,
@@ -362,12 +391,12 @@ tabItem(tabName="patient-clinical",
                           choices = c(sort(as.character(unique(observations.csv$DESCRIPTION)))),
                           selected = "Body Mass Index"),
               plotlyOutput(outputId = "observations_plot")),
-
-#  -------------------------- PATIENT DATA GENOMIC TAB
       
-
-
-
+      #  -------------------------- PATIENT DATA GENOMIC TAB
+      
+      
+      
+      
       tabItem(tabName = "patient-genomic",
               box(title="Genomic expression profiles",
                   h5("Gene expression profiles available from GEO are used to analyse 
@@ -376,16 +405,17 @@ the gene expression associated with
 can then be mapped be to recordings from clinical encounters and create links 
                  between treatment and improvemnts or disprovements")),
               box(title = h5("The data used in this model, GSE25462, consists of samples of
-                  individuals of 3 subgroups: diabetes patients, normoglycemic but insulin resistant patients with parental family history (FH+)
+                  individuals of 3 subgroups: diabetes patients, normoglycemic 
+                  but insulin resistant patients with parental family history (FH+)
                   and family history negative control individuals (FH-).
                   The expression of serum response factor (SRF) and cofactor (MKL1) have increased expression in 
                   T2D and FH+ groups. The medication most commmonly used to treat insulin resistance is metformin; the key pathophysiological result of T2D. 
                   This study identifies an increase in the expression of actin cytoskeleton mediating genes such as SRF and MKL1 and indicate that these genes may mediate alterations in glucose reuptake
                   that consequently create insul"))),
-
-#  -------------------------- PATIENT DATA GENOMIC TAB
-
-
+      
+      #  -------------------------- PATIENT DATA GENOMIC TAB
+      
+      
       tabItem(tabName = "cohort-clinical",
               box(title="Controls", collapsible = TRUE,
                   # Input: Selector for choosing dataset ----
@@ -393,132 +423,132 @@ can then be mapped be to recordings from clinical encounters and create links
                               label = "Choose a dataset:",
                               choices = c(
                                 # "allergies", # no allergy data in this dataset
-                                          "careplans",
-                                          "conditions",
-                                          "encounters",
-                                          "immunization",
-                                          "medications", 
-                                          "observations",
-                                          "patients",
-                                          "procedures"),
+                                "careplans",
+                                "conditions",
+                                "encounters",
+                                "immunization",
+                                "medications", 
+                                "observations",
+                                "patients",
+                                "procedures"),
                               selected = "observations"),
                   
                   uiOutput("secondSelection"),
                   
-#                  checkboxGroupInput(inputId = "headers", 
-#                                     "Included data", 
-#                                     choices = names(input$patient_dataset_2)),
+                  #                  checkboxGroupInput(inputId = "headers", 
+                  #                                     "Included data", 
+                  #                                     choices = names(input$patient_dataset_2)),
                   sliderInput("slider_2", 
                               "Number of Observations", 
                               min = 1, value=5, 
                               max = 300)),
-          box(title = "Data Sources", 
-              collapsible = TRUE,
-              tags$ul(
-                tags$li("US Census Bureau demographics"), 
-                tags$li("Centers for Disease Control and Prevention prevalence"), 
-                tags$li("National Institutes of Health reports."))),
-          box(title="Graphs", 
-              collapsible = TRUE,
-              width = 12,
-              tabsetPanel(
-                tabPanel("Ethnicity", plotOutput("plot1")),
-                tabPanel("Hg Measurements", plotOutput("plot2")),
-                tabPanel("Disease Prevalence", plotOutput("plot3")),
-                tabPanel("BMI", plotOutput("plot4")))),
-          box(title="Data Table", 
-              width = 12, 
-              dataTableOutput("genTable"))),
-
+              box(title = "Data Sources", 
+                  collapsible = TRUE,
+                  tags$ul(
+                    tags$li("US Census Bureau demographics"), 
+                    tags$li("Centers for Disease Control and Prevention prevalence"), 
+                    tags$li("National Institutes of Health reports."))),
+              box(title="Graphs", 
+                  collapsible = TRUE,
+                  width = 12,
+                  tabsetPanel(
+                    tabPanel("Ethnicity", plotOutput("plot1")),
+                    tabPanel("Hg Measurements", plotOutput("plot2")),
+                    tabPanel("Disease Prevalence", plotOutput("plot3")),
+                    tabPanel("BMI", plotOutput("plot4")))),
+              box(title="Data Table", 
+                  width = 12, 
+                  dataTableOutput("genTable"))),
+      
       tabItem(tabName = "cohort-genomic", 
-                  box(title="Microarray analysis results", 
-                      width = 12,
-                      tabsetPanel(
-                        tabPanel("Report",
-                                 includeHTML("index.html")),
-                        tabPanel("RLE",
-                                 plotOutput("RLE")),
-                        tabPanel("PCA", 
-                                 h5("Raw data PCA"),
-                                 plotOutput("PCA_IR"),
-                                 br(),
-                                 h5("Varience explained by PC"),
-                                 plotOutput("PCA_2D_normalised"),
-                                 br(),
-                                 h5("PCA following calibration"),
-                                 img(src="calibrated_PCA.png"),
-                                 plotOutput("PCA_Calibrated")),
-                        tabPanel("Intensity Filtering",
-                                 plotOutput("Intensity_Filtering")),
-                        tabPanel("Heatmap_Samples",
-                                 tags$iframe(style="height:600px; width:100%", 
-                                             src="heatmap.pdf")),
-                        tabPanel("Array Annotation",
-                                 h5("Filtered probes due to ambiguous mapping:"),
-                                 dataTableOutput("array_annotation"),
-                                 h5("Exclusion frequency"),
-                                 tableOutput("excluded_probes")),
-                        tabPanel("Valid gene list",
-                                 dataTableOutput("valid_genes")),
-                        tabPanel("GEOdata", 
-                                 dataTableOutput("gse25462_table")),
-                        tabPanel("Multidimensional Scaling",
-                                   img(src="microarray_MDS.png")),
-                        tabPanel("Microarray Expression Density", 
-                                 img(src="microarray_expression_density.png")),
-                        tabPanel("Data Distribution", 
-                                 img(src="microarray_boxplot_raw.png"),
-                                 plotOutput("Log2_Microarray_Exp"),
-                                 img(src="microarray_boxplot_normalised.png")),
-                        tabPanel("Heatmap", 
-                                 img(src="microarray_heatmap.png")),
-                        tabPanel("H1Ac levels", 
-                                 plotOutput("PCA_h1Ac"))))),
-            tabItem(tabName= "colon-genomic",
-                    box(title="Differential Expression",
-                        width=12, status="success",
-                        plotOutput("GSE115313_Differential_Expression")),
-                    box(title = "Intensity Filtering",
-                        width = 8,
-                        status="success",
-                        collapsible=TRUE,
-                        solidHeader=TRUE,
-                        plotOutput("GSE115313_IF")),
-                    box(title = "Number of samples",
-                        width = 4,
-                        status = "success",
-                        collapsible=TRUE,
-                        solidHeader=TRUE,
-                        tableOutput("GSE115313_Sample_Numbers")),
-                    box(title = "PCA",
-                        width = 7,
-                        status="success",
-                        collapsible = TRUE,
-                        solidHeader=TRUE,
-                        plotOutput("GSE115313_PCA")),
-                    box(title = "Log2 Deviation",
-                        status="success",
-                        width = 5,
-                        collapsible = TRUE,
-                        solidHeader=TRUE,
-                        plotOutput("GSE115313_Log2Deviation")),
-                    box(title = "Heatmap",
-                        status="success",
-                        collapsible=TRUE,
-                        width = 9,
-                        solidHeader=TRUE,
-                        plotOutput("GSE115313_Heatmap")),
-                    box(title = "Annotation",
-                        collapsible=TRUE,
-                        collapsed =TRUE,
-                        dataTableOutput("GSE115313_Annotation")),
-                    
-                    box(title = "GSE115313: patients with colon cancer +/- T2DM.",
-                        width = 12,
-                        status="success",
-                        collapsible=TRUE, 
-                        collapsed=TRUE,
-                        h5("This is a transcriptomics analysis contributing to a bigger project 
+              box(title="Microarray analysis results", 
+                  width = 12,
+                  tabsetPanel(
+                    tabPanel("Report",
+                             includeHTML("index.html")),
+                    tabPanel("RLE",
+                             plotOutput("RLE")),
+                    tabPanel("PCA", 
+                             h5("Raw data PCA"),
+                             plotOutput("PCA_IR"),
+                             br(),
+                             h5("Varience explained by PC"),
+                             plotOutput("PCA_2D_normalised"),
+                             br(),
+                             h5("PCA following calibration"),
+                             img(src="calibrated_PCA.png"),
+                             plotOutput("PCA_Calibrated")),
+                    tabPanel("Intensity Filtering",
+                             plotOutput("Intensity_Filtering")),
+                    tabPanel("Heatmap_Samples",
+                             tags$iframe(style="height:600px; width:100%", 
+                                         src="heatmap.pdf")),
+                    tabPanel("Array Annotation",
+                             h5("Filtered probes due to ambiguous mapping:"),
+                             dataTableOutput("array_annotation"),
+                             h5("Exclusion frequency"),
+                             tableOutput("excluded_probes")),
+                    tabPanel("Valid gene list",
+                             dataTableOutput("valid_genes")),
+                    tabPanel("GEOdata", 
+                             dataTableOutput("gse25462_table")),
+                    tabPanel("Multidimensional Scaling",
+                             img(src="microarray_MDS.png")),
+                    tabPanel("Microarray Expression Density", 
+                             img(src="microarray_expression_density.png")),
+                    tabPanel("Data Distribution", 
+                             img(src="microarray_boxplot_raw.png"),
+                             plotOutput("Log2_Microarray_Exp"),
+                             img(src="microarray_boxplot_normalised.png")),
+                    tabPanel("Heatmap", 
+                             img(src="microarray_heatmap.png")),
+                    tabPanel("H1Ac levels", 
+                             plotOutput("PCA_h1Ac"))))),
+      tabItem(tabName= "colon-genomic",
+              box(title="Differential Expression",
+                  width=12, status="success",
+                  plotOutput("GSE115313_Differential_Expression")),
+              box(title = "Intensity Filtering",
+                  width = 8,
+                  status="success",
+                  collapsible=TRUE,
+                  solidHeader=TRUE,
+                  plotOutput("GSE115313_IF")),
+              box(title = "Number of samples",
+                  width = 4,
+                  status = "success",
+                  collapsible=TRUE,
+                  solidHeader=TRUE,
+                  tableOutput("GSE115313_Sample_Numbers")),
+              box(title = "PCA",
+                  width = 7,
+                  status="success",
+                  collapsible = TRUE,
+                  solidHeader=TRUE,
+                  plotOutput("GSE115313_PCA")),
+              box(title = "Log2 Deviation",
+                  status="success",
+                  width = 5,
+                  collapsible = TRUE,
+                  solidHeader=TRUE,
+                  plotOutput("GSE115313_Log2Deviation")),
+              box(title = "Heatmap",
+                  status="success",
+                  collapsible=TRUE,
+                  width = 9,
+                  solidHeader=TRUE,
+                  plotOutput("GSE115313_Heatmap")),
+              box(title = "Annotation",
+                  collapsible=TRUE,
+                  collapsed =TRUE,
+                  dataTableOutput("GSE115313_Annotation")),
+              
+              box(title = "GSE115313: patients with colon cancer +/- T2DM.",
+                  width = 12,
+                  status="success",
+                  collapsible=TRUE, 
+                  collapsed=TRUE,
+                  h5("This is a transcriptomics analysis contributing to a bigger project 
                               that tries to shed light on the role of type 2 diabetes mellitus (T2DM) as a risk factor for colon cancer (CC). Here we present a gene expression screening of paired tumor and normal colon mucosa samples in a cohort of 42 CC patients, 
                             23 of them with T2DM. Using gene set enrichment, 
                            we identified an unexpected overlap of pathways over-represented in diabetics compared to non-diabetics, 
@@ -528,14 +558,14 @@ can then be mapped be to recordings from clinical encounters and create links
                             tissue which has undergone a malignant transformation. 
                            These data support the existence of the field of cancerization paradigm in 
                            diabetes and set a new framework to study link between diabetes and cancer."))
-                    ))))
+      ))))
 
 
 server <- function(input, output, session) { 
-
-#### PATIENT DATA ####
   
-
+  #### PATIENT DATA ####
+  
+  
   output$patient_dataset_selection <- renderUI({
     selectInput("X Value", 
                 "Date:", 
@@ -543,9 +573,9 @@ server <- function(input, output, session) {
   })
   
   #### DATA TABLES
-
-    
-#  output$patient_allergies_dt <- renderDataTable({allergies.csv})
+  
+  
+  #  output$patient_allergies_dt <- renderDataTable({allergies.csv})
   output$patient_careplans_dt <- renderDataTable({subset(careplans.csv, PATIENT == input$search)})
   output$patient_conditions_dt <- renderDataTable({subset(conditions.csv, PATIENT == input$search)})
   output$patient_encounters_dt <- renderDataTable({subset(encounters.csv, PATIENT == input$search)})
@@ -641,7 +671,7 @@ server <- function(input, output, session) {
 
   
   output$plot1 <- renderPlot({
-    library(ggplot2)
+
     
     ggplot(as.data.frame(patients.csv$ETHNICITY),
            aes(x=patients.csv$ETHNICITY, 
@@ -764,12 +794,7 @@ output$plot3 <- renderPlot({
   })
   
   output$plot4 <- renderPlot({
-    
-  library(ggplot2)
-  library(ggridges)
-  library(lattice)
-  
-  
+
   ##merge the data
   observations_merge <- merge(x = patients.csv, 
                               y = observations.csv, 
@@ -826,6 +851,10 @@ output$plot3 <- renderPlot({
  #### GEO DATA
   
   output$Log2_Microarray_Exp <- renderPlot({
+    
+    raw_data <- GSE115313[[1]]
+    exp_raw <- exprs(raw_data)  
+    
     oligo::boxplot(exp_raw, target = "core", las=2,
                    main = "Boxplot of log2-intensitites for the raw data")
     par(cex.lab=0.5)
@@ -840,8 +869,8 @@ output$plot3 <- renderPlot({
     
     RLE_data <- sweep(log2(Biobase::exprs(gse25462[[1]])), 1, 
                       row_medians_assayData)
-
-
+    
+    
     # class for the fill
     RLE_class <- data.frame(patient_array = rownames(pData(gse25462[[1]])), 
                             disease_cat=gse25462[[1]]$disease_cat)
@@ -873,11 +902,11 @@ output$plot3 <- renderPlot({
   })
   
   output$PCA_2D_normalised <-  renderPlot({
-
+    
     ### get the prinicipal component values
     
     PCA <- prcomp(t(exp_gse), scale = FALSE)
-   
+    
     percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
     
     barplot(percentVar, 
@@ -976,32 +1005,17 @@ output$plot3 <- renderPlot({
     table(ids_to_exlude)
   })
   
-  
-  output$valid_genes <- renderDataTable({
-  
 
-    gse_final <- subset(IR_norm, !ids_to_exlude)
-    
-    fData(gse_final)$PROBEID <- rownames(fData(gse_final))
-    fData(gse_final) <- left_join(fData(gse_final), anno_IR)
-    rownames(fData(gse_final)) <- fData(gse_final)$PROBEID 
-    fData(gse_final)
-    
-  })
-  
-  output$gene_features <- renderDataTable({
-
-    ids_to_exlude <- (featureNames(IR_norm) %in% probe_stats$PROBEID)
-    gse_final <- subset(IR_norm, !ids_to_exlude)
-    
-    fData(gse_final)
-  })
   
   output$gse25462_table <- renderDataTable({
     pData(phenoData(gse25462[[1]]))
   })
   
   output$PCA_h1Ac <- renderPlot({
+    
+    raw_data <- gse25462[[1]]
+    exp_raw <- exprs(raw_data)  
+    
     # make the empty column 
     gse25462[[1]]$diabetes_status <- 0
     # assign each column to its appropriate bin 
@@ -1082,89 +1096,7 @@ output$plot3 <- renderPlot({
     # scale_color_manual(values = c("darkorange2", "dodgerblue4", "gold", "deepskyblue1"))
     
   })
-  
-  output$GSE115313_Differential_Expression <- renderPlot({
-    
-    raw_data <- GSE115313[[1]]
-    
-    minguez_eset <- raw_data
-    minguez_eset_norm <- raw_data
-    
-    
-    man_threshold <- 2.5
-    
-    no_of_samples <- 
-      table(paste0(pData(minguez_eset_norm)$'diabetes_status:ch1', "_", 
-                   pData(minguez_eset_norm)$'tissue_type:ch1'))
-    no_of_samples 
-    
-    samples_cutoff <- min(no_of_samples)
-    
-    idx_man_threshold <- apply(Biobase::exprs(minguez_eset_norm), 1,
-                               function(x){
-                                 sum(x > man_threshold) >= samples_cutoff})
-    
-    minguez_manfiltered <- subset(minguez_eset_norm, idx_man_threshold)
-    
-    
-    anno_minguez <- AnnotationDbi::select(hugene20sttranscriptcluster.db,
-                                          keys = (featureNames(minguez_manfiltered)),
-                                          columns = c("SYMBOL", "GENENAME"),
-                                          keytype = "PROBEID")
-    
-    anno_minguez <- subset(anno_minguez, !is.na(SYMBOL))
-    
-    anno_grouped <- group_by(anno_minguez, PROBEID)
-    anno_summarized <- 
-      dplyr::summarize(anno_grouped, no_of_matches = n_distinct(SYMBOL))
-    
-    anno_filtered <- filter(anno_summarized, no_of_matches > 1)
-    
-    probe_stats <- anno_filtered 
-    
-    ids_to_exlude <- (featureNames(minguez_manfiltered) %in% probe_stats$PROBEID)
-    
-    minguez_final <- subset(minguez_manfiltered, !ids_to_exlude)
-    
-    individual <- 
-      minguez_final$geo_accession
-    
-    tissue <- str_replace_all(Biobase::pData(minguez_final)$'tissue_type:ch1',
-                              " ", "_")
-    
-    tissue <- ifelse(tissue == "Colon_cancer_Tumor",
-                     "CC", "nC")
-    
-    disease <- str_replace_all(Biobase::pData(minguez_final)$'diabetes_status:ch1',
-                               " ", "_")
-    
-    disease <- ifelse(disease == "diabetic_patient",
-                      "T2D", "nD")
-    
-    tissue_T2D <- tissue[disease == "T2D"]
-    TCFL2_expr <- Biobase::exprs(minguez_final)["16709333", disease == "T2D"]
-    TCFL2_data <- as.data.frame(TCFL2_expr)
-    
-    colnames(TCFL2_data)[1] <- "org_value"
-    TCFL2_data <- mutate(TCFL2_data, 
-                         individual = i_T2D, 
-                         tissue_T2D)
-    
-    
-    TCFL2_data$tissue_T2D <- factor(TCFL2_data$tissue_T2D, 
-                                    levels = c("CC", "nC"))
-    
-    TCFL2_EC <-
-      
-      ggplot(data = TCFL2_data, aes(x = tissue_T2D, y = org_value, 
-                                    group = tissue_T2D, fill= tissue_T2D)) +
-      geom_violin() +
-      ggtitle("TCFL2 gene expression dispersal")
-    
-    grid.arrange(TCFL2_plot, TCFL2_EC, nrow = 1)
-    
-    
-  })
+
   
   output$GSE115313_IF <-  renderPlot({
     raw_data <- GSE115313[[1]]
@@ -1230,6 +1162,8 @@ output$plot3 <- renderPlot({
   })
   
   output$GSE115313_Log2Deviation <- renderPlot({
+    
+    raw_data <- GSE115313[[1]]
     minguez_eset <- raw_data
     minguez_eset_norm <- raw_data
     
@@ -1344,8 +1278,6 @@ output$plot3 <- renderPlot({
 
 
   
-  
-  
 #  genTable <- reactive({
 #    validate(
 #      need(!is.null(output$genTable[1,1]),
@@ -1353,6 +1285,5 @@ output$plot3 <- renderPlot({
 #  })
   
 }
-
 
 shinyApp(ui, server)
