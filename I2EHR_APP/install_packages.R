@@ -1,3 +1,4 @@
+## *** adapted from https://github.com/uomsystemsbiology/budden2014predictive_reference_environment/data/install_packages.R 
 #This script installs and loads packages required for a particular analysis.  You
 #can add packages to it by including them in the lists of 'requiredCRANPackages' and
 #'requiredBioconductorPackages'.  
