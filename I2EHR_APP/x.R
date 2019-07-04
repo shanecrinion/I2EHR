@@ -188,7 +188,6 @@ ui <- dashboardPage(
               box(title = "Welcome to the Interactive Integrated 
                   Electronic Health Record (I2EHR)", 
                   width=8, 
-                  status = "success", 
                   solidHeader = TRUE) # close box
               ), # close overview tab
 
@@ -241,7 +240,7 @@ ui <- dashboardPage(
                               # patient_bioint outputs
                               conditionalPanel("input.tabs == 'Patient_Genomic' & input.patient_genomic_step=='patient_bioint'")
                               
-                              ), # close tabpanel genomic
+                     ), # close tabpanel genomic
                      
                      tabPanel("Integrated",
                               radioButtons(inputId = "patient_integration_selection",
