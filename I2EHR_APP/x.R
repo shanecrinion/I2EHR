@@ -94,32 +94,32 @@ message("Importing genomic data")
 genomic_data <- getGEO("GSE46097", GSEMatrix = TRUE)
 
 ## set up genomic data - move to global when complete
-pData(genomic_data)$title <- as.character(pData(genomic_data)$title)
-x <- replace(pData(genomic_data)$title, str_detect(Biobase::pData(genomic_data)$title, 
+pData(genomic_data[[1]])$title <- as.character(pData(genomic_data[[1]])$title)
+x <- replace(pData(genomic_data[[1]])$title, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                                                       "baseline"), "baseline")
-x <- replace(pData(genomic_data)$title, str_detect(Biobase::pData(genomic_data)$title, 
+x <- replace(pData(genomic_data[[1]])$title, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                                                       "3month"), "month3")
-x <- replace(x, str_detect(Biobase::pData(genomic_data)$title, 
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                            "baseline"), "baseline")
-x <- replace(x, str_detect(Biobase::pData(genomic_data)$title, 
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                            "1year"), "year1")
 
 ####### correcting mistakes in the published data
-x <- replace(x, str_detect(Biobase::pData(genomic_data)$title, 
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                            "basleline"), "baseline")
 
 
-x <- replace(x, str_detect(Biobase::pData(genomic_data)$title, 
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                            "3moths"), "month3")
 
-x <- replace(x, str_detect(Biobase::pData(genomic_data)$title, 
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                            "1_year"), "year1")
 
-x <- replace(x, str_detect(Biobase::pData(genomic_data)$title, 
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                            "1 year"), "year1")
 
-Biobase::pData(genomic_data)$title <- x
-Biobase::pData(genomic_data)$title <- as.factor(Biobase::pData(genomic_data)$title)
+Biobase::pData(genomic_data[[1]])$title <- x
+Biobase::pData(genomic_data[[1]])$title <- as.factor(Biobase::pData(genomic_data[[1]])$title)
 
 
 #set up non-changing variables
@@ -306,15 +306,20 @@ ui <- dashboardPage(
                      
                      tabPanel("Patient_Genomic",
                               h5("Genomic data for the patient"),
-                                 fileInput("file1", "Choose CEL File",
-                                           multiple = FALSE,
-                                           accept = c(".CEL")),
+                              #  fileInput("file1", "Choose CEL File",
+                              #             multiple = FALSE,
+                              #             accept = c(".CEL")),
                               selectInput("patient_genomic_step",
                                           "Genomic analysis step:",
                                           c("Quality Control"="patient_qc",
                                           "Normalisation"="patient_normalisation",   # plot expression log2 exprs
                                           "Differential Expression Analysis" = "patient_dea", # put plot of expression for that one sample 
-                                          "Biological Interpretation" = "patient_bioint"))  # put expression values here for top genes
+                                          "Biological Interpretation" = "patient_bioint")),  # put expression values here for top genes
+                              h5("Phenotypic data"),
+                              dataTableOutput("patient_genomic_datatable"),
+                              selectInput("patient_genomic_gene_select"),
+                              textOutput("patient_genomic_gene_select_ttest")
+                              plotOutput("patient_genomic_expression")
                               # patient_qc outputs
                               # conditionalPanel(
                               #  condition = "input.tabs == 'Patient_Genomic' & input.patient_genomic_step=='patient_qc'",
@@ -333,11 +338,11 @@ ui <- dashboardPage(
                      ), # close tabpanel genomic
                      
                      tabPanel("Integrated",
+                              h5("Please select a clinical observation as the plot colours."), 
                               radioButtons(inputId = "patient_integration_selection",
-                                           label = "Select the dataset to use for the example",
-                                           c("Simulated data" = "simulated",
-                                             "Insulin resistance" = "IR",
-                                             "Colon cancer" = "CC")),
+                                           choices = "BMI", 
+                                           "diabetes status",
+                                           ""),
                               selectInput("patient_gene_selection",
                                           "Select a gene for further analysis",
                                           choices= "Gene X"), 
@@ -358,11 +363,11 @@ ui <- dashboardPage(
                                    #   fileInput("file1", "Choose CEL File",
                                    #             multiple = FALSE,
                                    #             accept = c(".CEL")),
-                                   plotOutput("cohort_qc_RLE"),
-                                   plotOutput("cohort_qc_PCA"),
-                                   plotOutput("cohort_normalisation"),
-                                   plotOutput("cohort_dea"),
-                                   plotOutput("cohort_bioint")
+                                   plotOutput("cohort_qc_RLE"), # add for control
+                                   plotOutput("cohort_qc_PCA"), # add for control
+                                   plotOutput("cohort_normalisation"), # add for control
+                                   plotOutput("cohort_dea"), # add for control
+                                   plotOutput("cohort_bioint") # add for control
                                    # cohort_qc outputs
                                    #conditionalPanel('input.cohort_genomic_step=="cohort_qc"',
                                    #                plotOutput("cohort_array_intensity"),
@@ -379,8 +384,9 @@ ui <- dashboardPage(
                                    #conditionalPanel('input.cohort_genomic_step=="cohort_bioint"')
                           ), # close tabpanel genomic
                           
-                          tabPanel("Integrated"
-                          ) # closes tabpanel integrated
+                          tabPanel("Integrated",
+                                   textOutput("Select the colour coordinating with the clinical observation of query"),
+                                   "cohort_integrated_volcanoplot_RNA") # closes tabpanel integrated
                           
                   ) # close tabsetpanel
                           
@@ -472,14 +478,14 @@ output$cohort_qc_RLE <- renderPlot({
 ## DATA
   row_medians_assayData <- 
   Biobase::rowMedians(as.matrix(
-    log2(Biobase::exprs(genomic_data))))
+    log2(Biobase::exprs(genomic_data[[1]]))))
 
-RLE_data <- sweep(log2(Biobase::exprs(genomic_data)), 1, 
+RLE_data <- sweep(log2(Biobase::exprs(genomic_data[[1]])), 1, 
                   row_medians_assayData)
 
 # class for the fill
-RLE_class <- data.frame(patient_array = rownames(pData(genomic_data)), 
-                        disease_cat=genomic_data$disease_cat)
+RLE_class <- data.frame(patient_array = rownames(pData(genomic_data[[1]])), 
+                        disease_cat=genomic_data[[1]]$disease_cat)
 
 RLE_data <- as.data.frame(RLE_data)
 RLE_data_gathered <- 
@@ -503,6 +509,11 @@ ggplot2::ggplot(RLE_data_gathered_diagnosis,
                                    face = "bold"))
 
 }) # close cohort_qc_RLE
+
+output$cohort_qc_PCA <- renderPlot({
+
+  
+}) # close cohort_qc_PCA
 
 } # close server
 

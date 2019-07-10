@@ -1,0 +1,116 @@
+---
+title: "Plots"
+author: "Shane Crinion"
+date: "10 July 2019"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+
+```
+
+
+Plot of expression of the values for the individual and a matched control
+
+```{r pressure, echo=FALSE}
+
+library(GEOquery)
+
+genomic_data <- getGEO("GSE46097", GSEMatrix = TRUE)
+
+```
+
+```{r}
+
+library(stringr)
+## set up genomic data - move to global when complete
+
+pData(genomic_data[[1]])$title <- as.character(pData(genomic_data[[1]])$title)
+
+x <- replace(pData(genomic_data[[1]])$title, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                                                      "baseline"), "baseline")
+x <- replace(pData(genomic_data[[1]])$title, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                                                      "3month"), "month3")
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "baseline"), "baseline")
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "1year"), "year1")
+
+####### correcting mistakes in the published data
+
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "basleline"), "baseline")
+
+
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "3moths"), "month3")
+
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "1_year"), "year1")
+
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "1 year"), "year1")
+
+
+#### subset the data
+
+library(GOexpress)
+
+Biobase::pData(genomic_data[[1]]) <- Biobase::pData(genomic_data[[1]])[, c("geo_accession", "1 year weight loss (%):ch1", "age:ch1", "cad:ch1", "diabetes:ch1", "gender:ch1", "group:ch1")]
+
+
+##### set up patient codes
+
+#genomic_data[[1]]$patient_code <-  rep(1:126,each=3)
+
+Biobase::pData(genomic_data[[1]])[
+  order( Biobase::pData(genomic_data[[1]])[,3], Biobase::pData(genomic_data[[1]])[,6]),
+]
+
+#####  search by the group with the control group
+
+
+# sub.patient_17 <- subEset(
+#    eSet=genomic_data[[1]],
+#    subset=list(
+#        match_code=c(17)))
+
+#pData(sub.patient_17)
+
+```
+
+
+```{r}
+
+phenotypic_data <- pData(genomic_data[[1]])
+
+# Write CSV in R
+write.csv(phenotypic_data, file = "phenotypic_data.csv",row.names=TRUE)
+
+```
+
+
+
+```{r}
+
+# create table
+y <- exprs(genomic_data[[1]])
+Index <- pData(genomic_data[[1]])$title)
+d <- rowMeans(y[,Index==2]) - rowMeans(y[, Index==1])
+a <- rowMeans(y)
+smoothScatter(a, d, main="MA plot", xlab="A", ylab="M")
+abline(h=c(-1,1), col="red")
+
+
+```
+

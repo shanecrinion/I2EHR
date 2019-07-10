@@ -63,7 +63,7 @@ CVD_Samples <- getGEO("GSE46097", GSEMatrix = TRUE)
 Consisting of ...
 
 ```{r}
-head(Biobase::pData(CVD_Samples[[1]]))
+summary(Biobase::pData(CVD_Samples[[1]]))
 ```
 
 
