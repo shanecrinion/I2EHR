@@ -1,29 +1,32 @@
-# diabetes patient subset data
-diabetes_samples_names <- c("GSM624961", 
-                            "GSM624962", 
-                            "GSM624963", 
-                            "GSM624964", 
-                            "GSM624965", 
-                            "GSM624966", 
-                            "GSM624967", 
-                            "GSM624968", 
-                            "GSM624969", 
-                            "GSM624970")
 
-diabetes_patients <- gse25462[[1]][,diabetes_samples_names]
 
-dim(diabetes_row_max_assayData)
-diabetes_row_medians_assayData <- 
-  Biobase::rowMedians(as.matrix(
-    log2(Biobase::exprs(diabetes_patients))))
+# set up individuals CVD data
+pData(Ellsworth_final)$title <- as.character(pData(Ellsworth_final)$title)
+x <- replace(pData(Ellsworth_final)$title, str_detect(Biobase::pData(Ellsworth_final)$title, 
+                                                      "baseline"), "baseline")
+x <- replace(pData(Ellsworth_final)$title, str_detect(Biobase::pData(Ellsworth_final)$title, 
+                                                      "3month"), "month3")
+x <- replace(x, str_detect(Biobase::pData(Ellsworth_final)$title, 
+                           "baseline"), "baseline")
+x <- replace(x, str_detect(Biobase::pData(Ellsworth_final)$title, 
+                           "1year"), "year1")
 
-diabetes_row_max_assayData <- 
-  Biobase::rowMax(as.matrix(
-    log2(Biobase::exprs(diabetes_patients))))
+####### correcting mistakes in the published data
+x <- replace(x, str_detect(Biobase::pData(Ellsworth_final)$title, 
+                           "basleline"), "baseline")
 
-diabetes_row_min_assayData <- 
-  Biobase::rowMin(as.matrix(
-    log2(Biobase::exprs(diabetes_patients))))
+
+x <- replace(x, str_detect(Biobase::pData(Ellsworth_final)$title, 
+                           "3moths"), "month3")
+
+x <- replace(x, str_detect(Biobase::pData(Ellsworth_final)$title, 
+                           "1_year"), "year1")
+
+x <- replace(x, str_detect(Biobase::pData(Ellsworth_final)$title, 
+                           "1 year"), "year1")
+
+Biobase::pData(Ellsworth_final)$title <- x
+Biobase::pData(Ellsworth_final)$title <- as.factor(Biobase::pData(Ellsworth_final)$title)
 
 
 # control data

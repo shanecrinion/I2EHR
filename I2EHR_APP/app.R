@@ -131,7 +131,10 @@ suppressPackageStartupMessages(library(matrixStats))
 suppressPackageStartupMessages(library(genefilter)) ON
 suppressPackageStartupMessages(library(openxlsx)) 
 suppressPackageStartupMessages(library(data.table)) 
-#suppressPackageStartupMessages(library(devtools)
+suppressPackageStartupMessages(library(devtools))
+
+#install_github("nik01010/dashboardthemes")
+
 
 
 #import csv containing FHIR format patient data
@@ -236,8 +239,6 @@ ui <- dashboardPage(
                   status = "success", 
                   solidHeader = TRUE,
                   tabsetPanel(
-                    
-                    
                     tabPanel(title = "Project Aims", 
                              img(src="flowchart.png", width=400, height=400),
                              h5("This project involves the development of a Shiny application 
