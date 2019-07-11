@@ -66,7 +66,14 @@ x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title,
 
 library(GOexpress)
 
-Biobase::pData(genomic_data[[1]]) <- Biobase::pData(genomic_data[[1]])[, c("geo_accession", "1 year weight loss (%):ch1", "age:ch1", "cad:ch1", "diabetes:ch1", "gender:ch1", "group:ch1")]
+Biobase::pData(genomic_data[[1]]) <- 
+  Biobase::pData(genomic_data[[1]])[, c("geo_accession",
+                                        "1 year weight loss (%):ch1",
+                                        "age:ch1", 
+                                        "cad:ch1",
+                                        "diabetes:ch1",
+                                        "gender:ch1",
+                                        "group:ch1")]
 
 
 ##### set up patient codes
@@ -76,6 +83,8 @@ Biobase::pData(genomic_data[[1]]) <- Biobase::pData(genomic_data[[1]])[, c("geo_
 Biobase::pData(genomic_data[[1]])[
   order( Biobase::pData(genomic_data[[1]])[,3], Biobase::pData(genomic_data[[1]])[,6]),
 ]
+
+patients.csv$
 
 #####  search by the group with the control group
 
@@ -87,15 +96,78 @@ Biobase::pData(genomic_data[[1]])[
 
 #pData(sub.patient_17)
 
+```  
+
+
+```{r} 
+
+phenotypic_data <- pData(genomic_data[[1]])
+ 
+# Write CSV in R
+write.csv(phenotypic_data, file = "phenotypic_data.csv",row.names=TRUE)
+
 ```
 
 
+Now to assign a patient ID to each individual
+
+378 samples have 
+
+Selecting synthea patients by the number of observations they have...
+
+Sort observations by the patient to take the patient with the highest number of observations
+
 ```{r}
 
-phenotypic_data <- pData(genomic_data[[1]])
+summary(observations.csv)
 
-# Write CSV in R
-write.csv(phenotypic_data, file = "phenotypic_data.csv",row.names=TRUE)
+observations.csv <-with(observations.csv , observations.csv[order(PATIENT),])
+
+patients_most_obs <- unique(observations.csv$PATIENT)[0:64]
+
+observations.csv.subset <- observations.csv[observations.csv$PATIENT %in% patients_most_obs,]
+
+write.csv(observations.csv.subset, file = "observations_subset.csv",row.names=TRUE)
+
+
+``` 
+
+
+Change the name of the patient Id to "patient"
+
+```{r}
+names(patients.csv)[names(patients.csv) == "Id"] <- "PATIENT"
+patients.csv
+```
+
+subset patients to those only in the list of unique individuals.
+
+```{r}
+
+observations.csv <-with(observations.csv , observations.csv[order(PATIENT),])
+patients_most_obs <- unique(observations.csv$PATIENT)[0:64]
+names(patients.csv)[names(patients.csv) == "Id"] <- "PATIENT"
+
+allergies.csv.subset <- allergies.csv[allergies.csv$PATIENT %in% patients_most_obs,]
+careplans.csv.subset <- careplans.csv[careplans.csv$PATIENT %in% patients_most_obs,]
+conditions.csv.subset <- conditions.csv[conditions.csv$PATIENT %in% patients_most_obs,]
+encounters.csv.subset <- encounters.csv[encounters.csv$PATIENT %in% patients_most_obs,]
+immunizations.csv.subset <- immunizations.csv[immunizations.csv$PATIENT %in% patients_most_obs,]
+observations.csv.subset <- observations.csv[observations.csv$PATIENT %in% patients_most_obs,]
+organizations.csv.subset <- organizations.csv[organizations.csv$PATIENT %in% patients_most_obs,]
+patients.csv.subset <- patients.csv[patients.csv$PATIENT %in% patients_most_obs,]
+procedures.csv.subset <- procedures.csv[procedures.csv$PATIENT %in% patients_most_obs,]
+providers.csv.subset <- providers.csv[providers.csv$PATIENT %in% patients_most_obs,]
+
+allergies.csv <- allergies.csv.subset
+careplans.csv <- careplans.csv.subset
+conditions.csv <- conditions.csv.subset
+encounters.csv <- encounters.csv.subset
+immunizations.csv <- immunizations.csv.subset
+organizations.csv <- organizations.csv.subset
+patients.csv <- patients.csv.subset
+procedures.csv <- procedures.csv.subset
+providers.csv <- providers.csv.subset
 
 ```
 

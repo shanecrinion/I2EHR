@@ -78,13 +78,15 @@ if (length(missingBioconductorPackages)==0){
 }
 
 
-
 #load the required packages
 lapply(requiredCRANPackages, require, character.only = T)
 lapply(requiredBioconductorPackages, require, character.only = T)
 
 #importing the clinical files 
 message("Importing clinical data")
+
+
+#import all csv files containing clinical data from Synthea
 temp = list.files(pattern="*.csv")
 for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 
@@ -92,6 +94,7 @@ for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 #import the genomic data
 message("Importing genomic data")
 genomic_data <- getGEO("GSE46097", GSEMatrix = TRUE)
+
 
 ## set up genomic data - move to global when complete
 pData(genomic_data[[1]])$title <- as.character(pData(genomic_data[[1]])$title)
@@ -123,7 +126,7 @@ Biobase::pData(genomic_data[[1]])$title <- as.factor(Biobase::pData(genomic_data
 
 
 #set up non-changing variables
-message("Setup complete")
+message("Setup Library loading")
 hasSetupScriptRun = TRUE
 
 
@@ -192,7 +195,7 @@ message("Libraries loaded")
 #                            by.x = "Id", 
 #                            by.y= "PATIENT")
 
-message("File import and merge complete")
+message("Set up complete")
 
 ### UI
 
@@ -274,7 +277,9 @@ ui <- dashboardPage(
                           btnReset = icon("remove"),
                           width = "450px"),
                   strong(em("For example, use the following identifiers:")),
-                  br(), em("dcda72ab-0371-41bc-a0a6-05034f5304d7")
+                  br(), em("0cd0592a-774a-4ece-806a-5384a15af9b4"), br(), 
+                  em("088efea2-9017-4b31-a25b-4bbc802025a1"), br(),
+                  em("1e48d3da-d4f0-4680-8106-2304c9d1426e")
                   ), #close searchinput and column
                   
                     column(4,
@@ -296,56 +301,62 @@ ui <- dashboardPage(
                               fluidRow(column(3, 
                                        selectInput(inputId= "observation_selection",
                                                    label = "Select an observation for comparison",
-                                                   choices = c(sort(as.character(unique(observations.csv$DESCRIPTION)))),
-                                                   selected = "Body Mass Index")
+                                                   choices = c(sort(as.character(unique(observations.csv$DESCRIPTION))))
+                                                   ) # close select input 
                                        ), # close column
-                              column(8, plotlyOutput("observation_plot")) #close column         
-                              ) # close plotly fluidrow
-                              # plotlyOutput("patient_clinical_plot_obs")
-                              ), # close tabpanel clinical 
+                              column(9, plotlyOutput("observation_plot")) #close column         
+                              ), # close plotly fluidrow,
+                              br(),
+                              h5("Additional information:"),
+                                        selectInput(label = "Select patient data to inspect:",
+                                                    inputId="patient_select_dt",
+                                                    choices = c("Conditions"=conditions.csv,
+                                                                "Encounters"=encounters.csv,
+                                                                "Imaging Studies"=imaging_studies.csv,
+                                                                "Immunizations"=immunizations.csv,
+                                                                "Medications"=medications.csv,
+                                                                "Observations"=observations.csv,
+                                                                "Organizations"=organizations.csv,
+                                                                "Procedures"=procedures.csv,
+                                                                "Providers"=providers.csv)),
+                              tableOutput("patient_dt")), # close tab panel clinical 
                      
                      tabPanel("Patient_Genomic",
                               h5("Genomic data for the patient"),
                               #  fileInput("file1", "Choose CEL File",
                               #             multiple = FALSE,
                               #             accept = c(".CEL")),
-                              selectInput("patient_genomic_step",
-                                          "Genomic analysis step:",
-                                          c("Quality Control"="patient_qc",
-                                          "Normalisation"="patient_normalisation",   # plot expression log2 exprs
-                                          "Differential Expression Analysis" = "patient_dea", # put plot of expression for that one sample 
-                                          "Biological Interpretation" = "patient_bioint")),  # put expression values here for top genes
-                              h5("Phenotypic data"),
-                              dataTableOutput("patient_genomic_datatable"),
-                              selectInput("patient_genomic_gene_select"),
-                              textOutput("patient_genomic_gene_select_ttest")
-                              plotOutput("patient_genomic_expression")
-                              # patient_qc outputs
-                              # conditionalPanel(
-                              #  condition = "input.tabs == 'Patient_Genomic' & input.patient_genomic_step=='patient_qc'",
-                                              # plotOutput("patient_array_intensity"),
-                              #                  img(src="calibrated_PCA.png")),
-
-                              # patient_normalisation outputs
-                              # conditionalPanel("input.tabs == 'Patient_Genomic' & input.patient_genomic_step=='patient_normalisation'"),
                               
-                              # patient_dea outputs
-                              # conditionalPanel("input.tabs == 'Patient_Genomic' & input.patient_genomic_step=='patient_dea'"),
-                                               
-                              # patient_bioint outputs
-                              #conditionalPanel("input.tabs == 'Patient_Genomic' & input.patient_genomic_step=='patient_bioint'")
-                               
+                              h5("Phenotypic data"),
+                              tableOutput("patient_genomic_table"),
+                              
+                              h5("Quality Control"),
+                              plotOutput("patient_RLE"), # colour == the patient
+                              plotOutput("patient_PCA"), # PCA without sweep 
+                              
+                              h5("Top genes"),
+                              tableOutput("patient_topgenes_list"),
+                              plotOutput("patient_log2foldchange"),
+
+                              
+                              h5("Individual gene query"),
+                              selectInput(inputId = "patient_genomic_gene_select",
+                                          label = "Select the gene to analyse",
+                                          choices=c(unique(sort(as.character(unique(genomic_data$SYMBOL)))))
+                                          ), # close selectinput
+                              textOutput("patient_genomic_gene_ttest")
+                              
                      ), # close tabpanel genomic
                      
                      tabPanel("Integrated",
-                              h5("Please select a clinical observation as the plot colours."), 
                               radioButtons(inputId = "patient_integration_selection",
-                                           choices = "BMI", 
-                                           "diabetes status",
-                                           ""),
+                                          label="Please select a clinical observation as the plot colours:",
+                                           choices=c("BMI"="bmi",
+                                           "diabetes status"= "diabetes_status",
+                                           "CAD")),
                               selectInput("patient_gene_selection",
                                           "Select a gene for further analysis",
-                                          choices= "Gene X"), 
+                                          choices= c("Gene X")), 
                               plotOutput("patient_integrated_plot")
                               ) # closes tabpanel integrated
             ) # closes tabsetpanel
@@ -388,9 +399,8 @@ ui <- dashboardPage(
                                    textOutput("Select the colour coordinating with the clinical observation of query"),
                                    "cohort_integrated_volcanoplot_RNA") # closes tabpanel integrated
                           
-                  ) # close tabsetpanel
-                          
-              ), # close tabitem cohort-tab
+                  ) # close tabset panel
+              ), # close tab item cohort-tab
       
       tabItem(tabName="Predictive_Analytics")
       
@@ -399,16 +409,21 @@ ui <- dashboardPage(
 ) # close dashboard page
 
 
+
 ## server
 server <- function(input, output, session) {
   
-#### PATIENT OUTPUTS ####
+#### PATIENT OUTPUTS ####0
+  
+## --------- open CLINICAL   
+  
 selection <- 
   reactive({input$search_by})
 
 output$selection_datatype <- 
   renderText({
   paste("Search using", selection)
+    
 })
   
 output$patient_info_table <- renderTable({
@@ -433,9 +448,8 @@ output$patient_info_table <- renderTable({
 
   
 output$observation_plot <- renderPlotly({
+  
   ## ---- data set up
-  ## create merger to grab patient names
-  patients.csv$PATIENT <- patients.csv$Id 
   observations_with_names <- merge(observations.csv,patients.csv, by  = "PATIENT") 
   patient <- input$search
   patient_data <- observations_with_names[observations_with_names$PATIENT == patient,]
@@ -471,21 +485,71 @@ output$observation_plot <- renderPlotly({
   ## --- plotly set up
 }) # close observation_plot 
 
+
+
+output$patient_dt <- 
+  renderDataTable({subset(input$patient_select_dt, 
+                          PATIENT==input$search)})
+
+
+
+## --------- close PATIENT CLINICAL  
+
+
+
+## --------- open PATIENT GENOMIC 
+
+output$patient_genomic_table <- renderTable({ 
+
+# create expression set subset
+subset.patient <- subEset(
+    eSet=genomic_data[[1]],
+     subset=list(
+     PATIENT=c(input$search)))
+
+# display table
+pData(subset.patient)
+  
+Biobase::pData(genomic_data[[1]])[, c("geo_accession",
+                                      "1 year weight loss (%):ch1",
+                                      "age:ch1", 
+                                      "cad:ch1",
+                                      "diabetes:ch1",
+                                      "gender:ch1",
+                                      "group:ch1", 
+                                      "PATIENT",
+                                      "")]
+
+
+
+})
+
+
+output$patient_RLE <- renderPlot({
+  
+})
+
+## --------- close PATIENT GENOMIC  
+
+
+
+
 #### COHORT OUTPUTS ####
+
 
 output$cohort_qc_RLE <- renderPlot({
   
 ## DATA
-  row_medians_assayData <- 
-  Biobase::rowMedians(as.matrix(
-    log2(Biobase::exprs(genomic_data[[1]]))))
+row_medians_assayData <- 
+Biobase::rowMedians(as.matrix(exprs(genomic_data[[1]])))
 
 RLE_data <- sweep(log2(Biobase::exprs(genomic_data[[1]])), 1, 
                   row_medians_assayData)
 
 # class for the fill
 RLE_class <- data.frame(patient_array = rownames(pData(genomic_data[[1]])), 
-                        disease_cat=genomic_data[[1]]$disease_cat)
+                        disease_cat = str_detect(Biobase::pData(genomic_data[[1]])$PATIENT, 
+                                               input$search))
 
 RLE_data <- as.data.frame(RLE_data)
 RLE_data_gathered <- 
@@ -510,9 +574,9 @@ ggplot2::ggplot(RLE_data_gathered_diagnosis,
 
 }) # close cohort_qc_RLE
 
+
 output$cohort_qc_PCA <- renderPlot({
 
-  
 }) # close cohort_qc_PCA
 
 } # close server

@@ -1,0 +1,345 @@
+DATE,PATIENT,ENCOUNTER,CODE,DESCRIPTION,COST,REASONCODE,REASONDESCRIPTION
+2016-12-12,0cd0592a-774a-4ece-806a-5384a15af9b4,67cd5577-e19e-4e6b-8adf-3078c6522a71,447365002,Insertion of biventricular implantable cardioverter defibrillator,33471.77,410429000,Cardiac Arrest
+2016-12-12,0cd0592a-774a-4ece-806a-5384a15af9b4,67cd5577-e19e-4e6b-8adf-3078c6522a71,18286008,Catheter ablation of tissue of heart,8749.62,410429000,Cardiac Arrest
+1989-11-24,6ce8cf55-1a0d-4334-9865-c3d0f5c7a485,125c848f-472a-43c0-b570-4512c8e3fa8d,415070008,Percutaneous coronary intervention,40171.96,22298006,Myocardial Infarction
+1989-11-24,6ce8cf55-1a0d-4334-9865-c3d0f5c7a485,125c848f-472a-43c0-b570-4512c8e3fa8d,232717009,Coronary artery bypass grafting,70947.33,22298006,Myocardial Infarction
+2019-02-12,6d3cb314-80f6-4a86-abb4-d35c1a358129,34d88be9-0dcd-4386-a2da-eedb21b96d59,180325003,Electrical cardioversion,27985.73,49436004,Atrial Fibrillation
+2001-08-02,edd2323b-078d-4a5c-b4f6-c2cac1d77181,09e0adeb-9903-4f62-aa14-348222c41842,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,34889.94,230690007,Stroke
+1959-01-02,c015f9d4-6ba1-47e8-8967-d7de84bbb817,121cf3fe-417a-44f8-9a9a-7805e0a79c6b,180325003,Electrical cardioversion,34227.77,49436004,Atrial Fibrillation
+1961-01-06,c015f9d4-6ba1-47e8-8967-d7de84bbb817,061a00aa-d9a1-4577-bb23-4bbeade9fa87,18286008,Catheter ablation of tissue of heart,10483.61,49436004,Atrial Fibrillation
+1962-12-14,c015f9d4-6ba1-47e8-8967-d7de84bbb817,077b2b16-0cb9-481c-88f3-cd5a31b7df69,18286008,Catheter ablation of tissue of heart,6650.67,49436004,Atrial Fibrillation
+1963-12-20,c015f9d4-6ba1-47e8-8967-d7de84bbb817,3cb48fb9-346e-4c19-8f10-38980d183c3d,18286008,Catheter ablation of tissue of heart,14975.22,49436004,Atrial Fibrillation
+1964-10-30,c015f9d4-6ba1-47e8-8967-d7de84bbb817,3cb48fb9-346e-4c19-8f10-38980d183c3d,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,33427.73,230690007,Stroke
+1964-12-25,c015f9d4-6ba1-47e8-8967-d7de84bbb817,b2dc8f56-c39c-4633-b11a-5848ecd97fae,180325003,Electrical cardioversion,42942.72,49436004,Atrial Fibrillation
+1965-12-31,c015f9d4-6ba1-47e8-8967-d7de84bbb817,6ad0d778-58d8-4305-bd60-00850d78944b,18286008,Catheter ablation of tissue of heart,14315.02,49436004,Atrial Fibrillation
+1967-01-06,c015f9d4-6ba1-47e8-8967-d7de84bbb817,3503a175-c574-4ad9-ad9e-4d27c84b6c7f,180325003,Electrical cardioversion,41843.98,49436004,Atrial Fibrillation
+1968-01-12,c015f9d4-6ba1-47e8-8967-d7de84bbb817,1d8db984-d278-46c8-a949-d3a119ff9cb2,180325003,Electrical cardioversion,30488.95,49436004,Atrial Fibrillation
+1969-01-17,c015f9d4-6ba1-47e8-8967-d7de84bbb817,7837bbac-b9d4-4a54-a802-cd9a993b0bda,180325003,Electrical cardioversion,28679.96,49436004,Atrial Fibrillation
+1970-01-23,c015f9d4-6ba1-47e8-8967-d7de84bbb817,1c876f46-1a5b-4f7c-a288-ca4d8f189d34,180325003,Electrical cardioversion,34206.29,49436004,Atrial Fibrillation
+1971-01-29,c015f9d4-6ba1-47e8-8967-d7de84bbb817,22681918-0772-4d9d-a24e-908c71e0591a,180325003,Electrical cardioversion,29448.59,49436004,Atrial Fibrillation
+1972-02-04,c015f9d4-6ba1-47e8-8967-d7de84bbb817,8cd87cc2-87c9-49a6-b3cd-a3fe5c4290cb,180325003,Electrical cardioversion,44487.48,49436004,Atrial Fibrillation
+1973-02-09,c015f9d4-6ba1-47e8-8967-d7de84bbb817,44ccca2a-3d04-4835-a35b-2f2b6b361da3,18286008,Catheter ablation of tissue of heart,14380.08,49436004,Atrial Fibrillation
+1974-02-15,c015f9d4-6ba1-47e8-8967-d7de84bbb817,55dbb722-2dee-418b-b3f9-d2bd538e8838,180325003,Electrical cardioversion,23131.51,49436004,Atrial Fibrillation
+1975-02-21,c015f9d4-6ba1-47e8-8967-d7de84bbb817,46ca67ea-75f6-4d91-a5ee-c6c8829ce1c1,180325003,Electrical cardioversion,36034.40,49436004,Atrial Fibrillation
+1976-02-27,c015f9d4-6ba1-47e8-8967-d7de84bbb817,65269ac7-332e-4508-9d02-d9af012ab5ec,180325003,Electrical cardioversion,37461.20,49436004,Atrial Fibrillation
+1977-03-04,c015f9d4-6ba1-47e8-8967-d7de84bbb817,8541bee4-df86-4126-a859-eaf2589bdda6,180325003,Electrical cardioversion,41369.23,49436004,Atrial Fibrillation
+1978-03-10,c015f9d4-6ba1-47e8-8967-d7de84bbb817,109cfe31-fdd7-4b9b-94d5-815fc0a2dc31,180325003,Electrical cardioversion,25449.68,49436004,Atrial Fibrillation
+1979-03-16,c015f9d4-6ba1-47e8-8967-d7de84bbb817,f2ad1bef-eca9-41a3-922e-1802bf93e6b4,180325003,Electrical cardioversion,46912.14,49436004,Atrial Fibrillation
+1980-03-21,c015f9d4-6ba1-47e8-8967-d7de84bbb817,ed4b97b5-1b0b-4415-8274-af47743b98bb,180325003,Electrical cardioversion,28279.48,49436004,Atrial Fibrillation
+1981-03-27,c015f9d4-6ba1-47e8-8967-d7de84bbb817,038fbad0-76c1-4724-aaa8-a93dbe43063a,180325003,Electrical cardioversion,36902.83,49436004,Atrial Fibrillation
+1982-04-02,c015f9d4-6ba1-47e8-8967-d7de84bbb817,78b1a63e-b02f-45c5-a61f-3474147b0333,180325003,Electrical cardioversion,30993.15,49436004,Atrial Fibrillation
+1983-04-08,c015f9d4-6ba1-47e8-8967-d7de84bbb817,3171556d-7d40-40b2-97c2-da82d46777d2,180325003,Electrical cardioversion,43017.23,49436004,Atrial Fibrillation
+1984-04-13,c015f9d4-6ba1-47e8-8967-d7de84bbb817,1b1345d1-3ff4-434a-a768-ae44ffd20aa8,180325003,Electrical cardioversion,20091.37,49436004,Atrial Fibrillation
+1985-04-19,c015f9d4-6ba1-47e8-8967-d7de84bbb817,6ec490c1-4c6a-47b5-ad57-09944adbf5ba,18286008,Catheter ablation of tissue of heart,8298.60,49436004,Atrial Fibrillation
+1986-04-25,c015f9d4-6ba1-47e8-8967-d7de84bbb817,f9c3b16f-4c98-4559-bc54-0b08578db1c9,180325003,Electrical cardioversion,22207.89,49436004,Atrial Fibrillation
+1987-05-01,c015f9d4-6ba1-47e8-8967-d7de84bbb817,5a28ec82-9798-4473-a0c9-a5c59d13c8f7,18286008,Catheter ablation of tissue of heart,9064.17,49436004,Atrial Fibrillation
+1988-05-06,c015f9d4-6ba1-47e8-8967-d7de84bbb817,85ed97e4-b1a8-4030-8e8a-848fb2cde3c1,180325003,Electrical cardioversion,22487.00,49436004,Atrial Fibrillation
+1989-05-12,c015f9d4-6ba1-47e8-8967-d7de84bbb817,3a5dcdc8-6e85-48ec-83d0-f697c967dec1,180325003,Electrical cardioversion,33690.89,49436004,Atrial Fibrillation
+1990-05-18,c015f9d4-6ba1-47e8-8967-d7de84bbb817,bd442674-2b18-407f-85a8-e64f9397e2b1,180325003,Electrical cardioversion,19369.91,49436004,Atrial Fibrillation
+1991-05-24,c015f9d4-6ba1-47e8-8967-d7de84bbb817,33af2c85-fe5c-4ecc-a6d0-27d62ea568db,180325003,Electrical cardioversion,37598.81,49436004,Atrial Fibrillation
+1992-05-29,c015f9d4-6ba1-47e8-8967-d7de84bbb817,95c2a878-48fa-4e80-94a2-68905e2dcc37,180325003,Electrical cardioversion,22118.89,49436004,Atrial Fibrillation
+1993-06-04,c015f9d4-6ba1-47e8-8967-d7de84bbb817,5c217aaa-4481-4acb-8c04-0f3d29e3d9ac,180325003,Electrical cardioversion,35337.71,49436004,Atrial Fibrillation
+1994-06-10,c015f9d4-6ba1-47e8-8967-d7de84bbb817,d284536d-1499-4958-8987-84154fe266cc,180325003,Electrical cardioversion,31701.02,49436004,Atrial Fibrillation
+1995-06-16,c015f9d4-6ba1-47e8-8967-d7de84bbb817,a1b62604-811f-43b2-916c-4328859bdeba,180325003,Electrical cardioversion,45003.31,49436004,Atrial Fibrillation
+1996-06-21,c015f9d4-6ba1-47e8-8967-d7de84bbb817,4fcf4c03-6662-4499-a0a5-890bf4c96765,180325003,Electrical cardioversion,24076.30,49436004,Atrial Fibrillation
+1997-06-27,c015f9d4-6ba1-47e8-8967-d7de84bbb817,415ff71b-750d-427d-9c8d-58f6de8670d0,180325003,Electrical cardioversion,20315.30,49436004,Atrial Fibrillation
+1998-07-03,c015f9d4-6ba1-47e8-8967-d7de84bbb817,6333cb3e-c2ca-41f1-8aec-3ab9552c4523,180325003,Electrical cardioversion,34417.68,49436004,Atrial Fibrillation
+1999-07-09,c015f9d4-6ba1-47e8-8967-d7de84bbb817,61178164-1a64-4f3c-88a9-d718bec6031f,18286008,Catheter ablation of tissue of heart,9850.33,49436004,Atrial Fibrillation
+2000-07-14,c015f9d4-6ba1-47e8-8967-d7de84bbb817,c81a87ff-fabe-450d-ab73-3725fd17f195,180325003,Electrical cardioversion,23550.68,49436004,Atrial Fibrillation
+2001-07-20,c015f9d4-6ba1-47e8-8967-d7de84bbb817,12229e25-bc7c-4a9c-beab-46bc255d7352,180325003,Electrical cardioversion,31869.02,49436004,Atrial Fibrillation
+2002-07-26,c015f9d4-6ba1-47e8-8967-d7de84bbb817,ac0e26a4-37a4-4e34-85ec-b5daaff2e350,180325003,Electrical cardioversion,22704.39,49436004,Atrial Fibrillation
+2003-08-01,c015f9d4-6ba1-47e8-8967-d7de84bbb817,f681b2b3-4f00-4c67-9320-c160331cf2cb,180325003,Electrical cardioversion,21365.22,49436004,Atrial Fibrillation
+2004-08-06,c015f9d4-6ba1-47e8-8967-d7de84bbb817,1633366e-40fd-45cd-9e57-a1cdd4b59ee3,180325003,Electrical cardioversion,27245.16,49436004,Atrial Fibrillation
+2005-08-12,c015f9d4-6ba1-47e8-8967-d7de84bbb817,2f790ca2-5926-42aa-99ae-8446b9aedba5,180325003,Electrical cardioversion,31409.93,49436004,Atrial Fibrillation
+2006-08-18,c015f9d4-6ba1-47e8-8967-d7de84bbb817,310d7617-20e9-46b0-8a9b-08807646b62b,18286008,Catheter ablation of tissue of heart,11279.50,49436004,Atrial Fibrillation
+2007-08-24,c015f9d4-6ba1-47e8-8967-d7de84bbb817,9e3ef59d-e56a-4fea-b767-7bfd05c85183,18286008,Catheter ablation of tissue of heart,9791.19,49436004,Atrial Fibrillation
+2008-08-29,c015f9d4-6ba1-47e8-8967-d7de84bbb817,e12c1b42-58e5-4b89-a563-76726b476ea7,18286008,Catheter ablation of tissue of heart,10470.84,49436004,Atrial Fibrillation
+2009-09-04,c015f9d4-6ba1-47e8-8967-d7de84bbb817,20c2adc8-0a7b-4d0d-a057-8869565e9af0,180325003,Electrical cardioversion,37013.32,49436004,Atrial Fibrillation
+2010-09-10,c015f9d4-6ba1-47e8-8967-d7de84bbb817,db3f9a5b-a98a-4c25-8d96-721723c03795,180325003,Electrical cardioversion,30407.17,49436004,Atrial Fibrillation
+2011-09-16,c015f9d4-6ba1-47e8-8967-d7de84bbb817,c8e717c8-aa70-478c-b540-20068421c00d,180325003,Electrical cardioversion,29298.86,49436004,Atrial Fibrillation
+2012-09-21,c015f9d4-6ba1-47e8-8967-d7de84bbb817,74579b37-aef9-49df-bc22-2e37867403be,180325003,Electrical cardioversion,24745.93,49436004,Atrial Fibrillation
+2013-09-27,c015f9d4-6ba1-47e8-8967-d7de84bbb817,4a276f5c-f58a-491c-a41e-694ffb69d99a,180325003,Electrical cardioversion,38937.12,49436004,Atrial Fibrillation
+2013-10-11,c015f9d4-6ba1-47e8-8967-d7de84bbb817,ea899cb8-bb1e-4250-bf71-de960517cda4,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,24397.49,230690007,Stroke
+2014-10-03,c015f9d4-6ba1-47e8-8967-d7de84bbb817,7f413097-5c14-42d5-ae6c-d3803d059998,180325003,Electrical cardioversion,44532.21,49436004,Atrial Fibrillation
+2015-10-09,c015f9d4-6ba1-47e8-8967-d7de84bbb817,7173d80e-4019-47c0-8d9b-1f9e3039f423,180325003,Electrical cardioversion,22278.41,49436004,Atrial Fibrillation
+2016-10-14,c015f9d4-6ba1-47e8-8967-d7de84bbb817,edb9e803-f0db-49b5-9bf5-685ba4fce207,180325003,Electrical cardioversion,28103.69,49436004,Atrial Fibrillation
+2017-10-20,c015f9d4-6ba1-47e8-8967-d7de84bbb817,068451e0-d89f-4a05-a693-88a019d5fd3f,180325003,Electrical cardioversion,28240.24,49436004,Atrial Fibrillation
+2018-10-26,c015f9d4-6ba1-47e8-8967-d7de84bbb817,ab875e52-61f3-4cd4-abaa-751ceb7b2394,180325003,Electrical cardioversion,37459.80,49436004,Atrial Fibrillation
+2003-09-10,52d18c8c-c7c8-4f00-a140-cf5eae04a551,3c303553-53df-4396-93a2-d45cdaf04aa7,180325003,Electrical cardioversion,29825.61,49436004,Atrial Fibrillation
+2004-09-15,52d18c8c-c7c8-4f00-a140-cf5eae04a551,18386261-43ab-446b-b516-7e84e5b4e419,180325003,Electrical cardioversion,28157.26,49436004,Atrial Fibrillation
+2005-09-21,52d18c8c-c7c8-4f00-a140-cf5eae04a551,4e37d477-c594-4e81-8028-24fd6cbab926,180325003,Electrical cardioversion,35329.18,49436004,Atrial Fibrillation
+2006-09-27,52d18c8c-c7c8-4f00-a140-cf5eae04a551,0735de04-dd98-49ed-aa85-883f37ce1f6f,180325003,Electrical cardioversion,45678.15,49436004,Atrial Fibrillation
+2007-10-03,52d18c8c-c7c8-4f00-a140-cf5eae04a551,19923c31-1b6a-4705-80f1-342f3859bc5c,180325003,Electrical cardioversion,30105.35,49436004,Atrial Fibrillation
+2008-10-08,52d18c8c-c7c8-4f00-a140-cf5eae04a551,6e426621-ef10-40a5-9ba0-4f4b38393165,180325003,Electrical cardioversion,22707.85,49436004,Atrial Fibrillation
+2009-10-14,52d18c8c-c7c8-4f00-a140-cf5eae04a551,64af9634-2437-4db1-a42e-0fcf1e8365c6,180325003,Electrical cardioversion,16184.34,49436004,Atrial Fibrillation
+2010-10-20,52d18c8c-c7c8-4f00-a140-cf5eae04a551,188555e4-f48f-4137-b42c-ef07a3c8051c,180325003,Electrical cardioversion,29148.06,49436004,Atrial Fibrillation
+2011-10-26,52d18c8c-c7c8-4f00-a140-cf5eae04a551,486ff4ba-ff88-439c-9a88-2469ee6a0b25,18286008,Catheter ablation of tissue of heart,14823.83,49436004,Atrial Fibrillation
+2012-10-31,52d18c8c-c7c8-4f00-a140-cf5eae04a551,d0f0f9e3-671f-42e8-97ba-c344c4d5fd5b,18286008,Catheter ablation of tissue of heart,17605.86,49436004,Atrial Fibrillation
+2013-11-06,52d18c8c-c7c8-4f00-a140-cf5eae04a551,d56c7b40-e694-4b04-9913-f72af00de290,180325003,Electrical cardioversion,31335.92,49436004,Atrial Fibrillation
+2014-11-12,52d18c8c-c7c8-4f00-a140-cf5eae04a551,112fddf8-dc3e-4d17-b18d-4972ae706f1d,18286008,Catheter ablation of tissue of heart,9170.79,49436004,Atrial Fibrillation
+2015-11-18,52d18c8c-c7c8-4f00-a140-cf5eae04a551,3344bc6d-8062-4db6-aa03-8f7af01871dd,180325003,Electrical cardioversion,34418.76,49436004,Atrial Fibrillation
+2016-11-23,52d18c8c-c7c8-4f00-a140-cf5eae04a551,ec9f8ff9-b2b9-41d3-86b3-88b9ec9744c7,180325003,Electrical cardioversion,38174.50,49436004,Atrial Fibrillation
+2017-11-29,52d18c8c-c7c8-4f00-a140-cf5eae04a551,bfc78e27-b93d-4f60-9c9f-dcd3ae59f5ef,180325003,Electrical cardioversion,25141.16,49436004,Atrial Fibrillation
+2018-12-05,52d18c8c-c7c8-4f00-a140-cf5eae04a551,70dfe4f8-725c-4790-9588-7b335f2a71d4,180325003,Electrical cardioversion,32407.03,49436004,Atrial Fibrillation
+1995-07-11,c0b3a811-4a81-4790-9c7a-8613d07421c5,06e1b665-bad8-4704-9255-237452231e20,447365002,Insertion of biventricular implantable cardioverter defibrillator,33915.38,410429000,Cardiac Arrest
+1995-07-11,c0b3a811-4a81-4790-9c7a-8613d07421c5,06e1b665-bad8-4704-9255-237452231e20,18286008,Catheter ablation of tissue of heart,10449.16,410429000,Cardiac Arrest
+2015-04-28,614c2c4e-246d-4e2d-ba26-af83b75acbda,f36e279d-43f3-4c43-8d88-e529f3929985,180325003,Electrical cardioversion,32249.92,49436004,Atrial Fibrillation
+2016-05-03,614c2c4e-246d-4e2d-ba26-af83b75acbda,3f4117f1-0bc8-4c31-8b9c-ccef646c096f,180325003,Electrical cardioversion,35063.29,49436004,Atrial Fibrillation
+2017-05-09,614c2c4e-246d-4e2d-ba26-af83b75acbda,b0695202-6b54-4218-90d8-f6a4be0a2535,180325003,Electrical cardioversion,36337.92,49436004,Atrial Fibrillation
+2018-05-15,614c2c4e-246d-4e2d-ba26-af83b75acbda,db7a5402-c04b-41ac-a5f4-ea0a67df287a,180325003,Electrical cardioversion,21643.44,49436004,Atrial Fibrillation
+2019-05-21,614c2c4e-246d-4e2d-ba26-af83b75acbda,9c4db0a2-66f7-4af0-9f3a-d79759807582,180325003,Electrical cardioversion,35248.20,49436004,Atrial Fibrillation
+2018-02-10,e19683a0-d991-40b6-ad6a-fef5cf40a05c,7c2f656a-62b3-4a4d-b436-b24501d9c31c,180325003,Electrical cardioversion,16937.80,49436004,Atrial Fibrillation
+2019-02-16,e19683a0-d991-40b6-ad6a-fef5cf40a05c,2c6995f0-1a53-4628-a98e-d91b6c3d10a4,180325003,Electrical cardioversion,29300.23,49436004,Atrial Fibrillation
+2007-05-16,54f0718f-eb3b-4672-8be5-895958b893ad,568df0fe-9ad5-4d5e-be5b-811561e9b782,415070008,Percutaneous coronary intervention,20315.31,22298006,Myocardial Infarction
+2007-05-16,54f0718f-eb3b-4672-8be5-895958b893ad,568df0fe-9ad5-4d5e-be5b-811561e9b782,232717009,Coronary artery bypass grafting,47122.80,22298006,Myocardial Infarction
+2009-06-04,e0319d8a-2f16-40b1-8c13-7de40c6ae8cb,8d1945a1-34f1-43e0-af32-984bd59810b8,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,20606.17,230690007,Stroke
+1954-01-06,af9bc124-5985-43d0-a5f2-8286d2eb850d,c59b2bfb-bd88-49cc-ae2a-d1e7fe0be867,447365002,Insertion of biventricular implantable cardioverter defibrillator,33490.25,410429000,Cardiac Arrest
+1954-01-06,af9bc124-5985-43d0-a5f2-8286d2eb850d,c59b2bfb-bd88-49cc-ae2a-d1e7fe0be867,18286008,Catheter ablation of tissue of heart,10982.27,410429000,Cardiac Arrest
+2017-10-30,efbf2488-7f6d-41b1-8e92-c634d6065020,b4dbb68e-b3ff-4a82-b863-62fd1705297f,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,15498.07,230690007,Stroke
+1966-12-25,e5c96ef0-1c61-4bf1-9ed9-f6089a5aca57,4d7e80aa-7457-48ef-b395-3cc5d79a3b1f,447365002,Insertion of biventricular implantable cardioverter defibrillator,39108.46,410429000,Cardiac Arrest
+1966-12-25,e5c96ef0-1c61-4bf1-9ed9-f6089a5aca57,4d7e80aa-7457-48ef-b395-3cc5d79a3b1f,18286008,Catheter ablation of tissue of heart,8903.06,410429000,Cardiac Arrest
+1982-09-21,c664f9a5-eb02-42d0-8085-250c5e277949,93aee5ce-7fd4-485e-916e-b6e68e0c9265,415070008,Percutaneous coronary intervention,23812.68,22298006,Myocardial Infarction
+1982-09-21,c664f9a5-eb02-42d0-8085-250c5e277949,93aee5ce-7fd4-485e-916e-b6e68e0c9265,232717009,Coronary artery bypass grafting,78529.75,22298006,Myocardial Infarction
+1988-12-13,16b3ae8a-53e8-4323-a896-124feabb46b0,7543d84e-b319-4f6e-a672-792b1bcc719d,447365002,Insertion of biventricular implantable cardioverter defibrillator,41955.98,410429000,Cardiac Arrest
+1988-12-13,16b3ae8a-53e8-4323-a896-124feabb46b0,7543d84e-b319-4f6e-a672-792b1bcc719d,18286008,Catheter ablation of tissue of heart,11977.39,410429000,Cardiac Arrest
+1999-08-14,f41594f7-9b3a-4e04-9c26-f61415185b03,b1f0b557-b628-479d-af9f-92be807338be,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,34909.64,230690007,Stroke
+2008-04-26,f41594f7-9b3a-4e04-9c26-f61415185b03,1d0af36b-6992-4ab4-a23a-1f8742c07516,18286008,Catheter ablation of tissue of heart,9400.21,49436004,Atrial Fibrillation
+2009-05-02,f41594f7-9b3a-4e04-9c26-f61415185b03,d9dea612-45f4-4bc2-8032-3de48fd22b74,180325003,Electrical cardioversion,18470.49,49436004,Atrial Fibrillation
+2010-05-08,f41594f7-9b3a-4e04-9c26-f61415185b03,0a593cfe-0c0e-4350-8edc-a447ccab3984,18286008,Catheter ablation of tissue of heart,14542.45,49436004,Atrial Fibrillation
+2011-05-14,f41594f7-9b3a-4e04-9c26-f61415185b03,c2717996-2eb4-4ec9-be8a-bae24af9e045,180325003,Electrical cardioversion,31650.31,49436004,Atrial Fibrillation
+2012-05-19,f41594f7-9b3a-4e04-9c26-f61415185b03,0753583c-adda-44cb-8a69-5095a700e5b0,180325003,Electrical cardioversion,21429.49,49436004,Atrial Fibrillation
+2013-05-25,f41594f7-9b3a-4e04-9c26-f61415185b03,2f0652de-9a50-4a1d-b75c-522d3f77aa68,180325003,Electrical cardioversion,25356.00,49436004,Atrial Fibrillation
+2014-05-31,f41594f7-9b3a-4e04-9c26-f61415185b03,6f24267e-93d7-4fe7-b66a-150c4658a23a,180325003,Electrical cardioversion,26281.29,49436004,Atrial Fibrillation
+2015-06-06,f41594f7-9b3a-4e04-9c26-f61415185b03,2ecd1987-26b8-432e-b6b4-20352db36d9f,180325003,Electrical cardioversion,29713.90,49436004,Atrial Fibrillation
+2016-06-11,f41594f7-9b3a-4e04-9c26-f61415185b03,41765b37-dead-4110-975b-9eabb3315b72,180325003,Electrical cardioversion,27079.94,49436004,Atrial Fibrillation
+2017-06-17,f41594f7-9b3a-4e04-9c26-f61415185b03,2ae7eadb-4f58-4e95-8277-2929e05a4050,180325003,Electrical cardioversion,33980.92,49436004,Atrial Fibrillation
+2018-06-23,f41594f7-9b3a-4e04-9c26-f61415185b03,13ee8ba3-4c18-4bfa-b224-64986373ab32,180325003,Electrical cardioversion,48388.03,49436004,Atrial Fibrillation
+2019-06-29,f41594f7-9b3a-4e04-9c26-f61415185b03,d989a0af-f7a2-4a8f-b27e-d26fcdbb5753,180325003,Electrical cardioversion,29032.46,49436004,Atrial Fibrillation
+1979-04-02,b86214c3-6829-48a3-827a-7d44c1024a5a,24cdf8fc-e968-40b3-8d71-0379971528a3,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,20708.20,230690007,Stroke
+2005-01-22,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,05f7d1b7-d66e-4726-a341-d6ec8dc54ef0,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,24424.07,230690007,Stroke
+2006-11-18,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,650980d2-9ed6-4129-abe2-b768a97fc698,180325003,Electrical cardioversion,35572.90,49436004,Atrial Fibrillation
+2007-11-24,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,eac870c1-842c-49f3-befd-2747f8ea9518,180325003,Electrical cardioversion,22849.51,49436004,Atrial Fibrillation
+2008-11-29,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,48b23805-21ff-4faf-a4a6-b40cbe432f9b,180325003,Electrical cardioversion,40264.10,49436004,Atrial Fibrillation
+2009-12-05,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,84502101-db6c-4edf-9752-b6e8faab8b27,180325003,Electrical cardioversion,31295.63,49436004,Atrial Fibrillation
+2010-12-11,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,5946367b-0e2a-48ce-acad-37e098db4340,180325003,Electrical cardioversion,29533.08,49436004,Atrial Fibrillation
+2011-12-17,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,f8235353-a5c1-40a7-b553-8fff12bf1b5e,180325003,Electrical cardioversion,27929.65,49436004,Atrial Fibrillation
+2012-12-22,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,4bf28214-f3d6-48bc-adbb-2dc00cdcf6a4,180325003,Electrical cardioversion,28232.98,49436004,Atrial Fibrillation
+2013-12-28,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,e07d553f-fd61-42ff-8f46-242d265657ec,180325003,Electrical cardioversion,26533.65,49436004,Atrial Fibrillation
+2015-01-03,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,4eb555ba-d017-40a6-a6ce-e293f162d6c1,180325003,Electrical cardioversion,35094.72,49436004,Atrial Fibrillation
+2016-01-09,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,ce0e8e6f-0ec2-4805-867d-8d0951e9f6a8,180325003,Electrical cardioversion,31359.56,49436004,Atrial Fibrillation
+2017-01-14,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,226b6a10-bb29-4729-b3f0-8623e3c520d9,180325003,Electrical cardioversion,49968.62,49436004,Atrial Fibrillation
+2018-01-20,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,042538d8-8495-4907-a3ac-49b6674d9e71,180325003,Electrical cardioversion,28614.25,49436004,Atrial Fibrillation
+2019-01-26,ef44ab44-3bbb-44d1-9029-9f2b92cfcafc,a0d6626f-13ca-42de-afb4-6f120b10637f,180325003,Electrical cardioversion,38011.55,49436004,Atrial Fibrillation
+1997-02-11,0c780a89-ec78-42b6-9c83-64627685fed0,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,415070008,Percutaneous coronary intervention,33570.29,22298006,Myocardial Infarction
+1997-02-11,0c780a89-ec78-42b6-9c83-64627685fed0,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,232717009,Coronary artery bypass grafting,41524.81,22298006,Myocardial Infarction
+2015-09-03,823a88fb-d068-436c-b23a-4fe2dd688149,9da9421b-cb04-47d1-80af-d5bede3b128a,447365002,Insertion of biventricular implantable cardioverter defibrillator,35092.78,410429000,Cardiac Arrest
+2015-09-03,823a88fb-d068-436c-b23a-4fe2dd688149,9da9421b-cb04-47d1-80af-d5bede3b128a,18286008,Catheter ablation of tissue of heart,12050.76,410429000,Cardiac Arrest
+2013-07-29,4e84cbba-25a1-4946-b6c7-7e11c50295fd,76650832-ab51-4187-9313-c4e9fb5e481c,447365002,Insertion of biventricular implantable cardioverter defibrillator,25102.12,410429000,Cardiac Arrest
+2013-07-29,4e84cbba-25a1-4946-b6c7-7e11c50295fd,76650832-ab51-4187-9313-c4e9fb5e481c,18286008,Catheter ablation of tissue of heart,11613.89,410429000,Cardiac Arrest
+1982-06-28,8ae38ead-6376-4c28-90f6-b82657989899,ec45dbd5-4e00-4dae-9951-750e1f8d7b94,180325003,Electrical cardioversion,31818.14,49436004,Atrial Fibrillation
+1984-07-02,8ae38ead-6376-4c28-90f6-b82657989899,4fdf9f67-9aff-47b4-b3fa-b2ef304ba823,180325003,Electrical cardioversion,30538.50,49436004,Atrial Fibrillation
+1986-06-09,8ae38ead-6376-4c28-90f6-b82657989899,72d96254-e866-40c6-aa65-b05188febdb6,180325003,Electrical cardioversion,28884.41,49436004,Atrial Fibrillation
+1987-06-15,8ae38ead-6376-4c28-90f6-b82657989899,72355a14-1bd9-488d-95e8-9799df90c431,180325003,Electrical cardioversion,24734.73,49436004,Atrial Fibrillation
+1988-06-20,8ae38ead-6376-4c28-90f6-b82657989899,e3575f61-163c-47b0-a794-636c0fe9ee4a,18286008,Catheter ablation of tissue of heart,12998.11,49436004,Atrial Fibrillation
+1989-06-26,8ae38ead-6376-4c28-90f6-b82657989899,dc1fe197-f526-4e5d-bb88-db32aecf980c,18286008,Catheter ablation of tissue of heart,17208.33,49436004,Atrial Fibrillation
+1990-07-02,8ae38ead-6376-4c28-90f6-b82657989899,3d7a57c8-8ec4-41be-8e0b-1375ae2955c2,180325003,Electrical cardioversion,37786.54,49436004,Atrial Fibrillation
+1991-07-08,8ae38ead-6376-4c28-90f6-b82657989899,ec2a23f7-c9c6-4b37-86d5-b7f59349dd56,180325003,Electrical cardioversion,34711.26,49436004,Atrial Fibrillation
+1992-07-13,8ae38ead-6376-4c28-90f6-b82657989899,5a742ab5-a929-4164-b3bc-ff9a912bf91e,180325003,Electrical cardioversion,23852.22,49436004,Atrial Fibrillation
+1993-07-19,8ae38ead-6376-4c28-90f6-b82657989899,7dae51e3-0be9-4a27-9a34-306ea595c314,180325003,Electrical cardioversion,35502.00,49436004,Atrial Fibrillation
+1994-07-25,8ae38ead-6376-4c28-90f6-b82657989899,7225d124-8ec2-41dc-9867-430ebf676afe,180325003,Electrical cardioversion,28869.24,49436004,Atrial Fibrillation
+1995-07-31,8ae38ead-6376-4c28-90f6-b82657989899,ccef660d-61ad-493c-b196-3bb6412b2264,180325003,Electrical cardioversion,33732.45,49436004,Atrial Fibrillation
+1996-08-05,8ae38ead-6376-4c28-90f6-b82657989899,6f93948b-3619-4bc4-a789-2fe909925638,180325003,Electrical cardioversion,23760.09,49436004,Atrial Fibrillation
+1997-08-11,8ae38ead-6376-4c28-90f6-b82657989899,9e36c66b-6397-473c-9d59-7aa3b9f567f3,180325003,Electrical cardioversion,32154.81,49436004,Atrial Fibrillation
+1998-08-17,8ae38ead-6376-4c28-90f6-b82657989899,f7e2f838-b0bc-4179-85cd-6e07d3490296,180325003,Electrical cardioversion,23641.48,49436004,Atrial Fibrillation
+1999-08-23,8ae38ead-6376-4c28-90f6-b82657989899,6710e7ca-9840-4885-8b34-caa31c8d56a5,180325003,Electrical cardioversion,20542.75,49436004,Atrial Fibrillation
+2000-08-28,8ae38ead-6376-4c28-90f6-b82657989899,f98a55d2-9d2b-4528-82e2-93d3801f44bb,180325003,Electrical cardioversion,34161.34,49436004,Atrial Fibrillation
+2001-09-03,8ae38ead-6376-4c28-90f6-b82657989899,a1eccdea-517e-47a4-a7d8-f9a02a384a8c,180325003,Electrical cardioversion,35136.89,49436004,Atrial Fibrillation
+2002-09-09,8ae38ead-6376-4c28-90f6-b82657989899,b7145b31-f649-452b-83a7-8c8f84bae45e,180325003,Electrical cardioversion,49081.68,49436004,Atrial Fibrillation
+2003-09-15,8ae38ead-6376-4c28-90f6-b82657989899,7fa6d925-3e6e-4ef3-a192-8f2ce814076b,18286008,Catheter ablation of tissue of heart,14313.97,49436004,Atrial Fibrillation
+2004-09-20,8ae38ead-6376-4c28-90f6-b82657989899,2920d5cd-7709-404d-9063-8c6b9b033679,18286008,Catheter ablation of tissue of heart,12423.94,49436004,Atrial Fibrillation
+2005-09-26,8ae38ead-6376-4c28-90f6-b82657989899,fd01ff09-bd0a-4ef8-8376-c51918008b4c,180325003,Electrical cardioversion,18154.94,49436004,Atrial Fibrillation
+2006-10-02,8ae38ead-6376-4c28-90f6-b82657989899,d2e4f944-f41d-4d0e-917e-4b83fa4c4e5c,180325003,Electrical cardioversion,29411.28,49436004,Atrial Fibrillation
+2007-10-08,8ae38ead-6376-4c28-90f6-b82657989899,ff1c04da-6829-466e-9e82-98edd21e534c,180325003,Electrical cardioversion,30283.29,49436004,Atrial Fibrillation
+2008-10-13,8ae38ead-6376-4c28-90f6-b82657989899,6d675a7d-9b16-48b8-be51-e216b9d0468e,180325003,Electrical cardioversion,33078.64,49436004,Atrial Fibrillation
+2009-10-19,8ae38ead-6376-4c28-90f6-b82657989899,bf3596b3-fde9-4d65-ab90-95f1fe01798a,180325003,Electrical cardioversion,31571.48,49436004,Atrial Fibrillation
+2010-10-25,8ae38ead-6376-4c28-90f6-b82657989899,116b05fe-fcdc-40d4-a1b9-3b1b49597396,180325003,Electrical cardioversion,20159.04,49436004,Atrial Fibrillation
+2011-10-31,8ae38ead-6376-4c28-90f6-b82657989899,7092f55d-9c94-474e-ae26-ec754ad85d21,180325003,Electrical cardioversion,27491.80,49436004,Atrial Fibrillation
+2012-11-05,8ae38ead-6376-4c28-90f6-b82657989899,2ff1bd56-375b-4054-8a7a-9b9c5eeb0872,180325003,Electrical cardioversion,44451.23,49436004,Atrial Fibrillation
+2013-11-11,8ae38ead-6376-4c28-90f6-b82657989899,1fdf610d-c1d1-45c8-b3c6-f689931a2dfc,180325003,Electrical cardioversion,25429.55,49436004,Atrial Fibrillation
+2014-11-17,8ae38ead-6376-4c28-90f6-b82657989899,e8a56c89-b616-4c36-9697-7a27b6c2b656,180325003,Electrical cardioversion,28422.84,49436004,Atrial Fibrillation
+2015-11-23,8ae38ead-6376-4c28-90f6-b82657989899,7caa8150-0892-40f1-8247-576572a5fcbf,180325003,Electrical cardioversion,37331.76,49436004,Atrial Fibrillation
+2016-11-28,8ae38ead-6376-4c28-90f6-b82657989899,4f1ba436-c9d8-4f1d-858c-71ab930b576b,18286008,Catheter ablation of tissue of heart,9672.51,49436004,Atrial Fibrillation
+2017-12-04,8ae38ead-6376-4c28-90f6-b82657989899,3f40d01d-e5a2-4815-ad8d-09c8eb44478f,180325003,Electrical cardioversion,20490.13,49436004,Atrial Fibrillation
+2018-12-10,8ae38ead-6376-4c28-90f6-b82657989899,31872ae3-5392-40c7-a636-1e5cb422c25c,18286008,Catheter ablation of tissue of heart,8447.13,49436004,Atrial Fibrillation
+2000-02-15,38050d7a-c177-411c-8e18-7d040443f13f,0d43f06c-c15e-4706-bff3-2d0b5a7b3aab,447365002,Insertion of biventricular implantable cardioverter defibrillator,18757.60,410429000,Cardiac Arrest
+2000-02-15,38050d7a-c177-411c-8e18-7d040443f13f,0d43f06c-c15e-4706-bff3-2d0b5a7b3aab,18286008,Catheter ablation of tissue of heart,12676.52,410429000,Cardiac Arrest
+2016-05-02,cb484a31-e4f4-4de2-8e1e-4945a7a195e8,bc5eb80d-04ab-467c-ae0f-025edc940579,447365002,Insertion of biventricular implantable cardioverter defibrillator,37642.49,410429000,Cardiac Arrest
+2016-05-02,cb484a31-e4f4-4de2-8e1e-4945a7a195e8,bc5eb80d-04ab-467c-ae0f-025edc940579,18286008,Catheter ablation of tissue of heart,9599.03,410429000,Cardiac Arrest
+2008-03-19,bad5ceb2-4177-4a58-b671-6b93e68781bb,cd538bb0-9552-41ed-80a5-f6a0266e639d,18286008,Catheter ablation of tissue of heart,13101.53,49436004,Atrial Fibrillation
+2009-03-25,bad5ceb2-4177-4a58-b671-6b93e68781bb,79606a8a-b1fd-4af7-861c-9dbf1f4059ab,180325003,Electrical cardioversion,27294.81,49436004,Atrial Fibrillation
+2010-03-31,bad5ceb2-4177-4a58-b671-6b93e68781bb,ca5a4a8b-f3a2-49ad-9a88-b0b0724655e5,180325003,Electrical cardioversion,44288.86,49436004,Atrial Fibrillation
+2011-04-06,bad5ceb2-4177-4a58-b671-6b93e68781bb,b1ab3c5d-c579-4b93-882b-d000cdc47ab9,180325003,Electrical cardioversion,34218.87,49436004,Atrial Fibrillation
+2012-04-11,bad5ceb2-4177-4a58-b671-6b93e68781bb,45d6a755-ba3e-49cc-9031-da58a4783add,180325003,Electrical cardioversion,42434.00,49436004,Atrial Fibrillation
+2013-04-17,bad5ceb2-4177-4a58-b671-6b93e68781bb,345cbce4-ac8e-426d-b7f4-f74eff164f18,180325003,Electrical cardioversion,22616.12,49436004,Atrial Fibrillation
+2014-04-23,bad5ceb2-4177-4a58-b671-6b93e68781bb,a3bb6411-a801-4f9d-a217-890ca2394d03,180325003,Electrical cardioversion,42537.69,49436004,Atrial Fibrillation
+2015-04-29,bad5ceb2-4177-4a58-b671-6b93e68781bb,e61feda4-e74f-4565-9568-ce30a9c82e60,180325003,Electrical cardioversion,19775.13,49436004,Atrial Fibrillation
+2016-05-04,bad5ceb2-4177-4a58-b671-6b93e68781bb,17afc3aa-9b81-4a2f-a9da-fb48cb879c9f,180325003,Electrical cardioversion,49916.40,49436004,Atrial Fibrillation
+2017-05-10,bad5ceb2-4177-4a58-b671-6b93e68781bb,0a98a637-b452-4f8a-ad4f-9fe16579fef4,180325003,Electrical cardioversion,29498.77,49436004,Atrial Fibrillation
+2018-05-16,bad5ceb2-4177-4a58-b671-6b93e68781bb,c03ef71c-020b-4183-b108-7f5ef1a50b20,180325003,Electrical cardioversion,39835.85,49436004,Atrial Fibrillation
+2019-05-22,bad5ceb2-4177-4a58-b671-6b93e68781bb,cea530c2-4412-42cb-9723-50a152599625,180325003,Electrical cardioversion,30737.42,49436004,Atrial Fibrillation
+2007-04-24,132bd38f-e186-4867-a21f-615dd5cadb8d,fec2fa90-35f1-48c4-aa79-3df173a74075,415070008,Percutaneous coronary intervention,33140.85,22298006,Myocardial Infarction
+2007-04-24,132bd38f-e186-4867-a21f-615dd5cadb8d,fec2fa90-35f1-48c4-aa79-3df173a74075,232717009,Coronary artery bypass grafting,65990.76,22298006,Myocardial Infarction
+2016-02-04,78b974fb-c582-472e-b819-fcc2b9c51f08,8c8e83a2-f555-4727-a415-5f908cf73155,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,23040.93,230690007,Stroke
+1978-10-05,2126792c-845c-43c5-9cb5-2ea4b1c4a24f,b99ce345-f04e-4317-b45e-5fed9ff3b329,447365002,Insertion of biventricular implantable cardioverter defibrillator,27519.10,410429000,Cardiac Arrest
+1978-10-05,2126792c-845c-43c5-9cb5-2ea4b1c4a24f,b99ce345-f04e-4317-b45e-5fed9ff3b329,18286008,Catheter ablation of tissue of heart,12719.11,410429000,Cardiac Arrest
+2016-06-10,f27fcd6a-4bcb-4b3b-9bd2-9f58a2354a46,b5581dc8-8353-4c78-85b0-d8e08fcac0c2,415070008,Percutaneous coronary intervention,13735.69,22298006,Myocardial Infarction
+2016-06-10,f27fcd6a-4bcb-4b3b-9bd2-9f58a2354a46,b5581dc8-8353-4c78-85b0-d8e08fcac0c2,232717009,Coronary artery bypass grafting,58616.50,22298006,Myocardial Infarction
+2018-10-25,a2eb6ef8-bd7a-4113-961e-71746cfa4a6b,7fc40882-d419-46eb-a309-21f3aed05fcc,18286008,Catheter ablation of tissue of heart,10668.70,49436004,Atrial Fibrillation
+1988-01-25,07e1995f-9570-4871-b957-c0eaa5f79bee,a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0,447365002,Insertion of biventricular implantable cardioverter defibrillator,43313.37,410429000,Cardiac Arrest
+1988-01-25,07e1995f-9570-4871-b957-c0eaa5f79bee,a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0,18286008,Catheter ablation of tissue of heart,10183.94,410429000,Cardiac Arrest
+2003-09-25,0f93d1a5-6b73-489e-bcb5-d3525beba859,e66deb64-c9d2-4143-8fe7-b40ec487142e,180325003,Electrical cardioversion,34264.70,49436004,Atrial Fibrillation
+2004-09-30,0f93d1a5-6b73-489e-bcb5-d3525beba859,239da2f3-2cc7-47ff-b9ed-8cb933035aea,180325003,Electrical cardioversion,35143.33,49436004,Atrial Fibrillation
+2005-08-04,0f93d1a5-6b73-489e-bcb5-d3525beba859,239da2f3-2cc7-47ff-b9ed-8cb933035aea,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,31850.87,230690007,Stroke
+2005-10-06,0f93d1a5-6b73-489e-bcb5-d3525beba859,9af4a087-aeb6-4b9c-a10c-be3c8e3afa53,18286008,Catheter ablation of tissue of heart,11967.73,49436004,Atrial Fibrillation
+2006-10-12,0f93d1a5-6b73-489e-bcb5-d3525beba859,b6a13c28-7afe-4935-bc8a-7b25b140f0e8,18286008,Catheter ablation of tissue of heart,11148.59,49436004,Atrial Fibrillation
+2007-10-18,0f93d1a5-6b73-489e-bcb5-d3525beba859,761567b5-4c99-4139-bd1b-b64cdb534fbc,180325003,Electrical cardioversion,30475.51,49436004,Atrial Fibrillation
+2008-10-23,0f93d1a5-6b73-489e-bcb5-d3525beba859,54ef8244-530e-4555-9cea-85a518395321,180325003,Electrical cardioversion,49342.04,49436004,Atrial Fibrillation
+2009-10-29,0f93d1a5-6b73-489e-bcb5-d3525beba859,363c9710-d23f-4e46-90a3-0583a0031e14,180325003,Electrical cardioversion,25237.11,49436004,Atrial Fibrillation
+2010-11-04,0f93d1a5-6b73-489e-bcb5-d3525beba859,1289e3d2-c48f-49fd-b03e-3cc42003b32f,180325003,Electrical cardioversion,19618.14,49436004,Atrial Fibrillation
+2011-11-10,0f93d1a5-6b73-489e-bcb5-d3525beba859,133af88f-e5ae-4308-8dce-736800929b4d,180325003,Electrical cardioversion,22124.11,49436004,Atrial Fibrillation
+2012-11-15,0f93d1a5-6b73-489e-bcb5-d3525beba859,e61fc33c-e259-40d3-8a75-5fc54ee01460,18286008,Catheter ablation of tissue of heart,15130.97,49436004,Atrial Fibrillation
+2013-11-21,0f93d1a5-6b73-489e-bcb5-d3525beba859,e7484de8-68ac-4392-8f7a-28706c3eb0a8,180325003,Electrical cardioversion,20994.12,49436004,Atrial Fibrillation
+2014-11-27,0f93d1a5-6b73-489e-bcb5-d3525beba859,d0a016aa-1493-4c6e-898b-b3a4b369a832,180325003,Electrical cardioversion,44811.61,49436004,Atrial Fibrillation
+2015-12-03,0f93d1a5-6b73-489e-bcb5-d3525beba859,1cc6598e-33f7-4081-9396-d91f6d61bd64,180325003,Electrical cardioversion,32191.25,49436004,Atrial Fibrillation
+2016-12-08,0f93d1a5-6b73-489e-bcb5-d3525beba859,bb72f2e2-894c-4617-aa96-efcd4eda46d4,18286008,Catheter ablation of tissue of heart,9206.14,49436004,Atrial Fibrillation
+2017-12-14,0f93d1a5-6b73-489e-bcb5-d3525beba859,c309b694-8bca-4668-af36-c40cd76bd4bc,180325003,Electrical cardioversion,31112.05,49436004,Atrial Fibrillation
+2018-12-20,0f93d1a5-6b73-489e-bcb5-d3525beba859,de906328-5794-4c60-8c1d-60e0fbef73fd,180325003,Electrical cardioversion,37329.33,49436004,Atrial Fibrillation
+2019-05-15,dc6674a9-ebf6-4a4a-8106-cf14d48e4244,59750990-a2f2-4837-9902-8ff960d6096c,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,26584.66,230690007,Stroke
+1984-01-15,daa860df-0d7d-48ea-af2e-deaf724bd5ee,0626d58c-ac3c-4c10-b667-924556e182f9,447365002,Insertion of biventricular implantable cardioverter defibrillator,38320.79,410429000,Cardiac Arrest
+1984-01-15,daa860df-0d7d-48ea-af2e-deaf724bd5ee,0626d58c-ac3c-4c10-b667-924556e182f9,18286008,Catheter ablation of tissue of heart,11055.36,410429000,Cardiac Arrest
+1995-06-29,13423233-1595-40f4-90ae-8520000d7699,2578641b-c5f2-4085-be32-fad56b22bd07,447365002,Insertion of biventricular implantable cardioverter defibrillator,17629.56,410429000,Cardiac Arrest
+1995-06-29,13423233-1595-40f4-90ae-8520000d7699,2578641b-c5f2-4085-be32-fad56b22bd07,18286008,Catheter ablation of tissue of heart,18359.41,410429000,Cardiac Arrest
+1999-03-23,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,14ad36af-ac26-49ff-9802-57bd6b414a65,180325003,Electrical cardioversion,29116.61,49436004,Atrial Fibrillation
+2000-03-28,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,cd380e0a-4ea6-4eff-935b-556770acb2a9,180325003,Electrical cardioversion,28373.11,49436004,Atrial Fibrillation
+2001-04-03,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,be341bfc-41c3-48d0-a37b-e0d76a00ff4b,180325003,Electrical cardioversion,32491.67,49436004,Atrial Fibrillation
+2002-04-09,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,03f48011-b256-4a68-88a4-ab2011461a56,180325003,Electrical cardioversion,21086.23,49436004,Atrial Fibrillation
+2003-04-15,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,4cec8c67-98b0-4c51-8dba-ed6a8b3042b5,18286008,Catheter ablation of tissue of heart,10164.10,49436004,Atrial Fibrillation
+2004-04-20,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,17b0d5dd-a63c-4e33-873d-ee810a11f67b,180325003,Electrical cardioversion,36010.73,49436004,Atrial Fibrillation
+2005-04-26,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,647415cd-44f7-446c-b5b0-5a1274c08e57,18286008,Catheter ablation of tissue of heart,14306.56,49436004,Atrial Fibrillation
+2006-05-02,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,ef52bcc5-0ac7-406c-b515-2c1342e58bdc,18286008,Catheter ablation of tissue of heart,9166.03,49436004,Atrial Fibrillation
+2007-05-08,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,d1193a70-3aba-4a34-b47a-37390e6d16c7,180325003,Electrical cardioversion,35529.90,49436004,Atrial Fibrillation
+2008-05-13,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,bdc6cb09-d7d2-4b34-90d0-f18d3cadc663,18286008,Catheter ablation of tissue of heart,16799.74,49436004,Atrial Fibrillation
+2009-05-19,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,5a46d92a-8715-449a-80ac-375a4496b496,180325003,Electrical cardioversion,33000.02,49436004,Atrial Fibrillation
+2010-05-25,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,186a4b11-2221-4bf4-a085-32ff3518256d,180325003,Electrical cardioversion,29734.31,49436004,Atrial Fibrillation
+2011-05-31,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,52cf557a-becc-4ed3-959e-393bb3f5bb2c,18286008,Catheter ablation of tissue of heart,12803.18,49436004,Atrial Fibrillation
+2012-06-05,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,a6f3682e-eca5-489e-aad2-f6739fa2d3b5,180325003,Electrical cardioversion,29851.37,49436004,Atrial Fibrillation
+2013-06-11,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,3591970d-b441-4001-aaa9-646834d514c3,180325003,Electrical cardioversion,23912.56,49436004,Atrial Fibrillation
+2014-06-17,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,670844a4-0314-42b2-8b62-7bcb96004920,180325003,Electrical cardioversion,39134.48,49436004,Atrial Fibrillation
+2015-06-23,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,d42032f4-ca3b-4afb-a61d-017112492a8f,18286008,Catheter ablation of tissue of heart,14314.91,49436004,Atrial Fibrillation
+2016-06-28,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,52b3373a-b824-470f-9294-97c418e97546,180325003,Electrical cardioversion,41737.11,49436004,Atrial Fibrillation
+2017-07-04,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,ad7910d5-ea2c-476c-b4dc-a995723ea72d,180325003,Electrical cardioversion,23775.82,49436004,Atrial Fibrillation
+2018-07-10,f881be72-5bc1-41d5-bccf-bc4e3c837e1f,6cab892e-5dce-4db0-9929-bf6f897579ca,180325003,Electrical cardioversion,26459.42,49436004,Atrial Fibrillation
+2016-03-25,0ef18439-d319-4271-8749-1805438e838f,3be58d54-2d47-4a25-bd38-d8f21d646bff,180325003,Electrical cardioversion,37274.06,49436004,Atrial Fibrillation
+2017-03-31,0ef18439-d319-4271-8749-1805438e838f,2a42348b-9951-4278-970f-8c58023703e0,180325003,Electrical cardioversion,34227.21,49436004,Atrial Fibrillation
+2018-04-06,0ef18439-d319-4271-8749-1805438e838f,60ac880c-271a-4ed3-bf1c-12a1e1b9e7d8,180325003,Electrical cardioversion,23449.35,49436004,Atrial Fibrillation
+2019-04-12,0ef18439-d319-4271-8749-1805438e838f,ddf24257-2e36-45a5-89cf-9111fa5fe408,18286008,Catheter ablation of tissue of heart,9759.95,49436004,Atrial Fibrillation
+2013-06-13,5ea6fc11-3969-4d0a-a284-eb18d60e4003,18906665-ac88-4570-9945-6bffcacfa0d5,447365002,Insertion of biventricular implantable cardioverter defibrillator,14688.50,410429000,Cardiac Arrest
+2013-06-13,5ea6fc11-3969-4d0a-a284-eb18d60e4003,18906665-ac88-4570-9945-6bffcacfa0d5,18286008,Catheter ablation of tissue of heart,9326.00,410429000,Cardiac Arrest
+1981-11-28,323ae187-7fe2-4467-8124-8e0d64a5c6a4,c3c4655c-12d8-46e8-8b50-69b17f5b57b9,447365002,Insertion of biventricular implantable cardioverter defibrillator,20293.77,410429000,Cardiac Arrest
+1981-11-28,323ae187-7fe2-4467-8124-8e0d64a5c6a4,c3c4655c-12d8-46e8-8b50-69b17f5b57b9,18286008,Catheter ablation of tissue of heart,10568.95,410429000,Cardiac Arrest
+2018-12-01,323ae187-7fe2-4467-8124-8e0d64a5c6a4,39056087-7994-4b3f-9040-ec26168f3bbc,180325003,Electrical cardioversion,35694.46,49436004,Atrial Fibrillation
+2019-05-25,d2a2f451-99a1-4e1d-9f07-e08d7071200d,25192e47-48d7-4704-93a1-a368f07825d9,415070008,Percutaneous coronary intervention,26635.94,22298006,Myocardial Infarction
+2019-05-25,d2a2f451-99a1-4e1d-9f07-e08d7071200d,25192e47-48d7-4704-93a1-a368f07825d9,232717009,Coronary artery bypass grafting,42462.91,22298006,Myocardial Infarction
+2011-08-27,bfbbd40c-2fdb-4625-8a25-23ee57452b5a,b852dcfb-e9ee-4bef-9af9-acf5a7c9f44b,180325003,Electrical cardioversion,36624.32,49436004,Atrial Fibrillation
+2012-09-01,bfbbd40c-2fdb-4625-8a25-23ee57452b5a,6f34f6a3-4406-4e29-8841-1e8e2d051622,180325003,Electrical cardioversion,35753.55,49436004,Atrial Fibrillation
+2013-09-07,bfbbd40c-2fdb-4625-8a25-23ee57452b5a,8426b5f8-5517-496f-8ea4-5d3de693d8c4,18286008,Catheter ablation of tissue of heart,16922.11,49436004,Atrial Fibrillation
+2014-09-13,bfbbd40c-2fdb-4625-8a25-23ee57452b5a,4e103078-38f8-4510-a4f2-6f3bb4bea8ea,180325003,Electrical cardioversion,40379.11,49436004,Atrial Fibrillation
+2015-09-19,bfbbd40c-2fdb-4625-8a25-23ee57452b5a,66a7fb0c-befa-449f-9230-81dd5c16be77,180325003,Electrical cardioversion,26439.58,49436004,Atrial Fibrillation
+2016-09-24,bfbbd40c-2fdb-4625-8a25-23ee57452b5a,6efd8596-5c2f-4a97-a3de-b1b3dfe15563,180325003,Electrical cardioversion,44798.57,49436004,Atrial Fibrillation
+2017-09-30,bfbbd40c-2fdb-4625-8a25-23ee57452b5a,f0939c45-9186-4ceb-9ab8-fa0c59d373c3,180325003,Electrical cardioversion,30251.87,49436004,Atrial Fibrillation
+2018-10-06,bfbbd40c-2fdb-4625-8a25-23ee57452b5a,5a1daa54-79a8-4c95-bde7-f28bbf9db88e,180325003,Electrical cardioversion,46764.27,49436004,Atrial Fibrillation
+2018-11-29,1ce13068-1d77-43dd-81dc-a7a7124bb2b0,7d46b3dd-9a7f-4558-b6e6-8215fd6e4b6a,180325003,Electrical cardioversion,43062.97,49436004,Atrial Fibrillation
+2011-07-30,7081a0b1-1bf8-4dd4-8fa6-ce601df7967f,c864b6c8-9ce8-4a2c-9844-2fd98adbf27a,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,30642.12,230690007,Stroke
+1981-11-13,7f5af999-d3a7-4e42-8bfe-5e2c309e2ab8,9434afa4-76e7-437b-99e5-14118fb2ff1f,447365002,Insertion of biventricular implantable cardioverter defibrillator,28461.73,410429000,Cardiac Arrest
+1981-11-13,7f5af999-d3a7-4e42-8bfe-5e2c309e2ab8,9434afa4-76e7-437b-99e5-14118fb2ff1f,18286008,Catheter ablation of tissue of heart,11771.43,410429000,Cardiac Arrest
+2007-02-01,da832082-5762-4d62-86af-580653f772ad,13e3641c-238b-48de-a6fd-048442a5626f,415070008,Percutaneous coronary intervention,29035.43,22298006,Myocardial Infarction
+2007-02-01,da832082-5762-4d62-86af-580653f772ad,13e3641c-238b-48de-a6fd-048442a5626f,232717009,Coronary artery bypass grafting,44676.10,22298006,Myocardial Infarction
+2004-01-26,5f39ade4-6fc6-442b-a3e4-4f352b554e85,a6a67c22-da21-44d5-9f7d-0bfc0bec1a9d,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,32681.33,230690007,Stroke
+2019-05-20,5f39ade4-6fc6-442b-a3e4-4f352b554e85,531539e6-f4f7-4fa4-a5fb-88647e35b725,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,20033.18,230690007,Stroke
+2005-07-08,16bf0c10-0649-49e9-b8a7-7f85851f85b1,c7abfec6-41f3-4e57-9cc1-fb5612b0583c,415070008,Percutaneous coronary intervention,19207.11,22298006,Myocardial Infarction
+2005-07-08,16bf0c10-0649-49e9-b8a7-7f85851f85b1,c7abfec6-41f3-4e57-9cc1-fb5612b0583c,232717009,Coronary artery bypass grafting,50523.79,22298006,Myocardial Infarction
+1993-04-17,a8ba6523-942a-4c79-a4a1-c4a9d981723c,eb3445c6-9227-4fa3-bc56-a98043db24a7,447365002,Insertion of biventricular implantable cardioverter defibrillator,31070.52,410429000,Cardiac Arrest
+1993-04-17,a8ba6523-942a-4c79-a4a1-c4a9d981723c,eb3445c6-9227-4fa3-bc56-a98043db24a7,18286008,Catheter ablation of tissue of heart,10409.18,410429000,Cardiac Arrest
+2011-11-25,6e998922-0129-496f-94f6-d65b4e5e2d46,c309a740-e154-471c-a988-2431a87ce2df,415070008,Percutaneous coronary intervention,19131.67,22298006,Myocardial Infarction
+2011-11-25,6e998922-0129-496f-94f6-d65b4e5e2d46,c309a740-e154-471c-a988-2431a87ce2df,232717009,Coronary artery bypass grafting,67660.18,22298006,Myocardial Infarction
+2003-11-07,4b46b521-9a7e-4e3e-a0ba-1525787ee207,4550bd0d-d346-479b-8cb9-b55a61204ca2,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,25457.57,230690007,Stroke
+2004-02-05,0ac23904-64b6-4357-b5ad-b03571d173e4,f5bf81f9-f42b-45f2-a876-210ad6494c6a,180325003,Electrical cardioversion,40278.09,49436004,Atrial Fibrillation
+2005-02-10,0ac23904-64b6-4357-b5ad-b03571d173e4,26b187ab-8379-4447-9545-d7de9128fe18,180325003,Electrical cardioversion,44099.31,49436004,Atrial Fibrillation
+2006-02-16,0ac23904-64b6-4357-b5ad-b03571d173e4,1360ddbd-d56c-4381-bb44-880596b1699e,180325003,Electrical cardioversion,36986.37,49436004,Atrial Fibrillation
+2007-02-22,0ac23904-64b6-4357-b5ad-b03571d173e4,2e0a43ff-941b-4b93-82e8-98c66f7286c3,180325003,Electrical cardioversion,29682.43,49436004,Atrial Fibrillation
+2008-02-28,0ac23904-64b6-4357-b5ad-b03571d173e4,8a71b807-e5e5-471a-8d79-b01f42130f20,18286008,Catheter ablation of tissue of heart,7669.59,49436004,Atrial Fibrillation
+2009-03-05,0ac23904-64b6-4357-b5ad-b03571d173e4,0ec49acf-732c-4bb9-a49e-bbf3a529f447,180325003,Electrical cardioversion,28577.27,49436004,Atrial Fibrillation
+2010-03-11,0ac23904-64b6-4357-b5ad-b03571d173e4,1786b753-8747-452d-8822-06c1a2a14074,180325003,Electrical cardioversion,46321.64,49436004,Atrial Fibrillation
+2011-03-17,0ac23904-64b6-4357-b5ad-b03571d173e4,9cb4fb6b-f78d-4edf-b28e-b51bef75f1d4,18286008,Catheter ablation of tissue of heart,9731.64,49436004,Atrial Fibrillation
+2012-03-22,0ac23904-64b6-4357-b5ad-b03571d173e4,9fe0b803-55b5-4498-afac-d2339ebbfc6f,180325003,Electrical cardioversion,27576.60,49436004,Atrial Fibrillation
+2013-03-28,0ac23904-64b6-4357-b5ad-b03571d173e4,aa957aec-b501-45f7-b08c-574109ee122b,180325003,Electrical cardioversion,18613.93,49436004,Atrial Fibrillation
+2014-04-03,0ac23904-64b6-4357-b5ad-b03571d173e4,56de766f-1580-4697-8dea-dae67cb1f347,180325003,Electrical cardioversion,33891.16,49436004,Atrial Fibrillation
+2015-04-09,0ac23904-64b6-4357-b5ad-b03571d173e4,e8d2ed75-f3d7-4854-a234-78b8ff9dadca,180325003,Electrical cardioversion,32968.67,49436004,Atrial Fibrillation
+2016-04-14,0ac23904-64b6-4357-b5ad-b03571d173e4,ec5acad9-17c3-41b1-be71-ecf7f29c2d16,180325003,Electrical cardioversion,46609.18,49436004,Atrial Fibrillation
+2017-04-20,0ac23904-64b6-4357-b5ad-b03571d173e4,5089b994-e3f0-4f0c-8e2f-4b63f0af6381,180325003,Electrical cardioversion,26300.49,49436004,Atrial Fibrillation
+2018-04-26,0ac23904-64b6-4357-b5ad-b03571d173e4,ebd0b02d-d0e8-4c13-a6ae-e3ae0867320c,180325003,Electrical cardioversion,23304.86,49436004,Atrial Fibrillation
+2019-05-02,0ac23904-64b6-4357-b5ad-b03571d173e4,ddbcf75a-aabb-484f-9a6d-c25e6f43aeed,180325003,Electrical cardioversion,28216.68,49436004,Atrial Fibrillation
+2011-01-21,da5dbf92-eb94-4bae-a289-88a5758db3eb,fa1e21f8-0f33-4838-8191-839cc5dcd369,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,22092.04,230690007,Stroke
+1969-04-02,61d04222-1ccc-48d1-a8ad-02f0ab271244,11a1b92c-7b74-4c21-8837-8d4c7fb26f52,415070008,Percutaneous coronary intervention,22758.05,22298006,Myocardial Infarction
+1969-04-02,61d04222-1ccc-48d1-a8ad-02f0ab271244,11a1b92c-7b74-4c21-8837-8d4c7fb26f52,232717009,Coronary artery bypass grafting,45101.16,22298006,Myocardial Infarction
+2000-12-18,ba7572db-2080-4d90-8c08-43981b9f82a6,10d73bbe-3d37-435c-9e74-63afc37d815e,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,20603.14,230690007,Stroke
+2005-02-16,9be793b0-6c6e-4faf-b968-734ed6f47ffa,9a8b1bc3-4aff-4991-a386-1e298e4df28a,18286008,Catheter ablation of tissue of heart,12380.65,49436004,Atrial Fibrillation
+2006-02-22,9be793b0-6c6e-4faf-b968-734ed6f47ffa,b42a5841-c41c-4365-887e-3e80017276c1,18286008,Catheter ablation of tissue of heart,6981.80,49436004,Atrial Fibrillation
+2007-02-28,9be793b0-6c6e-4faf-b968-734ed6f47ffa,5c691c25-dca3-4700-ae86-2f83fc7ed4c5,180325003,Electrical cardioversion,45490.27,49436004,Atrial Fibrillation
+2008-03-05,9be793b0-6c6e-4faf-b968-734ed6f47ffa,01dd9d44-cc93-42ca-8f1b-a9f47d95d87f,180325003,Electrical cardioversion,29218.05,49436004,Atrial Fibrillation
+2009-03-11,9be793b0-6c6e-4faf-b968-734ed6f47ffa,eba903b7-e6c5-4b8b-b929-29cfa8662095,180325003,Electrical cardioversion,32281.87,49436004,Atrial Fibrillation
+2010-03-17,9be793b0-6c6e-4faf-b968-734ed6f47ffa,fe211d07-3286-4acd-bd2f-7bb5782f9802,180325003,Electrical cardioversion,35695.85,49436004,Atrial Fibrillation
+2011-03-23,9be793b0-6c6e-4faf-b968-734ed6f47ffa,a920307f-322a-4631-8ae1-8c46426ea453,180325003,Electrical cardioversion,23356.78,49436004,Atrial Fibrillation
+2012-03-28,9be793b0-6c6e-4faf-b968-734ed6f47ffa,6e1fc1f7-feb2-4993-8f37-8daede3bb361,180325003,Electrical cardioversion,47800.68,49436004,Atrial Fibrillation
+2013-04-03,9be793b0-6c6e-4faf-b968-734ed6f47ffa,db3c8d35-08e4-47b9-a3ea-9243321ee052,180325003,Electrical cardioversion,34532.59,49436004,Atrial Fibrillation
+2014-04-09,9be793b0-6c6e-4faf-b968-734ed6f47ffa,cd6bfb2e-55d5-40e1-9f88-00c3e72fa715,180325003,Electrical cardioversion,37295.28,49436004,Atrial Fibrillation
+2015-04-15,9be793b0-6c6e-4faf-b968-734ed6f47ffa,1f717c46-5bfc-45a8-9c30-9e679d7ab18c,180325003,Electrical cardioversion,32780.83,49436004,Atrial Fibrillation
+2016-04-20,9be793b0-6c6e-4faf-b968-734ed6f47ffa,97e0bd62-7bd3-48fd-a7d4-13a1d59a72bc,18286008,Catheter ablation of tissue of heart,13474.07,49436004,Atrial Fibrillation
+2017-04-26,9be793b0-6c6e-4faf-b968-734ed6f47ffa,7b7e372a-3a8b-4341-8269-2c015c5c9e26,180325003,Electrical cardioversion,23923.64,49436004,Atrial Fibrillation
+2018-05-02,9be793b0-6c6e-4faf-b968-734ed6f47ffa,21a8bb0d-8a78-480e-9b77-e9bdf6055577,18286008,Catheter ablation of tissue of heart,12787.45,49436004,Atrial Fibrillation
+2019-05-08,9be793b0-6c6e-4faf-b968-734ed6f47ffa,7b10c6e5-e7f4-4b96-834c-74943cbc6030,180325003,Electrical cardioversion,31339.60,49436004,Atrial Fibrillation
+2013-12-25,665f1a27-c5d4-4e08-abbf-b93d683007a7,cdaad549-fa29-4516-969c-ebb22a254a1c,447365002,Insertion of biventricular implantable cardioverter defibrillator,17343.24,410429000,Cardiac Arrest
+2013-12-25,665f1a27-c5d4-4e08-abbf-b93d683007a7,cdaad549-fa29-4516-969c-ebb22a254a1c,18286008,Catheter ablation of tissue of heart,12384.83,410429000,Cardiac Arrest
+1966-06-20,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,5f292698-1bfa-4e50-97aa-d7e0245251e2,18286008,Catheter ablation of tissue of heart,9237.17,49436004,Atrial Fibrillation
+1967-06-26,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,65d8ffbd-0d3b-4e61-af9a-f50b27d9f14d,18286008,Catheter ablation of tissue of heart,18494.59,49436004,Atrial Fibrillation
+1968-07-01,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,6970a8ca-8b29-4a7a-ada2-ad7a2ac5575e,180325003,Electrical cardioversion,31581.54,49436004,Atrial Fibrillation
+1969-07-07,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,24b36b0a-b6c7-4c95-91cf-078cec6dfa6e,18286008,Catheter ablation of tissue of heart,13242.78,49436004,Atrial Fibrillation
+1970-07-13,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,31e7458a-ef87-4253-abf6-fcaf8565d64f,180325003,Electrical cardioversion,25491.19,49436004,Atrial Fibrillation
+1971-07-19,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,5a666442-1278-47e3-bee3-b0a3b0ebfeb7,180325003,Electrical cardioversion,35635.97,49436004,Atrial Fibrillation
+1972-07-24,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,e1ae650b-7ac4-407b-ba2f-f25436bfc781,180325003,Electrical cardioversion,43059.20,49436004,Atrial Fibrillation
+1973-07-30,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,9333c7a1-40ff-4912-a3bb-165d73f71060,180325003,Electrical cardioversion,26928.27,49436004,Atrial Fibrillation
+1974-08-05,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,d16489ee-21c0-4a72-bcc9-4b8a5e07f55d,18286008,Catheter ablation of tissue of heart,12336.49,49436004,Atrial Fibrillation
+1975-08-11,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,40d25b39-51c6-4289-859e-28f6ca5af233,18286008,Catheter ablation of tissue of heart,7644.11,49436004,Atrial Fibrillation
+1976-08-16,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,e4071014-d5ea-49ce-80e0-8fe888ea2bf5,180325003,Electrical cardioversion,27307.87,49436004,Atrial Fibrillation
+1977-08-22,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,914bc237-073e-46b6-becc-d4e5c7f07c51,18286008,Catheter ablation of tissue of heart,9327.77,49436004,Atrial Fibrillation
+1978-08-28,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,f9d495a1-ac78-4b36-9901-8927f9310235,180325003,Electrical cardioversion,37385.38,49436004,Atrial Fibrillation
+1979-09-03,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,0510944c-f2d3-4f11-ae2e-f3da5ae5b771,180325003,Electrical cardioversion,21269.46,49436004,Atrial Fibrillation
+1980-09-08,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,11874a19-622b-4f41-bc01-5436b321d385,18286008,Catheter ablation of tissue of heart,7586.23,49436004,Atrial Fibrillation
+1981-09-14,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,0c6b52f1-ad56-4f0c-878b-8708c6cd2dcd,18286008,Catheter ablation of tissue of heart,9346.35,49436004,Atrial Fibrillation
+1982-09-20,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,9ddb4e03-1687-45fc-b1f3-6f1c12dc60fe,18286008,Catheter ablation of tissue of heart,8222.85,49436004,Atrial Fibrillation
+1983-09-26,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,021916f7-4a5c-4446-bd60-726244075195,180325003,Electrical cardioversion,50901.33,49436004,Atrial Fibrillation
+1984-10-01,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,f5c51934-02de-4955-9853-723313bac378,180325003,Electrical cardioversion,30864.37,49436004,Atrial Fibrillation
+1985-10-07,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,3037e557-b033-4531-ba28-6f80d0e130cf,180325003,Electrical cardioversion,38861.40,49436004,Atrial Fibrillation
+1986-10-13,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,15664e8b-90c1-4410-9e02-57fcdd6ceeb4,180325003,Electrical cardioversion,25903.05,49436004,Atrial Fibrillation
+1986-12-08,8d3b0b8a-de52-4d0f-b489-0dcb08036b3e,15664e8b-90c1-4410-9e02-57fcdd6ceeb4,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,27707.52,230690007,Stroke
+1956-12-11,c922ba5a-12e2-4bdd-b8a7-7886031ff855,2836eea9-a9e9-44c0-a5f4-49c922af7617,447365002,Insertion of biventricular implantable cardioverter defibrillator,29297.17,410429000,Cardiac Arrest
+1956-12-11,c922ba5a-12e2-4bdd-b8a7-7886031ff855,2836eea9-a9e9-44c0-a5f4-49c922af7617,18286008,Catheter ablation of tissue of heart,14428.13,410429000,Cardiac Arrest
+2001-01-07,ea9137a6-fb8e-4ba6-b6c1-1345e654270c,3680a5ef-e884-4b17-8fef-c28ab4f7deea,447365002,Insertion of biventricular implantable cardioverter defibrillator,39911.40,410429000,Cardiac Arrest
+2001-01-07,ea9137a6-fb8e-4ba6-b6c1-1345e654270c,3680a5ef-e884-4b17-8fef-c28ab4f7deea,18286008,Catheter ablation of tissue of heart,9082.55,410429000,Cardiac Arrest
+1998-01-27,5d163332-9783-45db-a472-1e21aaee39ec,df0da11b-1318-4bec-a507-b22f4dcb6b5e,433112001,Percutaneous mechanical thrombectomy of portal vein using fluoroscopic guidance,24968.47,230690007,Stroke
+2014-03-17,d3fcd3a4-30b6-4b48-81ea-b720c271e42e,e62fb838-613d-4fec-9839-4073404a1f53,180325003,Electrical cardioversion,30216.67,49436004,Atrial Fibrillation
+2015-03-23,d3fcd3a4-30b6-4b48-81ea-b720c271e42e,67ba0885-7430-45b9-a24c-24726fffca86,180325003,Electrical cardioversion,36730.35,49436004,Atrial Fibrillation
+2016-03-28,d3fcd3a4-30b6-4b48-81ea-b720c271e42e,18c273d1-82d1-449d-85c3-ed38f5751244,180325003,Electrical cardioversion,40015.94,49436004,Atrial Fibrillation
+2017-04-03,d3fcd3a4-30b6-4b48-81ea-b720c271e42e,6d37ed37-f0a2-46d7-953b-8bbd0c766371,180325003,Electrical cardioversion,42679.36,49436004,Atrial Fibrillation
+2018-04-09,d3fcd3a4-30b6-4b48-81ea-b720c271e42e,ffbff300-ae4d-4ca0-b21e-87c333d0ea1b,180325003,Electrical cardioversion,27782.26,49436004,Atrial Fibrillation
+2019-04-15,d3fcd3a4-30b6-4b48-81ea-b720c271e42e,a78e3e9f-ce80-4a84-aff4-6eef35694f37,180325003,Electrical cardioversion,32373.92,49436004,Atrial Fibrillation

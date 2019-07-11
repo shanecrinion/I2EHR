@@ -519,6 +519,7 @@ rownames(design_Ellsworth_Control) <- i_control
 ```
 
 ```{r}
+
 tissue_Case <- tissue[disease == "Case"]
 LDLR_expr <- Biobase::exprs(sub.Ellsworth_final)["202067_s_at", disease == "Case"]
 LDLR_data <- as.data.frame(LDLR_expr)
