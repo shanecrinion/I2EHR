@@ -31,6 +31,12 @@ genomic_data <- getGEO("GSE46097", GSEMatrix = TRUE)
 ```
 
 ```{r}
+pData(genomic_data[[1]])
+```
+
+
+
+```{r}
 
 library(stringr)
 ## set up genomic data - move to global when complete
@@ -62,7 +68,7 @@ x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title,
                            "1 year"), "year1")
 
 
-#### subset the data
+#### set the data
 
 library(GOexpress)
 
@@ -76,15 +82,13 @@ Biobase::pData(genomic_data[[1]]) <-
                                         "group:ch1")]
 
 
+library(plyr)
+count(pData(genomic_data[[1]])$`gender:ch1`)
+
+
 ##### set up patient codes
 
 #genomic_data[[1]]$patient_code <-  rep(1:126,each=3)
-
-Biobase::pData(genomic_data[[1]])[
-  order( Biobase::pData(genomic_data[[1]])[,3], Biobase::pData(genomic_data[[1]])[,6]),
-]
-
-patients.csv$
 
 #####  search by the group with the control group
 

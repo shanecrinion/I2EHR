@@ -494,6 +494,8 @@ individual <-
 #  str_replace_all(Biobase::pData(sub.Ellsworth_final)$`group:ch1`,
 #                  " ", "_")
 
+
+
 disease <- 
   ifelse(str_detect(Biobase::pData(sub.Ellsworth_final)$`group:ch1`, 
                     "Matched Ornish"), "Case", "Control")
@@ -777,4 +779,19 @@ barplot(reactome_enrich)
 emapplot(reactome_enrich, showCategory = 10)
 ```
 
+
+
+```{r}
+order(pData(genomic_data[[1]])
+```
+
+
+```{r}
+with(pData(genomic_data[[1]]), pData(genomic_data[[1]])[order(`gender:ch1`),]) 
+```
+
+```{r}
+pData(genomic_data[[1]]) <- with(pData(genomic_data[[1]]), pData(genomic_data[[1]])[order(`gender:ch1`),]) 
+pData(genomic_data[[1]])
+```
 
