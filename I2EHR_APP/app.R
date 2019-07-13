@@ -1,3 +1,10 @@
+## --------features to complete 
+## TABS FOR PATIETS AND COHORT BASED ANALYSIS
+## BUTTON TO NORMALISE AND ANALYSE THE DATA
+## limit the data to patient only samples
+## radio buttons for which dataset to use
+
+
 #### SHANE CRINION #####
 
 #This script installs and loads packages required for a particular analysis.  You
@@ -71,15 +78,33 @@ if (length(missingBioconductorPackages)==0){
 }
 
 
-
 #load the required packages
 lapply(requiredCRANPackages, require, character.only = T)
 lapply(requiredBioconductorPackages, require, character.only = T)
+message("Finished: Package installation and set up")
+
+#importing the clinical files 
+message("Importing clinical data")
+
+#import all csv files containing clinical data from Synthea
+temp = list.files(pattern="*.csv")
+for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
+message("Finished: Importing clinical data")
+
+#importing the clinical files 
+message("Importing, and integrating genomic data")
+
+# *** unhash source if you need to limit your large cohort files
+# source("www/genomic_clinical_merge.R")
+
+message("Finished:Importing, and integrating genomic data")
+
+
+
 
 #set up non-changing variables
-message("Setup complete")
+message("Setup Library loading")
 hasSetupScriptRun = TRUE
-
 
 suppressPackageStartupMessages(library(shiny)) 
 suppressPackageStartupMessages(library(shinydashboard)) 
@@ -128,757 +153,390 @@ suppressPackageStartupMessages(library(plyr))
 #Helpers:
 suppressPackageStartupMessages(library(stringr)) 
 suppressPackageStartupMessages(library(matrixStats)) 
-suppressPackageStartupMessages(library(genefilter)) ON
+suppressPackageStartupMessages(library(genefilter))
 suppressPackageStartupMessages(library(openxlsx)) 
 suppressPackageStartupMessages(library(data.table)) 
 suppressPackageStartupMessages(library(devtools))
-
-#install_github("nik01010/dashboardthemes")
-
-
+suppressPackageStartupMessages(library(lubridate))
+message("Libraries loaded")
 
 #import csv containing FHIR format patient data
-temp = list.files(pattern="*.csv")
-for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
+#temp = list.files(pattern="*.csv")
+#for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 
 
 # merge attaches the name to each patient ID
-observations_merge <- merge(x = patients.csv, 
-                            y = observations.csv, 
-                            by.x = "Id", 
-                            by.y= "PATIENT")
+#observations_merge <- merge(x = patients.csv, 
+#                            y = observations.csv, 
+#                            by.x = "Id", 
+#                            by.y= "PATIENT")
 
+message("Set up complete")
 
-### load GEO data 
-gse25462 <- getGEO("GSE25462", GSEMatrix = TRUE)
-GSE115313 <- getGEO("GSE115313", GSEMatrix = TRUE)
-CC  <- GSE115313[[1]]
+### UI
 
-# add additional categories
-
-# make the empty column 
-gse25462[[1]]$insulin_category <- 0
-# assign each column to its appropriate bin 
-gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) >= 8] <- "diabetic"
-gse25462[[1]]$insulin_category[((as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 8 
-                                & (as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) > 3)] <- "optimal"
-gse25462[[1]]$insulin_category[(as.numeric(gse25462[[1]]$`fasting insulin (iv0inavg):ch1`)) < 3] <- "low"
-
-#### categorise data
-# convert to information to character format
-gse25462[[1]]$disease_cat <- 0
-gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history negative"] <- "FH-"
-gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: DM"] <- "T2D"
-gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3== "family history: Family history positive - 2 parents"] <- "FH+"
-gse25462[[1]]$disease_cat[gse25462[[1]]$characteristics_ch1.3=="family history: Family history positive - 1 parent"] <- "FH+"
-
-
-
-IR_norm <- normalize(gse25462[[1]], transfn=c("log"))
-
-# convert to information to character format
-IR_norm$characteristics_ch1.3 <- as.character(IR_norm$characteristics_ch1.3)
-# limit to three values for clustering
-IR_norm$characteristics_ch1.3[IR_norm$characteristics_ch1.3 == "family history: Family history negative"] <- "FH-"
-IR_norm$characteristics_ch1.3[IR_norm$characteristics_ch1.3 == "family history: DM"] <- "T2D"
-IR_norm$characteristics_ch1.3[IR_norm$characteristics_ch1.3 == "family history: Family history positive - 2 parents"] <- "FH+"
-IR_norm$characteristics_ch1.3[IR_norm$characteristics_ch1.3 == "family history: Family history positive - 1 parent"] <- "FH+"
-
-
-# convert back to avoid creating future problems
-IR_norm$characteristics_ch1.3 <- as.factor(IR_norm$characteristics_ch1.3)
-
-
-IR_exprs <- Biobase::exprs(IR_norm)
-
-IR_raw <- log2(Biobase::exprs(gse25462[[1]]))
-
-
-
-###  UI
-
+### --- 1 Structure layout
 ui <- dashboardPage(
-  skin = "green",
+  skin = "red",
   dashboardHeader(title = "I2EHR"),
   dashboardSidebar(
+    
+    ### --- 2 Sidebar items 
     sidebarMenu(
       menuItem("Overview", 
                tabName = "overview", 
-               icon = icon("info")),
-      menuItem("Patient Data",
-               icon=icon("user"),
-               tabName="PatientTab",
-               menuSubItem("Clinical data", "patient-clinical"),
-               menuSubItem("Observations", "patient-observations"), 
-               menuSubItem("Genomic data", "patient-genomic")),
-      #      menuItem("Patient", 
-      #               tabName = "patient", 
-      #               icon = icon("id-card")),
-      menuItem("Cohort Data", 
-               tabName = "CohortTab",
-               icon = icon("users"), 
-               menuSubItem("Clinical data", "cohort-clinical"), 
-               menuSubItem("Genomic data", "cohort-genomic"),
-               menuSubItem("GSE115313: Colon cancer", "colon-genomic"))
-      #    menuSubItem("Disease query", "cohort-query")#
-    )),
+               icon = icon("id-card")),
+      menuItem("Patient Analysis",
+               tabName="Patient_Tab",
+               icon=icon("id-card")),
+      menuItem("Cohort Analysis", 
+               icon = icon("poll"), 
+               tabName = "Cohort_Tab"))),
   
-  #      menuItem("Cohort Data",
-  #               tabName="CohortNu",
-  #               icon=icon("poll")))),
-  #  sidebarSearchForm(textId = "searchText", buttonId = "searchButton",
-  #                     label = "Type patient name...")),
-  
+  ### 3 Body items 
   dashboardBody(
+    
+    #    tags$style(type="text/css",
+    #               ".shiny-output-error { visibility: hidden; }",
+    #               ".shiny-output-error:before { visibility: hidden; }"),
+    
+    
     tags$head(
-      tags$link(rel = "stylesheet", type = "text/css", href = "custom.css")),
+      # Font set-up
+      tags$link(rel = "stylesheet", 
+                type = "text/css", 
+                href = "custom.css")),
+    
     tabItems(
       tabItem(tabName = "overview", 
-              box(title = "Welcome to the Interactive Integrated Electronic Health Record (I2EHR)", 
-                  width=8, 
-                  status = "success", 
-                  solidHeader = TRUE,
+              box(title = "Welcome to the Interactive Integrated 
+                  Electronic Health Record (I2EHR)", 
+                  width=12, 
                   tabsetPanel(
                     tabPanel(title = "Project Aims", 
-                             img(src="flowchart.png", width=400, height=400),
+                             img(src="flowchart.png", 
+                                 width=400, 
+                                 height=400),
                              h5("This project involves the development of a Shiny application 
-to analyse and interact with clinical data. Synthea will be used to model a disease cohort and
-perform predictive analytics. Gene expression data will then be downloaded to
-provide proof-of-concept for clinical and molecular analytics. The objective of the
-project is to develop an interactive genomic health record that can be used to
-obtain statistical data at a patient and cohort level.")),
-                    
-                    
-                    tabPanel(title = "Synthea", 
-                             img(src="architecture.png", 
-                                 width=600, height=300),
-                             h5("Synthea (https://synthetichealth.github.io/synthea) is an open-source package
-containing synthetic EHRs encoded in FHIR standard. Synthea models the
-lifespan of patients based on the top 10 chronic conditions and reasons for medical
-care encounters in the US. The objective of Synthea is to address the legal and ethical limitations that 
-has caused lagging in health record technology [40]. The
-framework for Synthea is based on the Publicly Available Data Approach to the
-Realistic Synthetic Data (PADARSER). The model uses publicly
-available health statistics as inputs to generate data from clinical workflow and
-disease progression. Finally, the model includes a temporal model to provide a
-complete profile for the patient beyond the disease of interest. The longitu
-dinal model is ideal for modelling disease progression and performing population
-analysis.")),
-                    
-                    
-                    tabPanel(title= "GEO", 
-                             img(src="diabetestype2.png", width=600, height=300),
-                             h5("The Gene Expression Omnibus is an online public repository containing gene
-expression data that is publicly available for clinical research [60]. GEO accepts
-data of many forms and specifies criteria to allow an integrative design for large
-scale analysis of raw and processed data. The reusing of GEO facilitates genomic
-data integration and is useful in identifying gene expression to phenotype patterns.
-The heterogenous nature of T2D means that many patients do not respond well
-to certain drugs. Genetic variants associated with positive drug response may be
-identifiable by disease modelling using Synthea and GEO [46]. GEO has been
-used to study gene expression and methylation patterns in T2D patterns and
-identified 47 upregulated and 56 downregulated genes associated with fatty acid
-and glucose metabolic pathways [61]. shinyGEO is a web application that allows
-gene expression data analysis including differential expression analysis [62].
-Gene expression data will be integrated with Synthea generated patients to
-model gene expression variation associated with disease. The project will provide
-a framework for combined clinical and molecular analytics without legal or ethical
-restrictions."),
-                             br(),
-                             em("Plan with GEO data: There are 10 diabetes patients, 15 family history negative (control) and 15 family history positive (being treated). 
-                                Drug of choice is metformin. Assign the diabetes patients as nontreated patients. 
-                                Assign the FH+ as those being treated to show a decrease in effect. 
-                                Assign the FH- as those with no symptoms of diabetes as and no treatment as a control.
-                                Compare gene expression for the diabetes patients to treated family history people to compare drug and 
-                                claim that the difference is drug to application of the drug
-                                Compare the diabetes to family history negative and claim the difference is due to disease.
-                                Compare the FH+ to FH- and claim the difference is due to treated individual regressing to the expression of a normal individual")))),
-              
-              
-              box(title="Contact Details", 
-                  background = "black",
-                  width = 4,
-                  h4("Shane Crinion"),
-                  h4("shanecrinion@gmail.com"), 
-                  h4("+ 353 858018212"),
-                  img(src="nui-galway.jpg", width=120, height=40))),
-      #                  fluidRow(column(width = 5, h5("shanecrinion@gmail.com")),
-      #                           column(width = 2, align = "center",
-      #                                  img(src="nui-galway.jpg", 
-      #                                      width=120, height=40)))
+                                  to analyse and interact with clinical data. Synthea will be
+                                  used to model a disease cohort and perform predictive analytics. 
+                                  Gene expression data will then be downloaded to provide proof-of-concept 
+                                  for clinical and molecular analytics. The objective of the project is to develop an
+                                  interactive genomic health record that can be used to obtain statistical 
+                                  data at a patient and cohort level.")), # close project aims tabpanel 
+                    tabPanel(title="Clinical data",
+                             img(src="synthea_logo.png", 
+                                 width = 650, 
+                                 height = 150)
+                    ), # close clinical data tabpanel
+                    tabPanel(title = "Genomic data",
+                             img(src="geo_logo.png",
+                                 width = 600, 
+                                 height = 250)
+                    ) # close genomic data tabpanel
+                  ), # close tabset panel
+                  solidHeader = TRUE) # close box
+      ), # close overview tab
       
-      #  -------------------------- PATIENT DATA UNUSED?     
-      
-      #  -------------------------- PATIENT DATA CLINICAL TAB   
-      
-      
-      tabItem(tabName="patient-clinical",
-              box(title = "Patient Query", 
-                  status="primary",
+      tabItem(tabName = "Patient_Tab",
+              icon=icon("id-card"),
+              box(title = "Enter Patient Information:",
                   solidHeader = TRUE,
-                  collapsible = TRUE,
-                  tabsetPanel(
-                    tabPanel("Search options", 
-                             h5("Enter patient ID below to query current records in each dataset"),
-                             searchInput(value = "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",
-                                         inputId = "search", 
-                                         label = "Patient search",
-                                         placeholder = "Enter Patient ID number",
-                                         btnSearch = icon("search"),
-                                         btnReset = icon("remove"),
-                                         width = "450px")), 
-                    tabPanel("Data sources", 
-                             tags$ul(
-                               tags$li("Clinical guidelines"), 
-                               tags$li("Caremaps from clinician input and CPGs"), 
-                               tags$li("Publicly available documentation")
-                             ),
-                             h5("Sources collected on the internet for demographic information include the
-                  US Census Bureau demographics, Centers for Disease Control and Prevention prevalence 
-                  and incidence rates, and National Institutes of Health reports. "))
-                  )),
-              box(title= "Patient Plots",
-                  collapsible = TRUE, 
                   width = 12,
-                  plotlyOutput("PatientBMI")),
+                  fluidRow(
+                    column(8,
+                           searchInput(
+                             inputId = "search", 
+                             label = "Patient search",
+                             placeholder = "Enter Patient ID number",
+                             btnSearch = icon("search"),
+                             btnReset = icon("remove"),
+                             width = "450px"),
+                           strong(em("For example, use the following identifiers:")),
+                           br(), em("0cd0592a-774a-4ece-806a-5384a15af9b4"), br(), 
+                           em("088efea2-9017-4b31-a25b-4bbc802025a1"), br(),
+                           em("1e48d3da-d4f0-4680-8106-2304c9d1426e")
+                    ), #close searchinput and column
+                    
+                    column(4,
+                           radioButtons(inputId = "search_by", 
+                                        label = "Select the search term",
+                                        choices = c( 
+                                          "Patient ID number"="ID_select", 
+                                          "Patient Name" = "patient_select"),
+                                        selected = "ID_select"
+                           ) # close radio buttons   
+                    ) # close column
+                  ) # close the fluid row
+              ), # close box
               
-              box(title = "Patient Data", 
-                  collapsible = TRUE,
-                  width = 12,
+              box(solidHeader = TRUE, width = 12,
                   tabsetPanel(
-                    # "Allergies",  
-                    # dataTableOutput("patient_allergies_dt")), 
-                    tabPanel("Careplans",  
-                             dataTableOutput("patient_careplans_dt"),
-                             plotOutput("patient_careplans_plot")),
-                    tabPanel("Conditions",  
-                             dataTableOutput("patient_conditions_dt")),
-                    tabPanel("Encounters",  
-                             dataTableOutput("patient_encounters_dt")), 
-                    tabPanel("Imaging Studies", 
-                             dataTableOutput("patient_imaging_studies_dt")),
-                    tabPanel("Immunizations", 
-                             dataTableOutput("patient_immunizations_dt")),  
-                    tabPanel("Medications",  
-                             dataTableOutput("patient_medications_dt")), 
-                    tabPanel("Observations",  
-                             dataTableOutput("patient_observations_dt")),
-                    tabPanel("Organizations", 
-                             dataTableOutput("patient_organizations_dt")),
-                    tabPanel("Patients",  
-                             dataTableOutput("patient_patients_dt")), 
-                    tabPanel("Procedures",  
-                             dataTableOutput("patient_procedures_dt")),
-                    tabPanel("Providers",  
-                             dataTableOutput("patient_providers_dt"))))),
-      
-      
-      
-      #  -------------------------- PATIENT DATA OBSERVATIONS TAB
-      
-      
-      tabItem(tabName = "patient-observations",
-              box(title="Patient info", 
-                  solidHeader = TRUE,
-                  textInput(inputId = "observations_patient",
-                            label = "Select a patient",
-                            placeholder = "Enter patient ID:",
-                            value="1425bcf6-2853-4c3a-b4c5-64fbe03d43d2"),
-                  fluidRow(column(DT::dataTableOutput(outputId="info_patient", width = "100%"), 
-                                  width = 12)), status = "success", width = 12),
-              
-              selectInput(inputId= "observation_selection",
-                          label = "Select an observation for comparison",
-                          choices = c(sort(as.character(unique(observations.csv$DESCRIPTION)))),
-                          selected = "Body Mass Index"),
-              plotlyOutput(outputId = "observations_plot")),
-      
-      #  -------------------------- PATIENT DATA GENOMIC TAB
-      
-      
-      
-      
-      tabItem(tabName = "patient-genomic",
-              box(title="Genomic expression profiles",
-                  h5("Gene expression profiles available from GEO are used to analyse 
-the gene expression associated with 
-                 clinical observations. Identification of genotypic patterns 
-can then be mapped be to recordings from clinical encounters and create links 
-                 between treatment and improvemnts or disprovements")),
-              box(title = h5("The data used in this model, GSE25462, consists of samples of
-                  individuals of 3 subgroups: diabetes patients, normoglycemic 
-                  but insulin resistant patients with parental family history (FH+)
-                  and family history negative control individuals (FH-).
-                  The expression of serum response factor (SRF) and cofactor (MKL1) have increased expression in 
-                  T2D and FH+ groups. The medication most commmonly used to treat insulin resistance is metformin; the key pathophysiological result of T2D. 
-                  This study identifies an increase in the expression of actin cytoskeleton mediating genes such as SRF and MKL1 and indicate that these genes may mediate alterations in glucose reuptake
-                  that consequently create insul"))),
-      
-      #  -------------------------- PATIENT DATA GENOMIC TAB
-      
-      
-      tabItem(tabName = "cohort-clinical",
-              box(title="Controls", collapsible = TRUE,
-                  # Input: Selector for choosing dataset ----
-                  selectInput(inputId = "patient_dataset_2",
-                              label = "Choose a dataset:",
-                              choices = c(
-                                # "allergies", # no allergy data in this dataset
-                                "careplans",
-                                "conditions",
-                                "encounters",
-                                "immunization",
-                                "medications", 
-                                "observations",
-                                "patients",
-                                "procedures"),
-                              selected = "observations"),
-                  
-                  uiOutput("secondSelection"),
-                  
-                  #                  checkboxGroupInput(inputId = "headers", 
-                  #                                     "Included data", 
-                  #                                     choices = names(input$patient_dataset_2)),
-                  sliderInput("slider_2", 
-                              "Number of Observations", 
-                              min = 1, value=5, 
-                              max = 300)),
-              box(title = "Data Sources", 
-                  collapsible = TRUE,
-                  tags$ul(
-                    tags$li("US Census Bureau demographics"), 
-                    tags$li("Centers for Disease Control and Prevention prevalence"), 
-                    tags$li("National Institutes of Health reports."))),
-              box(title="Graphs", 
-                  collapsible = TRUE,
-                  width = 12,
-                  tabsetPanel(
-                    tabPanel("Ethnicity", plotOutput("plot1")),
-                    tabPanel("Hg Measurements", plotOutput("plot2")),
-                    tabPanel("Disease Prevalence", plotOutput("plot3")),
-                    tabPanel("BMI", plotOutput("plot4")))),
-              box(title="Data Table", 
-                  width = 12, 
-                  dataTableOutput("genTable"))),
-      
-      tabItem(tabName = "cohort-genomic", 
-              box(title="Microarray analysis results", 
-                  width = 12,
-                  tabsetPanel(
-                    tabPanel("Report",
-                             includeHTML("index.html")),
-                    tabPanel("RLE",
-                             plotOutput("RLE")),
-                    tabPanel("PCA", 
-                             h5("Raw data PCA"),
-                             plotOutput("PCA_IR"),
+                    tabPanel("Patient_Clinical",
+                             tableOutput("patient_info_table"),
+                             fluidRow(column(3, 
+                                             selectInput(inputId= "observation_selection",
+                                                         label = "Select an observation for comparison",
+                                                         choices = c(sort(as.character(unique(observations.csv$DESCRIPTION))))
+                                             ) # close select input 
+                             ), # close column
+                             column(9, plotlyOutput("observation_plot")) #close column         
+                             ), # close plotly fluidrow,
                              br(),
-                             h5("Varience explained by PC"),
-                             plotOutput("PCA_2D_normalised"),
-                             br(),
-                             h5("PCA following calibration"),
-                             img(src="calibrated_PCA.png"),
-                             plotOutput("PCA_Calibrated")),
-                    tabPanel("Intensity Filtering",
-                             plotOutput("Intensity_Filtering")),
-                    tabPanel("Heatmap_Samples",
-                             tags$iframe(style="height:600px; width:100%", 
-                                         src="heatmap.pdf")),
-                    tabPanel("Array Annotation",
-                             h5("Filtered probes due to ambiguous mapping:"),
-                             dataTableOutput("array_annotation"),
-                             h5("Exclusion frequency"),
-                             tableOutput("excluded_probes")),
-                    tabPanel("Valid gene list",
-                             dataTableOutput("valid_genes")),
-                    tabPanel("GEOdata", 
-                             dataTableOutput("gse25462_table")),
-                    tabPanel("Multidimensional Scaling",
-                             img(src="microarray_MDS.png")),
-                    tabPanel("Microarray Expression Density", 
-                             img(src="microarray_expression_density.png")),
-                    tabPanel("Data Distribution", 
-                             img(src="microarray_boxplot_raw.png"),
-                             plotOutput("Log2_Microarray_Exp"),
-                             img(src="microarray_boxplot_normalised.png")),
-                    tabPanel("Heatmap", 
-                             img(src="microarray_heatmap.png")),
-                    tabPanel("H1Ac levels", 
-                             plotOutput("PCA_h1Ac"))))),
-      tabItem(tabName= "colon-genomic",
-              box(title="Differential Expression",
-                  width=12, status="success",
-                  plotOutput("GSE115313_Differential_Expression")),
-              box(title = "Intensity Filtering",
-                  width = 8,
-                  status="success",
-                  collapsible=TRUE,
-                  solidHeader=TRUE,
-                  plotOutput("GSE115313_IF")),
-              box(title = "Number of samples",
-                  width = 4,
-                  status = "success",
-                  collapsible=TRUE,
-                  solidHeader=TRUE,
-                  tableOutput("GSE115313_Sample_Numbers")),
-              box(title = "PCA",
-                  width = 7,
-                  status="success",
-                  collapsible = TRUE,
-                  solidHeader=TRUE,
-                  plotOutput("GSE115313_PCA")),
-              box(title = "Log2 Deviation",
-                  status="success",
-                  width = 5,
-                  collapsible = TRUE,
-                  solidHeader=TRUE,
-                  plotOutput("GSE115313_Log2Deviation")),
-              box(title = "Heatmap",
-                  status="success",
-                  collapsible=TRUE,
-                  width = 9,
-                  solidHeader=TRUE,
-                  plotOutput("GSE115313_Heatmap")),
-              box(title = "Annotation",
-                  collapsible=TRUE,
-                  collapsed =TRUE,
-                  dataTableOutput("GSE115313_Annotation")),
-              
-              box(title = "GSE115313: patients with colon cancer +/- T2DM.",
-                  width = 12,
-                  status="success",
-                  collapsible=TRUE, 
-                  collapsed=TRUE,
-                  h5("This is a transcriptomics analysis contributing to a bigger project 
-                              that tries to shed light on the role of type 2 diabetes mellitus (T2DM) as a risk factor for colon cancer (CC). Here we present a gene expression screening of paired tumor and normal colon mucosa samples in a cohort of 42 CC patients, 
-                            23 of them with T2DM. Using gene set enrichment, 
-                           we identified an unexpected overlap of pathways over-represented in diabetics compared to non-diabetics, 
-                           both in tumor and normal mucosa, including diabetes-related metabolic and signaling processes. An integration with other -omic studies suggests that in diabetics, the local 
-                           micro-environment in normal colon mucosa may be a factor driving field cancerization which may promote carcinogenesis. Several of these pathways converged on the tumor initiation axis TEAD/YAP-TAZ. Cell culture studies 
-                           confirmed that high glucose concentrations upregulate this pathway in non-tumor colon cells. In conclusion, diabetes is associated to deregulation of cancer-related processes in normal colon mucosa adjacent to 
-                            tissue which has undergone a malignant transformation. 
-                           These data support the existence of the field of cancerization paradigm in 
-                           diabetes and set a new framework to study link between diabetes and cancer."))
-      ))))
-
-
-server <- function(input, output, session) { 
-  
-  #### PATIENT DATA ####
-  
-  
-  output$patient_dataset_selection <- renderUI({
-    selectInput("X Value", 
-                "Date:", 
-                choices = names(input$patient_dataset_1))
-  })
-  
-  #### DATA TABLES
-  
-  
-  #  output$patient_allergies_dt <- renderDataTable({allergies.csv})
-  output$patient_careplans_dt <- renderDataTable({subset(careplans.csv, PATIENT == input$search)})
-  output$patient_conditions_dt <- renderDataTable({subset(conditions.csv, PATIENT == input$search)})
-  output$patient_encounters_dt <- renderDataTable({subset(encounters.csv, PATIENT == input$search)})
-  output$patient_imaging_studies_dt <- renderDataTable({subset(imaging_studies.csv, PATIENT == input$search)})
-  output$patient_immunizations_dt <- renderDataTable({subset(immunizations.csv, PATIENT == input$search)})
-  output$patient_medications_dt <- renderDataTable({subset(medications.csv, PATIENT == input$search)})
-  output$patient_observations_dt <- renderDataTable({subset(observations.csv, PATIENT == input$search)})
-  output$patient_organizations_dt <- renderDataTable({subset(organizations.csv, Id == input$search)})
-  output$patient_patients_dt <- renderDataTable({subset(patients.csv, Id == input$search)})
-  output$patient_procedures_dt <- renderDataTable({subset(procedures.csv, PATIENT == input$search)})
-  output$patient_providers_dt <- renderDataTable({subset(providers.csv, Id == input$search)})
-  
-  #output$pa <- renderTable({
-  #  patient_dataset_1 <- datasetInput()
-  #  head(x=patient_dataset_1, n = input$slider_1)
-  #}) 
-  
-  output$PatientBMI <- renderPlotly({
-    #replace x with input$dropdown
-    #bmi_all <- observations.csv[observations.csv$DESCRIPTION == "Body Mass Index",]
-    #replace x with input$dropdown
-    
-    bmi_all <- observations.csv[observations.csv$DESCRIPTION == "Body Mass Index",]
-    bmi_all$DATE <- as.character(bmi_all$DATE)
-    bmi_all$VALUE <- as.numeric(as.character(bmi_all$VALUE))
-    
-    f <- list(
-      family = "Courier New, monospace",
-      size = 18,
-      color = "#7f7f7f"
-    )        
-    x <- list(
-      title = "Date of observation",
-      titlefont = f
-    )
-    y <- list(
-      title = "BMI measurement (kg/m2)",
-      titlefont = f
-    )
-    
-    bmi_all[bmi_all$PATIENT == "1425bcf6-2853-4c3a-b4c5-64fbe03d43d2",]  %>% 
-      plot_ly(
-        x = ~DATE, y =~VALUE, 
-        colors = "green", 
-        type = "scatter")
-  })
-  
-
-  
-#### COHORT DATA #####
-  
-  observe({
-    x <- input$datasetInput
-    if (is.null(x))
-      x <- character(0)
-    updateCheckboxGroupInput(session, 
-                             inputId = "inCheckboxGroup2",
-                             label = paste("headings", length(x)),
-                             choices = names(x),
-                             selected=names(x))
-  })
-  
-  
-
-  ###SELECTION OF THE 
-##  datasetInput <- reactive({
-##    switch(input$patient_dataset_1,
-##           "all data" = clinical_data,
-##           "allergies" = allergies.csv,
-##           "careplans" = careplans.csv,
-##           "conditions" = conditions.csv,
-#           "encounters" = encounters.csv,
-#           "immunization" = immunizations.csv,
-#           "medications" = medications.csv,
-#           "observations" = observations.csv,
-#           "patients" = patients.csv,
-#           "procedures" = procedures.csv)
-    
-#  })
-  
-
-    # Can use character(0) to remove all choices
-    #    if (is.null(x))
-    #      x <- character(0)
-    
-    # Can also set the label and select items
-    #updateCheckboxGroupInput(session, "inCheckboxGroup2",
-    #                        label = paste("Checkboxgroup label", length(x)),
-    #    #                        choices = names(x),
-    #                   selected = x
-    #    )
-    #})
-
-  
-  output$plot1 <- renderPlot({
-
-    
-    ggplot(as.data.frame(patients.csv$ETHNICITY),
-           aes(x=patients.csv$ETHNICITY, 
-               color=patients.csv$GENDER)) +
+                             h5("Additional information:"),
+                             selectInput(label = "Select patient data to inspect:",
+                                         inputId="patient_select_dt",
+                                         choices = c("Conditions",
+                                                     "Encounters",
+                                                     "Imaging Studies",
+                                                     "Immunizations",
+                                                     "Medications",
+                                                     "Observations",
+                                                     "Organizations",
+                                                     "Procedures",
+                                                     "Providers")),
+                             tableOutput("patient_dt")), # close tab panel clinical 
+                    
+                    tabPanel("Patient_Genomic",
+                             h5("Genomic data for the patient"),
+                             #  fileInput("file1", "Choose CEL File",
+                             #             multiple = FALSE,
+                             #             accept = c(".CEL")),
+                             
+                             h5("Phenotypic data"),
+                             tableOutput("patient_genomic_table"),
+                             
+                             h5("Quality Control"),
+                             plotOutput("patient_RLE"), # colour == the patient
+                             plotOutput("patient_PCA"), # PCA without sweep 
+                             
+                             h5("Top genes"),
+                             tableOutput("patient_topgenes_list"),
+                             plotOutput("patient_log2foldchange"),
+                             
+                             
+                             h5("Individual gene query"),
+                             selectInput(inputId = "patient_genomic_gene_select",
+                                         label = "Select the gene to analyse",
+                                         choices=c(unique(sort(as.character(unique(anno_genomic_data$SYMBOL)))))
+                             ), # close selectinput
+                             textOutput("patient_genomic_gene_ttest")
+                             
+                    ), # close tabpanel genomic
+                    
+                    tabPanel("Integrated",
+                             radioButtons(inputId = "patient_integration_selection",
+                                          label="Please select a clinical observation as the plot colours:",
+                                          choices=c("BMI"="bmi",
+                                                    "diabetes status"= "diabetes_status",
+                                                    "CAD")),
+                             selectInput("patient_gene_selection",
+                                         "Select a gene for further analysis",
+                                         choices= c("Gene X")), 
+                             plotOutput("patient_integrated_plot")
+                    ) # closes tabpanel integrated
+                  ) # closes tabsetpanel
+              ) # closes box 
+      ), #close tabitem patient-tab
       
-      geom_histogram(fill = "white", 
-                     alpha = 0.3, 
-                     position = "identity", 
-                     stat = "count") +
-      #  geom_vline(data=as.data.frame(mu), 
-      # aes(xintercept=mu, colour=patients.csv$GENDER), 
-      #             linetype="dashed", alpha=0.5) +
-      scale_colour_manual(values = c("#0571b0", 
-                                     "#ca0020")) +
-      theme_classic() +
-      theme(legend.position = "top", 
-            axis.text.x = element_text(face = "bold", 
-                                       size = 8, 
-                                       angle = 90),
-            panel.background = element_rect(fill = "white", colour = "white",
-                                            size = 2, linetype = "solid"),
-            panel.grid.major = element_line(size = 0.5, linetype = 'solid',
-                                            colour = "#d3d3d3"), 
-            panel.grid.minor = element_line(size = 0.25, linetype = 'solid',
-                                            colour = "white")) 
+      tabItem(tabName="Cohort_Tab",
+              tabsetPanel(type = "tabs", 
+                          tabPanel("Clinical",
+                                   textOutput("patient_clinical_summary"), 
+                                   plotlyOutput("patient_clinical_plot_obs")
+                          ), # close tabpanel clinical 
+                          tabPanel("Genomic",
+                                   h5("Genomic data for the cohort"),
+                                   #   fileInput("file1", "Choose CEL File",
+                                   #             multiple = FALSE,
+                                   #             accept = c(".CEL")),
+                                   plotOutput("cohort_qc_RLE"), # add for control
+                                   plotOutput("cohort_qc_PCA"), # add for control
+                                   plotOutput("cohort_normalisation"), # add for control
+                                   plotOutput("cohort_dea"), # add for control
+                                   plotOutput("cohort_bioint") # add for control
+                                   # cohort_qc outputs
+                                   #conditionalPanel('input.cohort_genomic_step=="cohort_qc"',
+                                   #                plotOutput("cohort_array_intensity"),
+                                   #                  plotOutput("cohort_PCA_plot")),
+                                   
+                                   # cohort_normalisation outputs
+                                   #conditionalPanel('input.cohort_genomic_step=="cohort_normalisation"',
+                                   #                  tableOutput("")),
+                                   
+                                   # cohort_dea outputs
+                                   #conditionalPanel('input.cohort_genomic_step=="cohort_dea"'),
+                                   
+                                   # cohort_bioint outputs
+                                   #conditionalPanel('input.cohort_genomic_step=="cohort_bioint"')
+                          ), # close tabpanel genomic
+                          
+                          tabPanel("Integrated",
+                                   textOutput("Select the colour coordinating with the clinical observation of query"),
+                                   "cohort_integrated_volcanoplot_RNA") # closes tabpanel integrated
+                          
+                  ) # close tabset panel
+              ), # close tab item cohort-tab
+      
+      tabItem(tabName="Predictive_Analytics")
+      
+      ) # close tabitems 
+  ) # close dashboard body
+) # close dashboard page
+
+message("Finished: Reading UI")
+
+## server
+server <- function(input, output, session) {
+
+  
+#### PATIENT OUTPUTS ####0
+## to do list
+# patient_dt, 
+# patient_genomic_table,
+# patient_RLE, 
+# patient_PCA, 
+# patient_topgenes_list, 
+# patient_log2foldchange, 
+# patient_genomic_gene_ttest, 
+# patient_gene_selection, 
+# patient_integrated_plot
+
+  
+  
+
+## --------- open CLINICAL   
+
+output$patient_info_table <- renderTable({
+  
+  selection <- 
+    reactive({input$search_by})
+  
+  patient_data <- patients.csv[patients.csv$PATIENT == input$search]
+  
+  if(selection() != "ID_select"){
+    patient_data <- patients.csv[patients.csv$FULLNAME == input$search,]
+  }
+  
+  patient_data <- patient_data[, colSums(patient_data != "") != 0]
+
+  patient_data
     
-  })
+}) # close patient_info_table
+
+  
+output$observation_plot <- renderPlotly({
+  
+  ## ---- data set up
+  observations_with_names <- merge(observations.csv,patients.csv, by  = "PATIENT") 
+  patient <- input$search
+  patient_data <- observations_with_names[observations_with_names$PATIENT == patient,]
+  observation <- input$observation_selection
+  patient_observation_data <- patient_data[patient_data$DESCRIPTION == observation,]
+  ## ---- data set up
   
   
-  output$plot2 <- renderPlot({
+  ## --- plotly set up
+  f <- list(
+    family = "Courier New, monospace",
+    size = 18,
+    color = "#7f7f7f"
+  )
+  x <- list(
+    title = "Date of Observation",
+    titlefont = f
+  )
+  y <- list(
+    title = paste(patient_observation_data$DESCRIPTION[1], "(",
+                  patient_observation_data$UNITS[1], ")"),
+    titlefont = f
+  )
+  patient_observation_data  %>% 
+    plot_ly(
+      x = ~DATE, y =~as.numeric(as.character(VALUE)), 
+      type = "scatter")  %>% 
+    layout(xaxis = x, yaxis = y, 
+           title= paste(patient_observation_data$DESCRIPTION[1], "for",
+                        patient_observation_data$FIRST[[1]],
+                        patient_observation_data$LAST[[1]]))
+  
+  ## --- plotly set up
+}) # close observation_plot 
+
+
+
+output$patient_dt <- renderDataTable({
+  
+    if (input$patient_select_dt == "Conditions"){
+      select_datatable <- subset(conditions.csv, subset=conditions.csv$PATIENT == input$search)
+    } else if (input$patient_select_dt == "Encounters"){
+      select_datatable <- subset(encounters.csv, subset=encounters.csv$PATIENT == input$search)
+    } else if (input$patient_select_dt  == "Imaging Studies"){
+      select_datatable <- subset(imaging_studies.csv, subset=imaging_studies.csv$PATIENT == input$search)
+    } else if (input$patient_select_dt == "Immunizations"){
+      select_datatable <- subset(immunizations.csv, subset=immunizations.csv$PATIENT == input$search)
+    } else if (input$patient_select_dt == "Medications"){
+      select_datatable <- subset(medications.csv, subset=medications.csv$PATIENT == input$search)
+    } else if (input$patient_select_dt == "Observations"){
+      select_datatable <- subset(observations.csv, subset=observations.csv$PATIENT == input$search)
+    } else if (input$patient_select_dt == "Organizations"){
+      select_datatable <- subset(organizations.csv, subset=organizations.csv$PATIENT == input$search)
+    } else if (input$patient_select_dt == "Procedures"){
+      select_datatable <- subset(procedures.csv, subset=procedures.csv$PATIENT == input$search)
+    } else if (input$patient_select_dt == "Providers"){
+      select_datatable <- subset(providers.csv, subset=providers.csv$PATIENT == input$search)
+    }
+  
+    select_datatable  
     
-    # Hemoglobin measurements and plots 
-    hemoglobin_measurements <- 	
-      subset(observations_merge,
-             subset = (observations_merge$DESCRIPTION == "Hemoglobin A1c/Hemoglobin.total in Blood"))
-    
-    hemoglobin_measurements$BIRTHDATE <- 
-      substring(hemoglobin_measurements$BIRTHDATE, 1, 4) 
-    
-    hemoglobin_measurements$DECADE <- 
-      10*as.integer(as.numeric(as.character(hemoglobin_measurements$BIRTHDATE)) / 10)
-    
-    hemoglobin_measurements$VALUEBIN <- 
-      1*as.integer(as.numeric(as.character(hemoglobin_measurements$VALUE)) / 1)
-    
-    # Plot hemoglobin measurements
-    ggplot(hemoglobin_measurements) + 
-      geom_density_ridges(aes(x = VALUEBIN, 
-                              y = DECADE, 
-                              group = interaction(GENDER, DECADE),
-                              fill = GENDER), 
-                          alpha = 0.6, 
-                          scale = 0.8) +
-      geom_vline(xintercept = 5.7, 
-                 color = "lightskyblue1", size=0.5) +
-      geom_vline(xintercept = 6.2, 
-                 color = "tomato", size=0.5) +
-      scale_fill_manual(values=c("#0571b0", "#ca0020")) +
-      theme_classic() +
-      theme(
-        axis.text.x= element_text(angle = 30),
-        panel.grid.major.y =element_line(colour = "gray95"),
-        panel.grid.major.x =element_line(colour = "gray95"),
-        panel.grid.minor.x =element_line(colour = "gray95"))
-    
-  })
-  
-output$plot3 <- renderPlot({
-  
-  disorders_vector <- as.vector(count(conditions.csv$DESCRIPTION))
-  #disorders_vector$freqs <- as.numeric(disorders_vector$freqs)
-  
-  par(mar=c(2, 28, 5, 5))
-  
-  xlim <- c(0, 1.1*max(disorders_vector$freq))
-  
-  xx <- barplot(disorders_vector$freq,
-                xaxt = 'n',
-                horiz = TRUE,
-                col=viridis(27),
-                width = 12,
-                xlim = xlim,
-                main = "Frequency of each metabolics disorder",
-                xlab = "Frequency")
-  
-  ## Add text at top of bars
-  text(y = xx, x = disorders_vector$freq,
-       label = disorders_vector$freq,
-       pos = 4,
-       cex = 0.5,
-       col = magma(1))
-  ## Add x-axis labels
-  axis(side = 2, at=xx,
-       labels=disorders_vector$x,
-       tick=FALSE,
-       las=2,
-       line=-0.5,
-       cex.axis=0.5)
-  
+    })
+
+## --------- close PATIENT CLINICAL  
+
+
+
+## --------- open PATIENT GENOMIC 
+
+output$patient_genomic_table <- renderTable({ 
+
+# create expression set subset
+subset.patient <- subEset(
+    eSet=genomic_data[[1]],
+     subset=list(
+     PATIENT=c(input$search)))
+
+
+#View(Biobase::pData(genomic_data[[1]])[, c("geo_accession",
+#                                      "1 year weight loss (%):ch1",
+#                                      "age:ch1", 
+#                                      "cad:ch1",
+#                                      "diabetes:ch1",
+#                                      "gender:ch1",
+#                                      "group:ch1", 
+#                                      "PATIENT", 
+#                                      "FULLNAME")])
+
+pData(subset.patient)
+
+# display table
+pData(subset.patient)
 })
-    
-  datasetInput <- reactive({
-    switch(input$patient_dataset_2,
-           "all data" = clinical_data,
-           "allergies" = allergies.csv,
-           "careplans" = careplans.csv,
-           "conditions" = conditions.csv,
-           "encounters" = encounters.csv,
-           "immunization" = immunizations.csv,
-           "medications" = medications.csv,
-           "observations" = observations.csv,
-           "patients" = patients.csv,
-           "procedures" = procedures.csv)
-  })
-  
-  
-  output$secondSelection <- renderUI({
-    selectInput("Options", "X choice:", 
-                choices = colnames(input$patient_dataset_2))
-  })
-  
-  output$plot4 <- renderPlot({
 
-  ##merge the data
-  observations_merge <- merge(x = patients.csv, 
-                              y = observations.csv, 
-                              by.x = "Id", 
-                              by.y= "PATIENT") 
-  
-  ## could alternatively do the below command using to obsevation code (probably better)
-  bmi_measurements <- 	
-    subset(observations_merge,
-           subset = (observations_merge$DESCRIPTION == "Body Mass Index"))
-  
-  bmi_measurements$BIRTHDATE <- 
-    substring(bmi_measurements$BIRTHDATE, 1, 4) 
-  
-  bmi_measurements$DEATHDATE <- substring(bmi_measurements$DEATHDATE, 1, 4)
-  #  bmi_measurements$DECADE <- 
-  #    10*as.integer(as.numeric(bmi_measurements$BIRTHDATE/10))
-  
-  bmi_measurements$DECADE <- 
-    10*as.integer(as.numeric(as.character(bmi_measurements$BIRTHDATE)) / 10)
-  
-  bmi_measurements$VALUEBIN <- 
-    1*as.integer(as.numeric(as.character(bmi_measurements$VALUE)) / 1)
-  
-  #plot the two
-  ggplot(bmi_measurements) + 
-    geom_density_ridges(aes(x = VALUEBIN, 
-                            y = DECADE, 
-                            group = interaction(GENDER, DECADE),
-                            fill = GENDER), 
-                        alpha = 0.6, 
-                        scale = 0.8) +
-    
-#    geom_vline(xintercept = 5.7, 
-#               color = "lightskyblue1", size=0.5) +
-    
-#    geom_vline(xintercept = 6.2, 
-#               color = "tomato", size=0.5) +
-    scale_fill_manual(values=c("#0571b0", "#ca0020")) +
-    theme_classic() +
-    theme(
-      axis.text.x= element_text(angle = 30),
-      panel.grid.major.y =element_line(colour = "gray95"),
-      panel.grid.major.x =element_line(colour = "gray95"),
-      panel.grid.minor.x =element_line(colour = "gray95"))
-  })
-  
 
-  output$genTable <- renderDataTable({
-    patient_dataset_2 <- datasetInput()
-    head(x=patient_dataset_2, n = input$slider_2)
-  }) 
+output$patient_RLE <- renderPlot({
   
- #### GEO DATA
-  
-  output$Log2_Microarray_Exp <- renderPlot({
+  output$cohort_qc_RLE <- renderPlot({
     
-    raw_data <- GSE115313[[1]]
-    exp_raw <- exprs(raw_data)  
-    
-    oligo::boxplot(exp_raw, target = "core", las=2,
-                   main = "Boxplot of log2-intensitites for the raw data")
-    par(cex.lab=0.5)
-  })
-
-  
-  output$RLE <- renderPlot({
-    
+    ## DATA
     row_medians_assayData <- 
-      Biobase::rowMedians(as.matrix(
-        log2(Biobase::exprs(gse25462[[1]]))))
-    
-    RLE_data <- sweep(log2(Biobase::exprs(gse25462[[1]])), 1, 
+      Biobase::rowMedians(as.matrix(exprs(genomic_data[[1]])))
+    RLE_data <- sweep(log2(Biobase::exprs(genomic_data[[1]])), 1, 
                       row_medians_assayData)
-    
-    
     # class for the fill
-    RLE_class <- data.frame(patient_array = rownames(pData(gse25462[[1]])), 
-                            disease_cat=gse25462[[1]]$disease_cat)
-    
+    RLE_class <- data.frame(patient_array = rownames(pData(genomic_data[[1]])), 
+                            disease_cat = str_detect(Biobase::pData(genomic_data[[1]])$PATIENT, 
+                                                     input$search))
     RLE_data <- as.data.frame(RLE_data)
-    
-    
     RLE_data_gathered <- 
       tidyr::gather(RLE_data, 
                     patient_array, 
@@ -894,397 +552,63 @@ output$plot3 <- renderPlot({
                         log2_expression_deviation, 
                         fill=disease_cat)) + 
       geom_boxplot(outlier.shape = NA) + 
-      
       ylim(c(-2, 2)) + 
       theme(axis.text.x = element_text(colour = "aquamarine4", 
                                        angle = 60, size = 6.5, hjust = 1 ,
                                        face = "bold"))
     
-  })
-  
-  output$PCA_2D_normalised <-  renderPlot({
-    
-    ### get the prinicipal component values
-    
-    PCA <- prcomp(t(exp_gse), scale = FALSE)
-    
-    percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
-    
-    barplot(percentVar, 
-            main = "Variation Explained per PC", 
-            col=rainbow(50), xlab="Principal Component", 
-            ylab="%", names=c(1:50), 
-            ylim=c(0,30), 
-            las=2)
-    
-  })
-  
-  
-  output$PCA_Calibrated <- renderPlot({
+  }) # close cohort_qc_RLE
 
-    ### get the prinicipal component values
-    
-    PCA <- prcomp(t(exp_gse), scale = FALSE)
-    
-    # get the percentage of variance
-    # indicates that 28.4 pct of variance is from the first, maybe use only 2
-    percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
-    
-    sd_ratio <- sqrt(percentVar[2] / percentVar[1])
+})
 
-    dataGG <- data.frame(PC1 = PCA$x[,1], PC2 = PCA$x[,2],
-                         Disease_Category = 
-                           Biobase::pData(IR_norm)$characteristics_ch1.3,
-                         Insulin_Resistance = 
-                           Biobase::pData(IR_norm)$insulin_category)
-    
-    ggplot(dataGG, aes(PC1, PC2)) +
-      geom_point(aes(shape = Disease_Category, 
-                     colour = Insulin_Resistance)) +
-      ggtitle("PCA plot of the calibrated, summarized data") +
-      xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
-      ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
-      theme(plot.title = element_text(hjust = 0.5)) +
-      coord_fixed(ratio = sd_ratio)
-    
-  })
-    
-  output$Intensity_Filtering <- renderPlot({
-    
-    gse_medians <- rowMedians(Biobase::exprs(IR_norm))
-    man_threshold <- 60
-    hist_res <- hist(gse_medians, 
-                     breaks=10000,
-                     xlim=c(0,10000),
-                     ylim=c(0,0.002),
-                     col = "cornsilk1", 
-                     freq = FALSE, 
-                     main = "Histogram of the median intensities", 
-                     border = "antiquewhite4",
-                     xlab = "Median intensities")
-    hist_res
-    abline(v = man_threshold, col = "coral4", lwd = 2)
-    
-  })
-  
-  ###### need to fix this issue 
-  
-  output$Heatmap_Samples <- renderPlotly({
-
-    ### expression oof the normalised dat
-    
-    dists <- as.matrix(dist(t(exp_gse), method = "manhattan"))
-    
-    rownames(dists) <- row.names(pData(IR_norm))
-    
-    hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
-    
-    colnames(dists) <- NULL
-    diag(dists) <- NA
-    
-    pheatmap(dists, col = (hmcol), 
-             legend = TRUE, 
-             treeheight_row = 0,
-             legend_breaks = c(min(dists, na.rm = TRUE), 
-                               max(dists, na.rm = TRUE)), 
-             legend_labels = (c("small distance", "large distance")),
-             main = "Clustering heatmap for the calibrated samples")
-    
-  })
-
-  
-  output$array_annotation <- renderDataTable({
-
-    head(anno_summarized)
-    anno_filtered
-    
-  })
-    
-  output$excluded_probes <- renderTable({
+## --------- close PATIENT GENOMIC  
 
 
-    table(ids_to_exlude)
-  })
-  
 
-  
-  output$gse25462_table <- renderDataTable({
-    pData(phenoData(gse25462[[1]]))
-  })
-  
-  output$PCA_h1Ac <- renderPlot({
-    
-    raw_data <- gse25462[[1]]
-    exp_raw <- exprs(raw_data)  
-    
-    # make the empty column 
-    gse25462[[1]]$diabetes_status <- 0
-    # assign each column to its appropriate bin 
-    gse25462[[1]]$diabetes_status[gse25462[[1]]$`hemoglobin a1c:ch1`>=6.5] <- "diabetic levels"
-    gse25462[[1]]$diabetes_status[(gse25462[[1]]$`hemoglobin a1c:ch1`< 6.5 
-                                   & gse25462[[1]]$`hemoglobin a1c:ch1`> 6)] <- "pre-diabetic levels"
-    gse25462[[1]]$diabetes_status[gse25462[[1]]$`hemoglobin a1c:ch1`< 6] <- "normal levels"
-    #log 2
-    IR_raw <- log2(Biobase::exprs(gse25462[[1]]))
-    #pca
-    PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
-    
-    percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
-    
-    sd_ratio <- sqrt(percentVar[2] / percentVar[1])
-    
-    dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
-                         Disease = pData(gse25462[[1]])$characteristics_ch1.3,# disease state
-                         Phenotype = pData(gse25462[[1]])$diabetes_status, #fasting glucose levels
-                         Individual = pData(gse25462[[1]])$title)
-    
-    ggplot(dataGG, aes(PC1, PC2)) +
-      geom_point(
-        aes(shape = Disease, 
-            colour = Phenotype)) +
-      
-      ggtitle("PCA plot of the log-transformed raw expression data") +
-      
-      xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
-      
-      ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
-      
-      theme(plot.title = element_text(hjust = 0.5))+
-      
-      coord_fixed(ratio = sd_ratio) 
-  }) 
-  
-  
-  output$GSE115313_Sample_Numbers <- renderTable({
-    
-    raw_data <- GSE115313[[1]]
-    minguez_eset_norm <- raw_data
-    no_of_samples <- 
-      table(paste0(pData(minguez_eset_norm)$'diabetes_status:ch1', "_", 
-                   pData(minguez_eset_norm)$'tissue_type:ch1'))
-    no_of_samples 
-    
-  })
-  
- 
-  
-  output$GSE115313_pData <- renderDataTable({
-    pData(phenoData(GSE115313[[1]]))})
-  
-  #--- plot of insulin resistance levels
-  output$PCA_IR <- renderPlot({
+#### COHORT OUTPUTS ####
 
-    #log 2
-    exp_raw <- log2(Biobase::exprs(gse25462[[1]]))
-    #pca
-    PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
-    percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
-    sd_ratio <- sqrt(percentVar[2] / percentVar[1])
-    dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
-                         Disease = pData(gse25462[[1]])$characteristics_ch1.3,# disease state
-                         Phenotype = pData(gse25462[[1]])$insulin_category, #fasting glucose levels
-                         Individual = pData(gse25462[[1]])$title)
-    ggplot(dataGG, aes(PC1, PC2)) +
-      geom_point(
-        aes(shape = Disease, 
-            colour = Phenotype)) +
-      ggtitle("PCA plot of the log-transformed raw expression data") +
-      xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
-      ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
-      theme(plot.title = element_text(hjust = 0.5))+
-      coord_fixed(ratio = sd_ratio) 
-    #  scale_shape_manual(values = c(4,15)) + 
-    # scale_color_manual(values = c("darkorange2", "dodgerblue4", "gold", "deepskyblue1"))
-    
-  })
-
+output$cohort_qc_RLE <- renderPlot({
   
-  output$GSE115313_IF <-  renderPlot({
-    raw_data <- GSE115313[[1]]
-    minguez_eset_norm <- raw_data
-
-    man_threshold <- 2.5
-    
-    minguez_medians <- rowMedians(Biobase::exprs(minguez_eset_norm))
-    
-    man_threshold <- 2.5
-    
-    hist(minguez_medians, 100, col = "cornsilk", freq = FALSE, 
-                     main = "Histogram of the median intensities",
-                     border = "antiquewhite4",
-                     xlab = "Median intensities")
-    
-    abline(v = man_threshold, col = "coral4", lwd = 2)
-    
-    
-  })
-  output$GSE115313_PCA <- renderPlot({
-    ## Principal Component Analysis 
-    # 1. Generate values 
-    raw_data <- GSE115313[[1]]
-    pData(raw_data) <- pData(raw_data)[,c("geo_accession", 
-                                          "characteristics_ch1.1", 
-                                          "description", 
-                                          "diabetes_status:ch1", 
-                                          "tissue_type:ch1")]
-    exp_raw <- exprs(raw_data)
-    PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
-    # 2. Get the percentage variance- understand how many components we should use
-    percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
-    sd_ratio <- sqrt(percentVar[2] / percentVar[1])
-    dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
-                         Disease = pData(raw_data)$'diabetes_status:ch1',
-                         Phenotype = pData(raw_data)$'tissue_type:ch1',
-                         Individual = pData(raw_data)$geo_accession)
-    
-    ggplot(dataGG, aes(PC1, PC2)) +
-      geom_point(aes(shape = Disease, colour = Phenotype)) +
-      ggtitle("PCA plot of the log-transformed raw expression data") +
-      xlab(paste0("PC1, VarExp: ", percentVar[1], "%")) +
-      ylab(paste0("PC2, VarExp: ", percentVar[2], "%")) +
-      theme(plot.title = element_text(hjust = 0.5))+
-      coord_fixed(ratio = sd_ratio) +
-      scale_shape_manual(values = c(4,15)) + 
-      scale_color_manual(values = c("darkorange2", "dodgerblue4"))
-  })
+  ## DATA
+  row_medians_assayData <- 
+    Biobase::rowMedians(as.matrix(exprs(genomic_data[[1]])))
   
-  output$GSE115313_Log2 <- renderPlot({
-    raw_data <- GSE115313[[1]]
-    pData(raw_data) <- pData(raw_data)[,c("geo_accession", 
-                                          "characteristics_ch1.1", 
-                                          "description", 
-                                          "diabetes_status:ch1", 
-                                          "tissue_type:ch1")]
-    
-    oligo::boxplot(raw_data, target = "core", 
-                   main = "Boxplot of log2-intensitites for the raw data")
-    
-
-  })
+  RLE_data <- sweep(log2(Biobase::exprs(genomic_data[[1]])), 1, 
+                    row_medians_assayData)
   
-  output$GSE115313_Log2Deviation <- renderPlot({
-    
-    raw_data <- GSE115313[[1]]
-    minguez_eset <- raw_data
-    minguez_eset_norm <- raw_data
-    
-    row_medians_assayData <- 
-      Biobase::rowMedians(as.matrix(Biobase::exprs(minguez_eset)))
-    
-    RLE_data <- sweep(Biobase::exprs(minguez_eset), 1, row_medians_assayData)
-    
-    RLE_data <- as.data.frame(RLE_data)
-    RLE_data_gathered <- 
-      tidyr::gather(RLE_data, patient_array, log2_expression_deviation)
-    
-    
-    ggplot2::ggplot(RLE_data_gathered, aes(patient_array,
-                                           log2_expression_deviation)) + 
-      geom_boxplot(outlier.shape = NA) + 
-      ylim(c(-2, 2)) + 
-      theme(axis.text.x = element_text(colour = "aquamarine4", 
-                                       angle = 60, size = 6.5, hjust = 1 ,
-                                       face = "bold"))
-    
-  })
+  # class for the fill
+  RLE_class <- data.frame(patient_array = rownames(pData(genomic_data[[1]])), 
+                          disease_cat = str_detect(Biobase::pData(genomic_data[[1]])$PATIENT, 
+                                                   input$search))
   
-
+  RLE_data <- as.data.frame(RLE_data)
+  RLE_data_gathered <- 
+    tidyr::gather(RLE_data, 
+                  patient_array, 
+                  log2_expression_deviation)
   
-  output$GSE115313_Heatmap <- renderPlot({
-  ### heatmap
-  raw_data <- GSE115313[[1]]
-  pData(raw_data) <- pData(raw_data)[,c("geo_accession", 
-                                        "characteristics_ch1.1", 
-                                        "description", 
-                                        "diabetes_status:ch1", 
-                                        "tissue_type:ch1")]
+  RLE_data_gathered_diagnosis <- 
+    merge(RLE_data_gathered, 
+          RLE_class, 
+          by="patient_array")
   
-    
-  exp_raw <- exprs(raw_data)  
-    
-  dists <- as.matrix(dist(t(exp_raw), method = "manhattan"))
+  ggplot2::ggplot(RLE_data_gathered_diagnosis, 
+                  aes(patient_array,
+                      log2_expression_deviation, 
+                      fill=disease_cat)) + 
+    geom_boxplot(outlier.shape = NA) + 
+    ylim(c(-2, 2)) + 
+    theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                     angle = 60, size = 6.5, hjust = 1 ,
+                                     face = "bold"))
   
-  minguez_eset <- raw_data
-  minguez_eset_norm <- raw_data
-  
-  rownames(dists) <- row.names(pData(minguez_eset_norm))
-  hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
-  colnames(dists) <- NULL
-  diag(dists) <- NA
-  
-  ann_colors <- list(
-    Phenotype = c(CC = "chartreuse4", nC = "burlywood3"),
-    Disease = c(diabetic = "blue4", non_diabetic = "cadetblue2")
-  )
-  
-  
-  pheatmap(dists, col = (hmcol), 
-           annotation_row = annotation_for_heatmap,
-           annotation_colors = ann_colors,
-           legend = TRUE, 
-           treeheight_row = 0,
-           legend_breaks = c(min(dists, na.rm = TRUE), 
-                             max(dists, na.rm = TRUE)), 
-           legend_labels = (c("small distance", "large distance")),
-           main = "Clustering heatmap for the calibrated samples")})
-  
-  
-  output$info_patient <- DT::renderDataTable ({
-    
-    patient <- input$observations_patient
-    mydf <- patients.csv[patients.csv$Id == patient,]
-    
-    mydf[, colSums(mydf != "") != 0]
-
-  })
-
-  
-  output$observations_plot <- renderPlotly({
-    
-    ## create merger to grab patient names
-    patients.csv$PATIENT <- patients.csv$Id 
-    observations_names <- merge(observations.csv,patients.csv, by  = "PATIENT") 
-    
-    patient <- input$observations_patient
-    patient_data <- observations_names[observations_names$PATIENT == patient,]
-    observation <- input$observation_selection
-    patient_observation_data <- patient_data[patient_data$DESCRIPTION == observation,]
-    
-    
-    f <- list(
-      family = "Courier New, monospace",
-      size = 18,
-      color = "#7f7f7f"
-    )
-    x <- list(
-      title = "Date of Observation",
-      titlefont = f
-    )
-    
-    y <- list(
-      title = paste(patient_observation_data$DESCRIPTION[1], "(",
-                    patient_observation_data$UNITS[1], ")"),
-      titlefont = f
-    )
-    
-    patient_observation_data  %>% 
-      plot_ly(
-        x = ~DATE, y =~as.numeric(as.character(VALUE)), 
-        type = "scatter")  %>% 
-      layout(xaxis = x, yaxis = y, 
-             title= paste(patient_observation_data$DESCRIPTION[1], "for",
-                          patient_observation_data$FIRST[[1]],
-                          patient_observation_data$LAST[[1]]))
-  })
+}) # close cohort_qc_RLE
 
 
-  
-#  genTable <- reactive({
-#    validate(
-#      need(!is.null(output$genTable[1,1]),
-#         "No results for this dataset, choose another!"))
-#  })
-  
-}
+output$cohort_qc_PCA <- renderPlot({
+
+}) # close cohort_qc_PCA
+
+} # close server
 
 shinyApp(ui, server)

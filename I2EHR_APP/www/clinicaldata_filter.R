@@ -6,7 +6,7 @@ for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 observations.csv <-with(observations.csv , observations.csv[order(PATIENT),])
 
 # list 64 patients with most obs (match no of GEO samples)
-patients_most_obs <- unique(observations.csv$PATIENT)[0:126]
+patients_most_obs <- unique(observations.csv$PATIENT)[0:160]
 
 # format patients.csv from Id to PATIENT to match other files
 names(patients.csv)[names(patients.csv) == "Id"] <- "PATIENT"
@@ -24,6 +24,14 @@ procedures.csv <- procedures.csv[procedures.csv$PATIENT %in% patients_most_obs,]
 providers.csv <- providers.csv[providers.csv$PATIENT %in% patients_most_obs,]
 
 
-
+write.csv(allergies.csv, file = "allergies.csv")
+write.csv(careplans.csv, file = "careplans.csv")
+write.csv(conditions.csv, file = "conditions.csv")
+write.csv(encounters.csv, file = "encounters.csv")
+write.csv(immunizations.csv, file = "immunizations.csv")
+write.csv(observations.csv, file = "observations.csv")
+write.csv(organizations.csv, file = "organizations.csv")
+write.csv(patients.csv, file = "patients.csv")
+write.csv(procedures.csv, file = "procedures.csv")
 write.csv(providers.csv, file = "providers.csv")
 

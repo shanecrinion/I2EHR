@@ -29,6 +29,9 @@ x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title,
 x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                            "1 year"), "year1")
 
+Biobase::pData(genomic_data[[1]])$title <- x
+Biobase::pData(genomic_data[[1]])$title <- as.factor(Biobase::pData(genomic_data[[1]])$title)
+
 
 ### match by the number of individuals 
 ## GEO data contains 216 (72) females , 162 (54 male) 
@@ -53,6 +56,16 @@ patient_id_list <- rep(patients.csv$PATIENT, each=3)
 
 
 # order both by sex to assign appropriate gender
+
+pData(genomic_data[[1]] <- pData(genomic_data[[1]])[, c("geo_accession",
+                                                        "1 year weight loss (%):ch1",
+                                                        "age:ch1", 
+                                                        "cad:ch1",
+                                                        "diabetes:ch1",
+                                                        "gender:ch1",
+                                                        "group:ch1")])
+
+
 with(pData(genomic_data[[1]]) , pData(genomic_data[[1]])[order(`gender:ch1`),]) 
 pData(genomic_data[[1]]) <- with(pData(genomic_data[[1]]), pData(genomic_data[[1]])[order(`gender:ch1`),]) 
 
@@ -62,6 +75,7 @@ genomic_data[[1]]$PATIENT <- rep(patients.csv$PATIENT, each=3)
 
 #paste the full name for search feature
 patients.csv$FULLNAME <- paste(patients.csv$FIRST,  patients.csv$LAST)
+genomic_data[[1]]$FULLNAME <- rep(patients.csv$FULLNAME, each = 3)
 
 library(lubridate)
 #calculate the age from dob
@@ -76,11 +90,15 @@ patients.csv$AGE <- 0
 patients.csv$AGE <- age(patients.csv$BIRTHDATE)
 
 
-outersect <- function(x, y) {
-  sort(c(setdiff(x, y),
-         setdiff(y, x)))
-}
+## limit to the interesting data
 
-outersect(patients.csv$PATIENT, conditions.csv$PATIENT)
-
+pData(genomic_data[[1]] <- pData(genomic_data[[1]])[, c("geo_accession",
+                                           "1 year weight loss (%):ch1",
+                                           "age:ch1", 
+                                           "cad:ch1",
+                                           "diabetes:ch1",
+                                           "gender:ch1",
+                                           "group:ch1", 
+                                           "PATIENT", 
+                                           "FULLNAME")])
 
