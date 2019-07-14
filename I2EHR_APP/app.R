@@ -52,6 +52,7 @@ if (length(missingCRANPackages)==0){
 requiredBioconductorPackages = c("Biobase", 
                                  "GEOquery", 
                                  "affyPLM",
+                                 "GOexpress",
                                  "oligoClasses",
                                  "pd.hugene.1.0.st.v1", 
                                  "pd.hugene.2.0.st",
@@ -87,15 +88,16 @@ message("Finished: Package installation and set up")
 message("Importing clinical data")
 
 #import all csv files containing clinical data from Synthea
-temp = list.files(pattern="*.csv")
-for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
-message("Finished: Importing clinical data")
+#temp = list.files(pattern="*.csv")
+#for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
+#message("Finished: Importing clinical data")
 
 #importing the clinical files 
 message("Importing, and integrating genomic data")
 
 # *** unhash source if you need to limit your large cohort files
-# source("www/genomic_clinical_merge.R")
+
+#source("www/genomic_clinical_merge.R")
 
 message("Finished:Importing, and integrating genomic data")
 
@@ -125,6 +127,7 @@ suppressPackageStartupMessages(library(oligoClasses))
 suppressPackageStartupMessages(library(GEOquery))
 suppressPackageStartupMessages(library(pd.hugene.1.0.st.v1))
 suppressPackageStartupMessages(library(pd.hugene.2.0.st))
+suppressPackageStartupMessages(library(hgu133a2.db))
 suppressPackageStartupMessages(library(hugene10sttranscriptcluster.db))
 suppressPackageStartupMessages(library(hugene20sttranscriptcluster.db))
 suppressPackageStartupMessages(library(gridExtra)) 
@@ -136,13 +139,14 @@ suppressPackageStartupMessages(library(limma))
 suppressPackageStartupMessages(library(topGO)) 
 suppressPackageStartupMessages(library(ReactomePA)) 
 suppressPackageStartupMessages(library(clusterProfiler)) 
+suppressPackageStartupMessages(library(GOexpress)) 
 #Plotting and color options packages
 suppressPackageStartupMessages(library(gplots))
 suppressPackageStartupMessages(library(ggplot2))
 suppressPackageStartupMessages(library(geneplotter)) 
 suppressPackageStartupMessages(library(RColorBrewer)) 
 suppressPackageStartupMessages(library(pheatmap)) 
-
+suppressPackageStartupMessages(library(d3heatmap))
 #Formatting/documentation packages
 #suppressPackageStartupMessages(library(rmarkdown)
 #suppressPackageStartupMessages(library(BiocStyle)
@@ -161,17 +165,48 @@ suppressPackageStartupMessages(library(lubridate))
 message("Libraries loaded")
 
 #import csv containing FHIR format patient data
-#temp = list.files(pattern="*.csv")
-#for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
-
-
-# merge attaches the name to each patient ID
-#observations_merge <- merge(x = patients.csv, 
-#                            y = observations.csv, 
-#                            by.x = "Id", 
-#                            by.y= "PATIENT")
+temp = list.files(pattern="*.csv")
+for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
 
 message("Set up complete")
+
+source("global.R")
+
+Ellsworth_medians <- rowMedians(Biobase::exprs(genomic_data[[1]]))
+
+hist_res <- hist(Ellsworth_medians, 100, col = "cornsilk1", freq = FALSE, 
+                 main = "Histogram of the median intensities", 
+                 border = "antiquewhite4",
+                 xlab = "Median intensities")
+
+man_threshold <- 2.75
+
+hist_res <- hist(Ellsworth_medians, 100, col = "cornsilk", freq = FALSE, 
+                 main = "Histogram of the median intensities",
+                 border = "antiquewhite4",
+                 xlab = "Median intensities")
+
+abline(v = man_threshold, col = "coral4", lwd = 2)
+
+no_of_samples <- 
+  table(paste0(pData(genomic_data[[1]])$`group:ch1`, "_", 
+               pData(genomic_data[[1]])$`diabetes:ch1`))
+samples_cutoff <- min(no_of_samples)
+
+idx_man_threshold <- apply(Biobase::exprs(genomic_data[[1]]), 1,
+                           function(x){
+                             sum(x > man_threshold) >= samples_cutoff})
+
+Ellsworth_manfiltered <- subset(exprs(genomic_data[[1]]), idx_man_threshold)
+
+anno_Ellsworth <- AnnotationDbi::select(hgu133a2.db,
+                                        keys = (featureNames(genomic_data[[1]])),
+                                        columns = c("SYMBOL", "GENENAME"),
+                                        keytype = "PROBEID")
+
+
+anno_Ellsworth <- subset(anno_Ellsworth, !is.na(SYMBOL))
+
 
 ### UI
 
@@ -235,7 +270,8 @@ ui <- dashboardPage(
                                  height = 250)
                     ) # close genomic data tabpanel
                   ), # close tabset panel
-                  solidHeader = TRUE) # close box
+                  solidHeader = TRUE) # close 0
+              
       ), # close overview tab
       
       tabItem(tabName = "Patient_Tab",
@@ -246,6 +282,7 @@ ui <- dashboardPage(
                   fluidRow(
                     column(8,
                            searchInput(
+                             value = "0cd0592a-774a-4ece-806a-5384a15af9b4",
                              inputId = "search", 
                              label = "Patient search",
                              placeholder = "Enter Patient ID number",
@@ -298,12 +335,11 @@ ui <- dashboardPage(
                              tableOutput("patient_dt")), # close tab panel clinical 
                     
                     tabPanel("Patient_Genomic",
-                             h5("Genomic data for the patient"),
                              #  fileInput("file1", "Choose CEL File",
                              #             multiple = FALSE,
                              #             accept = c(".CEL")),
                              
-                             h5("Phenotypic data"),
+                             h4("Patient gene expression samples"),
                              tableOutput("patient_genomic_table"),
                              
                              h5("Quality Control"),
@@ -318,7 +354,7 @@ ui <- dashboardPage(
                              h5("Individual gene query"),
                              selectInput(inputId = "patient_genomic_gene_select",
                                          label = "Select the gene to analyse",
-                                         choices=c(unique(sort(as.character(unique(anno_genomic_data$SYMBOL)))))
+                                         choices=c(unique(sort(as.character(unique(anno_Ellsworth$SYMBOL)))))
                              ), # close selectinput
                              textOutput("patient_genomic_gene_ttest")
                              
@@ -350,25 +386,36 @@ ui <- dashboardPage(
                                    #   fileInput("file1", "Choose CEL File",
                                    #             multiple = FALSE,
                                    #             accept = c(".CEL")),
-                                   plotOutput("cohort_qc_RLE"), # add for control
-                                   plotOutput("cohort_qc_PCA"), # add for control
-                                   plotOutput("cohort_normalisation"), # add for control
-                                   plotOutput("cohort_dea"), # add for control
-                                   plotOutput("cohort_bioint") # add for control
-                                   # cohort_qc outputs
-                                   #conditionalPanel('input.cohort_genomic_step=="cohort_qc"',
-                                   #                plotOutput("cohort_array_intensity"),
-                                   #                  plotOutput("cohort_PCA_plot")),
-                                   
-                                   # cohort_normalisation outputs
-                                   #conditionalPanel('input.cohort_genomic_step=="cohort_normalisation"',
-                                   #                  tableOutput("")),
-                                   
-                                   # cohort_dea outputs
-                                   #conditionalPanel('input.cohort_genomic_step=="cohort_dea"'),
-                                   
-                                   # cohort_bioint outputs
-                                   #conditionalPanel('input.cohort_genomic_step=="cohort_bioint"')
+                                    # add for control
+                                   #plotOutput("cohort_qc_PCA"), # add for control
+                                   #plotOutput("cohort_normalisation"), # add for control
+                                   #plotOutput("cohort_dea"), # add for control
+                                   # add for control
+                                   box(title = "PCA",
+                                       width = 8,
+                                       collapsible = TRUE,
+                                       plotOutput("cohort_qc_PCA")),
+                                   box(title = "Intensity Filtering",
+                                       width = 4,
+                                       collapsible=TRUE,
+                                       plotOutput("cohort_qc_IF")),
+                                   box(title = "Number of samples",
+                                       width = 4,
+                                       collapsible=TRUE,
+                                       tableOutput("cohort_data_sample_numbers")),
+                                   box(title = "Relative Log Expression",
+                                       width = 5,
+                                       collapsible = TRUE,
+                                       plotOutput("cohort_qc_RLE")),
+                                   box(title = "Heatmap",
+                                       status="success",
+                                       collapsible=TRUE,
+                                       width = 9,
+                                       plotOutput("cohort_bioint_heatmap"))
+                                   #box(title = "Annotation",
+                                   #     collapsible=TRUE,
+                                   #    collapsed =TRUE,
+                                   #     dataTableOutput("GSE115313_Annotation"))
                           ), # close tabpanel genomic
                           
                           tabPanel("Integrated",
@@ -391,10 +438,12 @@ server <- function(input, output, session) {
 
   
 #### PATIENT OUTPUTS ####0
-## to do list
+## file set up list
 # patient_dt, 
 # patient_genomic_table,
 # patient_RLE, 
+  
+
 # patient_PCA, 
 # patient_topgenes_list, 
 # patient_log2foldchange, 
@@ -409,19 +458,16 @@ server <- function(input, output, session) {
 
 output$patient_info_table <- renderTable({
   
-  selection <- 
-    reactive({input$search_by})
+  #selection <-input$search_by()
   
-  patient_data <- patients.csv[patients.csv$PATIENT == input$search]
-  
-  if(selection() != "ID_select"){
-    patient_data <- patients.csv[patients.csv$FULLNAME == input$search,]
-  }
-  
-  patient_data <- patient_data[, colSums(patient_data != "") != 0]
+  library(data.table)
+  patient_data <- subset(x=patients.csv, subset = patients.csv$PATIENT==input$search)
+  #if(selection() != "ID_select"){
+  #  patient_data <- patients.csv[patients.csv$FULLNAME == input$search,]
+  #}
+  patient_data <- as.data.frame(patient_data)
 
   patient_data
-    
 }) # close patient_info_table
 
   
@@ -465,29 +511,35 @@ output$observation_plot <- renderPlotly({
 
 
 
-output$patient_dt <- renderDataTable({
+output$patient_dt <- renderTable({
+    
+    selected_data <- input$patient_select_dt
   
-    if (input$patient_select_dt == "Conditions"){
+    if (selected_data == "Conditions"){
       select_datatable <- subset(conditions.csv, subset=conditions.csv$PATIENT == input$search)
-    } else if (input$patient_select_dt == "Encounters"){
+    } else if (selected_data == "Encounters"){
       select_datatable <- subset(encounters.csv, subset=encounters.csv$PATIENT == input$search)
-    } else if (input$patient_select_dt  == "Imaging Studies"){
+    } else if (selected_data  == "Imaging Studies"){
       select_datatable <- subset(imaging_studies.csv, subset=imaging_studies.csv$PATIENT == input$search)
-    } else if (input$patient_select_dt == "Immunizations"){
+    } else if (selected_data == "Immunizations"){
       select_datatable <- subset(immunizations.csv, subset=immunizations.csv$PATIENT == input$search)
-    } else if (input$patient_select_dt == "Medications"){
+    } else if (selected_data == "Medications"){
       select_datatable <- subset(medications.csv, subset=medications.csv$PATIENT == input$search)
-    } else if (input$patient_select_dt == "Observations"){
+    } else if (selected_data == "Observations"){
       select_datatable <- subset(observations.csv, subset=observations.csv$PATIENT == input$search)
-    } else if (input$patient_select_dt == "Organizations"){
+    } else if (selected_data == "Organizations"){
       select_datatable <- subset(organizations.csv, subset=organizations.csv$PATIENT == input$search)
-    } else if (input$patient_select_dt == "Procedures"){
+    } else if (selected_data == "Procedures"){
       select_datatable <- subset(procedures.csv, subset=procedures.csv$PATIENT == input$search)
-    } else if (input$patient_select_dt == "Providers"){
+    } else if (selected_data == "Providers"){
       select_datatable <- subset(providers.csv, subset=providers.csv$PATIENT == input$search)
     }
   
-    select_datatable  
+    #select_datatable <- select_datatable[, colSums(select_datatable != "") != 0]
+    
+    
+    select_datatable <- select_datatable[,colSums(is.na(select_datatable))<nrow(select_datatable)]
+    select_datatable
     
     })
 
@@ -504,7 +556,6 @@ subset.patient <- subEset(
     eSet=genomic_data[[1]],
      subset=list(
      PATIENT=c(input$search)))
-
 
 #View(Biobase::pData(genomic_data[[1]])[, c("geo_accession",
 #                                      "1 year weight loss (%):ch1",
@@ -524,48 +575,132 @@ pData(subset.patient)
 
 
 output$patient_RLE <- renderPlot({
-  
-  output$cohort_qc_RLE <- renderPlot({
-    
-    ## DATA
-    row_medians_assayData <- 
-      Biobase::rowMedians(as.matrix(exprs(genomic_data[[1]])))
-    RLE_data <- sweep(log2(Biobase::exprs(genomic_data[[1]])), 1, 
-                      row_medians_assayData)
-    # class for the fill
-    RLE_class <- data.frame(patient_array = rownames(pData(genomic_data[[1]])), 
-                            disease_cat = str_detect(Biobase::pData(genomic_data[[1]])$PATIENT, 
-                                                     input$search))
-    RLE_data <- as.data.frame(RLE_data)
-    RLE_data_gathered <- 
-      tidyr::gather(RLE_data, 
-                    patient_array, 
-                    log2_expression_deviation)
-    
-    RLE_data_gathered_diagnosis <- 
-      merge(RLE_data_gathered, 
-            RLE_class, 
-            by="patient_array")
-    
-    ggplot2::ggplot(RLE_data_gathered_diagnosis, 
-                    aes(patient_array,
-                        log2_expression_deviation, 
-                        fill=disease_cat)) + 
-      geom_boxplot(outlier.shape = NA) + 
-      ylim(c(-2, 2)) + 
-      theme(axis.text.x = element_text(colour = "aquamarine4", 
-                                       angle = 60, size = 6.5, hjust = 1 ,
-                                       face = "bold"))
-    
-  }) # close cohort_qc_RLE
 
+  ######## PATIENT 
+  subset.patient <- subEset(
+    eSet=genomic_data[[1]],
+    subset=list(
+      PATIENT=c(input$search)))
+  ###### END PATIENT
+  
+  
+  #genomic_data_selection <- genomic_data[[1]][,genomic_data[[1]]$PATIENT == input$search]
+  
+  ## DATA
+  row_medians_assayData_patient <- 
+    Biobase::rowMedians(as.matrix(exprs(subset.patient)))
+  
+  RLE_data_patient <- sweep(log2(Biobase::exprs(subset.patient)), 1, 
+                            row_medians_assayData_patient)
+  # class for the fill
+  RLE_class_patient <- data.frame(patient_array = rownames(pData(subset.patient)), 
+                                  disease_cat = Biobase::pData(subset.patient)$`diabetes:ch1`)
+  
+  RLE_data_patient <- as.data.frame(RLE_data_patient)
+  RLE_data_gathered_patient <- 
+    tidyr::gather(RLE_data_patient, 
+                  patient_array, 
+                  log2_expression_deviation)
+  
+  RLE_data_gathered_diagnosis_patient <- 
+    merge(RLE_data_gathered_patient, 
+          RLE_class_patient, 
+          by="patient_array")
+  
+  ###### CONTROL file set up
+  
+  diabetes_state <- subset.patient$`diabetes:ch1`[1]
+  gender_state <- subset.patient$`gender:ch1`[1]
+  cad_state <- subset.patient$`cad:ch1`[1]
+  age_range <- c((as.numeric(subset.patient$`age:ch1`) - 5 ),
+                 (as.numeric(subset.patient$`age:ch1`) + 5 ))
+  age_range <- age_range[c(1,5)]
+
+  
+  subset.control <- genomic_data[[1]][,genomic_data[[1]]$`diabetes:ch1` == diabetes_state]
+  subset.control <- subset.control[,subset.control$`gender:ch1` == gender_state]
+  subset.control <- subset.control[,subset.control$`cad:ch1` == cad_state]
+  subset.control <- subset.control[,subset.control$`age:ch1` > age_range[1] 
+                                   & subset.control$`age:ch1` < age_range[2]]
+  subset.control <- subset.control[,subset.control$`cad:ch1` == cad_state]
+  subset.control <- subset.control[,subset.control$`group:ch1` != "Matched Ornish Participant"]
+  subset.control <- subset.control[1]
+  
+  ###### END CONTROL
+  
+  ## DATA
+  row_medians_assayData_control <- 
+    Biobase::rowMedians(as.matrix(exprs(subset.control)))
+  
+  RLE_data_control <- sweep(log2(Biobase::exprs(subset.control)), 1, 
+                            row_medians_assayData_control)
+  # class for the fill
+  RLE_class_control <- data.frame(patient_array = rownames(pData(subset.control)), 
+                                  disease_cat = Biobase::pData(subset.patient)$`diabetes:ch1`)
+  RLE_data_control <- as.data.frame(RLE_data_control)
+  RLE_data_gathered_control <- 
+    tidyr::gather(RLE_data_control, 
+                  patient_array, 
+                  log2_expression_deviation)
+  
+  RLE_data_gathered_diagnosis_control <- 
+    merge(RLE_data_gathered_control, 
+          RLE_class_control, 
+          by="patient_array")
+
+  
+  plot1 <- ggplot2::ggplot(RLE_data_gathered_diagnosis_patient, 
+                  aes(patient_array,
+                      log2_expression_deviation, 
+                      fill=disease_cat)) + 
+    geom_boxplot(outlier.shape = NA) + 
+    
+    ylim(c(-2, 2)) + 
+    theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                     angle = 60, size = 6.5, hjust = 1 ,
+                                     face = "bold"))
+  
+  
+  plot2 <- ggplot2::ggplot(RLE_data_gathered_diagnosis_control, 
+                  aes(patient_array,
+                      log2_expression_deviation, 
+                      fill=disease_cat)) + 
+    
+    geom_boxplot(outlier.shape = NA) + 
+    ylim(c(-2, 2)) + 
+    theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                     angle = 60, size = 6.5, hjust = 1 ,
+                                     face = "bold"))
+  
+  
+  grid.arrange(plot1, plot2, ncol=2)
+  
 })
+  
+
 
 ## --------- close PATIENT GENOMIC  
 
 
 
 #### COHORT OUTPUTS ####
+
+
+output$cohort_qc_IF <- renderPlot({
+  Ellsworth_medians <- rowMedians(Biobase::exprs(genomic_data[[1]]))
+  hist_res <- hist(Ellsworth_medians, 100, col = "cornsilk1", freq = FALSE, 
+                   main = "Histogram of the median intensities", 
+                   border = "antiquewhite4",
+                   xlab = "Median intensities")
+})
+
+output$cohort_data_sample_numbers <- renderTable({
+  no_of_samples <- 
+    table(paste0(pData(genomic_data[[1]])$'diabetes:ch1', "_", 
+                 pData(genomic_data[[1]])$'group:ch1'))
+  no_of_samples 
+})
+
 
 output$cohort_qc_RLE <- renderPlot({
   
@@ -605,9 +740,60 @@ output$cohort_qc_RLE <- renderPlot({
 }) # close cohort_qc_RLE
 
 
+
 output$cohort_qc_PCA <- renderPlot({
 
+    ### get the prinicipal component values
+    PCA <- prcomp(t(genomic_data[[1]], scale. = FALSE))
+    percentVar <- round(100*PCA$sdev^2/sum(PCA$sdev^2),1)
+    barplot(percentVar, 
+            main = "Variation Explained per PC", 
+            col=rainbow(50), xlab="Principal Component", 
+            ylab="%", names=c(1:50), 
+            ylim=c(0,30), 
+            las=2)
+  
 }) # close cohort_qc_PCA
+
+output$cohort_bioint_heatmap <- renderPlot({
+  
+  phenotype_names <- ifelse(str_detect(pData
+                                       (genomic_data[[1]])$`diabetes:ch1`,
+                                       "No"), "non_diabetic", "diabetic")
+  
+  disease_names <- ifelse(str_detect(pData
+                                     (genomic_data[[1]])$`group:ch1`,
+                                     "Matched Ornish"), "case", "control")
+  
+  annotation_for_heatmap <- 
+    data.frame(Phenotype = phenotype_names,  Disease = disease_names)
+  
+  row.names(annotation_for_heatmap) <- row.names(pData(genomic_data[[1]]))
+  
+  dists <- as.matrix(dist(t(exprs(genomic_data[[1]])), method = "manhattan"))
+  
+  rownames(dists) <- row.names(pData(genomic_data[[1]]))
+  hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
+  colnames(dists) <- NULL
+  diag(dists) <- NA
+  
+  ann_colors <- list(
+    Phenotype = c(non_diabetic = "chartreuse4", diabetic = "burlywood3"),
+    Disease = c(case = "blue4", control = "cadetblue2")
+  )
+  
+  #### add the diabetes sidebar
+  library(d3heatmap)
+  d3heatmap(dists, color = (hmcol), 
+            annotation_row = annotation_for_heatmap,
+            annotation_colors = ann_colors,
+            legend = TRUE, 
+            treeheight_row = 0,
+            legend_breaks = c(min(dists, na.rm = TRUE), 
+                              max(dists, na.rm = TRUE)), 
+            legend_labels = (c("small distance", "large distance")),
+            main = "Clustering heatmap for the calibrated samples")
+})
 
 } # close server
 

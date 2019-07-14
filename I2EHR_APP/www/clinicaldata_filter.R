@@ -1,7 +1,3 @@
-#import all csv files containing clinical data from Synthea
-temp = list.files(pattern="*.csv")
-for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
-
 # order to obtains with most detailed info
 observations.csv <-with(observations.csv , observations.csv[order(PATIENT),])
 

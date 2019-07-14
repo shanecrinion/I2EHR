@@ -8,6 +8,7 @@ genomic_data <- getGEO("GSE46097", GSEMatrix = TRUE)
 # clean genomic data
 library(stringr)
 
+
 pData(genomic_data[[1]])$title <- as.character(pData(genomic_data[[1]])$title)
 
 x <- replace(pData(genomic_data[[1]])$title, str_detect(Biobase::pData(genomic_data[[1]])$title, 
@@ -29,6 +30,7 @@ x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title,
 x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
                            "1 year"), "year1")
 
+
 Biobase::pData(genomic_data[[1]])$title <- x
 Biobase::pData(genomic_data[[1]])$title <- as.factor(Biobase::pData(genomic_data[[1]])$title)
 
@@ -40,12 +42,12 @@ Biobase::pData(genomic_data[[1]])$title <- as.factor(Biobase::pData(genomic_data
 # inspect data 
 sort(patients.csv$GENDER)
 library(plyr)
-count(patients.csv$GENDER)
+plyr::count(patients.csv$GENDER)
 
 # currently 74 females and 86 male so removing those with least observations
 # filter last 2 female
 patients.csv <- patients.csv[-c(153,154),]
-count(patients.csv$GENDER)
+plyr::count(patients.csv$GENDER)
 #filter 32 males
 patients.csv <-with(patients.csv , 
                     patients.csv[order(GENDER),]) 
@@ -57,13 +59,13 @@ patient_id_list <- rep(patients.csv$PATIENT, each=3)
 
 # order both by sex to assign appropriate gender
 
-pData(genomic_data[[1]] <- pData(genomic_data[[1]])[, c("geo_accession",
-                                                        "1 year weight loss (%):ch1",
-                                                        "age:ch1", 
-                                                        "cad:ch1",
-                                                        "diabetes:ch1",
-                                                        "gender:ch1",
-                                                        "group:ch1")])
+pData(genomic_data[[1]]) <- pData(genomic_data[[1]])[, c("geo_accession",
+                                                         "1 year weight loss (%):ch1",
+                                                         "age:ch1", 
+                                                         "cad:ch1",
+                                                         "diabetes:ch1",
+                                                         "gender:ch1",
+                                                         "group:ch1")]
 
 
 with(pData(genomic_data[[1]]) , pData(genomic_data[[1]])[order(`gender:ch1`),]) 
@@ -92,13 +94,14 @@ patients.csv$AGE <- age(patients.csv$BIRTHDATE)
 
 ## limit to the interesting data
 
-pData(genomic_data[[1]] <- pData(genomic_data[[1]])[, c("geo_accession",
-                                           "1 year weight loss (%):ch1",
-                                           "age:ch1", 
-                                           "cad:ch1",
-                                           "diabetes:ch1",
-                                           "gender:ch1",
-                                           "group:ch1", 
-                                           "PATIENT", 
-                                           "FULLNAME")])
+pData(genomic_data[[1]]) <- pData(genomic_data[[1]])[, c("geo_accession",
+                                                         "title",
+                                                         "1 year weight loss (%):ch1",
+                                                         "age:ch1", 
+                                                         "cad:ch1",
+                                                         "diabetes:ch1",
+                                                         "gender:ch1",
+                                                         "group:ch1", 
+                                                         "PATIENT", 
+                                                         "FULLNAME")]
 
