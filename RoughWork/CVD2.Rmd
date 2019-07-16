@@ -57,8 +57,246 @@ CVD sample
 
 ```{r}
 library(GEOquery)
-CVD_Samples <- getGEO("GSE46097", GSEMatrix = TRUE)
+genomic_data <- getGEO("GSE46097", GSEMatrix = TRUE)
 ```
+
+
+```{r}
+
+#import all csv files containing clinical data from Synthea
+setwd("/media/shane/Data/github/I2EHR/I2EHR_APP/")
+temp = list.files(pattern="*.csv")
+for (i in 1:length(temp)) assign(temp[i], read.csv(temp[i]))
+message("Finished: Importing clinical data")
+message("Set up complete")
+
+
+```
+
+```{r}
+head(patients.csv)
+```
+
+
+```{r}
+sort(patients.csv$GENDER)
+library(plyr)
+plyr::count(patients.csv$GENDER)
+patient_id_list <- rep(patients.csv$PATIENT, each=3)
+
+```
+
+
+
+```{r}
+library(stringr)
+pData(genomic_data[[1]])$title <- as.character(pData(genomic_data[[1]])$title)
+
+x <- replace(pData(genomic_data[[1]])$title, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                                                        "baseline"), "baseline")
+x <- replace(pData(genomic_data[[1]])$title, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                                                        "3month"), "month3")
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "baseline"), "baseline")
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "1year"), "year1")
+
+# correcting mistakes in the published data
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "basleline"), "baseline")
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "3moths"), "month3")
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "1_year"), "year1")
+x <- replace(x, str_detect(Biobase::pData(genomic_data[[1]])$title, 
+                           "1 year"), "year1")
+
+
+Biobase::pData(genomic_data[[1]])$title <- x
+Biobase::pData(genomic_data[[1]])$title <- as.factor(Biobase::pData(genomic_data[[1]])$title)
+
+```
+
+
+```{r}
+with(pData(genomic_data[[1]]) , pData(genomic_data[[1]])[order(`gender:ch1`),]) 
+pData(genomic_data[[1]]) <- with(pData(genomic_data[[1]]), pData(genomic_data[[1]])[order(`gender:ch1`),]) 
+
+# the below assigns a patient ID of someone of the same sex
+genomic_data[[1]]$PATIENT <- NULL
+genomic_data[[1]]$PATIENT <- rep(patients.csv$PATIENT, each=3)
+```
+
+
+```{r}
+
+```
+
+
+
+Set up the additional values for integration
+
+```{r}
+library(GOexpress)
+
+###### SET UP FOR PCA
+
+sub.genomic_data.control <- subEset(
+  eSet=genomic_data[[1]],
+  subset=list(
+    `group:ch1` =c("Matched Ornish Participant")))
+control_patient <- sub.genomic_data.control$PATIENT 
+
+sub.genomic_data.case <- subEset(
+  eSet=genomic_data[[1]],
+  subset=list(
+    `group:ch1` =c("Matched Control Group")))
+
+case_patient <- sub.genomic_data.case$PATIENT
+
+'%!in%' <- function(x,y)!('%in%'(x,y))
+
+observations.csv$`group:ch1` <- 0
+observations.csv[observations.csv$PATIENT %in% case_patient,]$`group:ch1` <- "Matched Control Group"
+observations.csv[observations.csv$PATIENT %in% control_patient,]$`group:ch1` <- "Matched Ornish Participant" 
+
+observations.csv$PCA_sim_BMI <- 0
+observations.csv[observations.csv$DESCRIPTION == "Body Mass Index" 
+                 & observations.csv$`group:ch1` == "Matched Control Group",]$PCA_sim_BMI <- rnorm(1941, mean=23)
+
+observations.csv[observations.csv$DESCRIPTION == "Body Mass Index" 
+                 & observations.csv$`group:ch1` == "Matched Ornish Participant",]$PCA_sim_BMI <- rnorm(1788, mean = 29)
+
+obs_bmi_overweight <- subset(x=observations.csv, DESCRIPTION == "Body Mass Index" & PCA_sim_BMI >= 25)
+obs_bmi_healthy <- subset(x=observations.csv, DESCRIPTION == "Body Mass Index" & PCA_sim_BMI < 25)
+
+
+genomic_data[[1]]$`ch1:highBMI_stat` <- NA
+genomic_data[[1]]$`ch1:highBMI_stat`[genomic_data[[1]]$PATIENT %in% obs_bmi_overweight$PATIENT] <- "Overweight"
+genomic_data[[1]]$`ch1:highBMI_stat`[genomic_data[[1]]$PATIENT %in% obs_bmi_healthy$PATIENT] <- "Healthy"
+
+
+observations.csv$PCA_sim_SBP <- 0
+observations.csv[observations.csv$DESCRIPTION == "Systolic Blood Pressure" 
+                 & observations.csv$`group:ch1` == "Matched Control Group",]$PCA_sim_SBP <- rnorm(2504, mean=117)
+
+observations.csv[observations.csv$DESCRIPTION == "Systolic Blood Pressure" 
+                 & observations.csv$`group:ch1` == "Matched Ornish Participant",]$PCA_sim_SBP <- rnorm(2355, mean = 123)
+
+
+obs_sbp_high_bp <- subset(x=observations.csv, DESCRIPTION == "Systolic Blood Pressure" & PCA_sim_SBP >= 120)
+obs_sbp_healthy <- subset(x=observations.csv, DESCRIPTION == "Systolic Blood Pressure" & PCA_sim_SBP < 120)
+
+
+genomic_data[[1]]$`ch1:SBP` <- NA
+genomic_data[[1]]$`ch1:SBP`[genomic_data[[1]]$PATIENT %in% obs_sbp_high_bp$PATIENT] <- "High Systolic"
+genomic_data[[1]]$`ch1:SBP`[genomic_data[[1]]$PATIENT %in% obs_sbp_healthy$PATIENT] <- "Healthy"
+
+
+observations.csv$PCA_sim_DBP <- 0
+observations.csv[observations.csv$DESCRIPTION == "Diastolic Blood Pressure" 
+                 & observations.csv$`group:ch1` == "Matched Control Group",]$PCA_sim_DBP <- rnorm(2504, mean=73)
+
+observations.csv[observations.csv$DESCRIPTION == "Diastolic Blood Pressure" 
+                 & observations.csv$`group:ch1` == "Matched Ornish Participant",]$PCA_sim_DBP <- rnorm(2355, mean = 84)
+
+
+obs_dbp_high_bp <- subset(x=observations.csv, DESCRIPTION == "Diastolic Blood Pressure" & PCA_sim_DBP < 80)
+obs_dbp_healthy <- subset(x=observations.csv, DESCRIPTION == "Diastolic Blood Pressure" & PCA_sim_DBP >= 80)
+
+
+genomic_data[[1]]$`ch1:DBP` <- NA
+genomic_data[[1]]$`ch1:DBP`[genomic_data[[1]]$PATIENT %in% obs_dbp_high_bp$PATIENT] <- "High Diastolic"
+genomic_data[[1]]$`ch1:DBP`[genomic_data[[1]]$PATIENT %in% obs_dbp_healthy$PATIENT] <- "Healthy"
+
+######### plot difference
+
+
+
+
+BMI.genomic_data.control <- subEset(
+  eSet=genomic_data[[1]],
+  subset=list(
+    `ch1:highBMI_stat` =c("Overweight")))
+
+
+BMI.genomic_data.case <- subEset(
+  eSet=genomic_data[[1]],
+  subset=list(
+    `ch1:highBMI_stat` =c("Healthy")))
+
+
+
+
+exprs(BMI.genomic_data.control)
+exprs(BMI.genomic_data.case) 
+
+
+exprs_class <- factor(c("case", "control")) 
+case <- rep(exprs_class[1], length(exprs(BMI.genomic_data.case)))
+control <- rep(exprs_class[2], length(exprs(BMI.genomic_data.control)))
+
+```
+
+
+
+```{r}
+
+#paste the full name for search feature
+#patients.csv$FULLNAME <- paste(patients.csv$FIRST,  patients.csv$LAST)
+genomic_data[[1]]$FULLNAME <- rep(patients.csv$FULLNAME, each = 3)
+
+```
+
+```{r}
+
+pData(genomic_data[[1]]) <- pData(genomic_data[[1]])[, c("FULLNAME",
+                                                         "geo_accession",
+                                                         "PATIENT", 
+                                                         "age:ch1",
+                                                         "title",
+                                                         "group:ch1",
+                                                         "cad:ch1",
+                                                         "diabetes:ch1",
+                                                         "gender:ch1",
+                                                         "ch1:highBMI_stat",
+                                                         "ch1:DBP",
+                                                         "ch1:SBP")]
+```
+
+
+
+
+```{r}
+
+exp_data <- Biobase::exprs(genomic_data[[1]])
+PCA_raw <- prcomp(t(exp_data), scale. = TRUE)
+percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
+sd_ratio <- sqrt(percentVar[2] / percentVar[1])
+
+
+##filtering following inspection of intensity
+man_threshold <- 9
+no_of_samples <- 
+  table(paste0(pData(genomic_data[[1]])$`group:ch1`, "_", 
+               pData(genomic_data[[1]])$`diabetes:ch1`))
+
+samples_cutoff <- min(no_of_samples)
+idx_man_threshold <- apply(exp_data, 1,
+                           function(x){
+                             sum(x > man_threshold) >= samples_cutoff})
+Ellsworth_medians <- rowMedians(exp_data)
+
+Ellsworth_manfiltered <- subset(genomic_data[[1]], idx_man_threshold)
+anno_Ellsworth <- AnnotationDbi::select(hgu133a2.db,
+                                        keys = (featureNames(Ellsworth_manfiltered)),
+                                        columns = c("SYMBOL", "GENENAME"),
+                                        keytype = "PROBEID")
+
+
+anno_Ellsworth
+```
+
 
 Consisting of ...
 
@@ -77,15 +315,12 @@ Quality control
 
 
 ```{r}
-Biobase::exprs(CVD_Samples[[1]])[1:5, 1:5]
-CVD_Samples[[1]]$Individual <-  rep(1:126,each=3)
-
-
-CVD_Control_SampleID <- sampleNames(CVD_Samples[[1]])[193:378]
-CVD_Case_SampleID <- sampleNames(CVD_Samples[[1]])[0:192]
-
-CVD_Cases = CVD_Samples[[1]][, CVD_Case_SampleID]
-CVD_Controls = CVD_Samples[[1]][, CVD_Control_SampleID]
+Biobase::exprs(genomic_data[[1]])[1:5, 1:5]
+#CVD_Samples[[1]]$Individual <-  rep(1:126,each=3)
+#CVD_Control_SampleID <- sampleNames(CVD_Samples[[1]])[193:378]
+#CVD_Case_SampleID <- sampleNames(CVD_Samples[[1]])[0:192]
+#CVD_Cases = CVD_Samples[[1]][, CVD_Case_SampleID]
+#CVD_Controls = CVD_Samples[[1]][, CVD_Control_SampleID]
 
 # confirmation that samples are coordinated
 tail(CVD_Case_SampleID)
@@ -97,16 +332,17 @@ head(CVD_Control_SampleID)
 
 ```{r}
 
-exp_raw <- log2(Biobase::exprs(CVD_Samples[[1]]))
-PCA_raw <- prcomp(t(exp_raw), scale. = FALSE)
+#genomic_data <- CVD_Samples
+exp_data <- Biobase::exprs(genomic_data[[1]])
+PCA_raw <- prcomp(t(exp_data), scale. = TRUE)
 
 percentVar <- round(100*PCA_raw$sdev^2/sum(PCA_raw$sdev^2),1)
 sd_ratio <- sqrt(percentVar[2] / percentVar[1])
 
 dataGG <- data.frame(PC1 = PCA_raw$x[,1], PC2 = PCA_raw$x[,2],
-                    Disease = pData(CVD_Samples[[1]])$`group:ch1`,
-                    Phenotype = pData(CVD_Samples[[1]])$`diabetes:ch1`,
-                    Individual = pData(CVD_Samples[[1]])$Individual)
+                    Disease = pData(genomic_data[[1]])$`group:ch1`,
+                    Phenotype = pData(genomic_data[[1]])$`diabetes:ch1`,
+                    Individual = pData(genomic_data[[1]])$FULLNAME)
 
 library(ggplot2)
 ggplot(dataGG, aes(PC1, PC2)) +
@@ -124,9 +360,10 @@ ggplot(dataGG, aes(PC1, PC2)) +
 ```{r}
   
 
-oligo::boxplot(CVD_Samples[[1]], target = "core", 
+oligo::boxplot(genomic_data[[1]], target = "core", 
                main = "Boxplot of log2-intensitites for the raw data", 
                las=2)
+
 
 ```
 
@@ -204,15 +441,16 @@ RLE
 
 # not necessary as the values are normalised
 #Ellsworth_eset <- oligo::rma(CVD_Samples[[1]], target = "core", normalize = FALSE)
-Ellsworth_eset <- CVD_Samples[[1]]
+Ellsworth_eset <- genomic_data[[1]]
 ```
 
 ```{r}
 
+exp_data <- Biobase::exprs(genomic_data[[1]])
 row_medians_assayData <- 
-  Biobase::rowMedians(as.matrix(Biobase::exprs(Ellsworth_eset)))
+  Biobase::rowMedians(as.matrix(exp_data))
 
-RLE_data <- sweep(Biobase::exprs(Ellsworth_eset), 1, row_medians_assayData)
+RLE_data <- sweep(Biobase::exprs(genomic_data[[1]]), 1, row_medians_assayData)
 
 RLE_data <- as.data.frame(RLE_data)
 RLE_data_gathered <- 
@@ -227,6 +465,198 @@ ggplot2::ggplot(RLE_data_gathered, aes(patient_array,
                                   face = "bold"))
 
 ```
+
+```{r}
+View(RLE_data)
+
+head(RLE_data_gathered)
+
+```
+
+
+```{r}
+
+  ######## PATIENT 
+  subset.patient <- subEset(
+    eSet=genomic_data[[1]],
+    subset=list(
+      PATIENT=c("0cd0592a-774a-4ece-806a-5384a15af9b4")))
+  ###### END PATIENT
+
+  #genomic_data_selection <- genomic_data[[1]][,genomic_data[[1]]$PATIENT == input$search]
+
+subset.patient.RLE_data <- 
+  data.frame(patient_array = rownames(pData(subset.patient)), 
+                                  disease_cat = Biobase::pData(subset.patient)$`diabetes:ch1`)
+
+
+
+
+
+
+
+
+RLE_data_patient <- as.data.frame(subset.patient.RLE_data)
+
+ ## DATA
+  row_medians_assayData_patient <- 
+    Biobase::rowMedians(as.matrix(exprs(subset.patient)))
+  
+  RLE_data_patient <- sweep(log2(Biobase::exprs(subset.patient)), 1, 
+                            row_medians_assayData_patient)
+  # class for the fill
+  RLE_class_patient <- data.frame(patient_array = rownames(pData(subset.patient)), 
+                                  disease_cat = Biobase::pData(subset.patient)$`diabetes:ch1`)
+  
+  RLE_data_patient <- as.data.frame(RLE_data_patient)
+  RLE_data_gathered_patient <- 
+    tidyr::gather(RLE_data_patient, 
+                  patient_array, 
+                  log2_expression_deviation)
+  
+  RLE_data_gathered_diagnosis_patient <- 
+    merge(RLE_data_gathered_patient, 
+          RLE_class_patient, 
+          by="patient_array")
+  
+  ###### CONTROL file set up
+  
+  diabetes_state <- subset.patient$`diabetes:ch1`[1]
+  gender_state <- subset.patient$`gender:ch1`[1]
+  cad_state <- subset.patient$`cad:ch1`[1]
+  age_range <- c((as.numeric(subset.patient$`age:ch1`) - 5 ),
+                 (as.numeric(subset.patient$`age:ch1`) + 5 ))
+  age_range <- age_range[c(1,5)]
+
+  
+  subset.control <- genomic_data[[1]][,genomic_data[[1]]$`diabetes:ch1` == diabetes_state]
+  subset.control <- subset.control[,subset.control$`gender:ch1` == gender_state]
+  subset.control <- subset.control[,subset.control$`cad:ch1` == cad_state]
+  subset.control <- subset.control[,subset.control$`age:ch1` > age_range[1] 
+                                   & subset.control$`age:ch1` < age_range[2]]
+  subset.control <- subset.control[,subset.control$`cad:ch1` == cad_state]
+  subset.control <- subset.control[,subset.control$`group:ch1` != "Matched Ornish Participant"]
+  subset.control <- subset.control[1]
+  
+```
+
+
+
+
+
+RLE for the patient
+
+
+```{r}
+
+######## PATIENT 
+  subset.patient <- subEset(
+    eSet=genomic_data[[1]],
+    subset=list(
+      PATIENT=c("0cd0592a-774a-4ece-806a-5384a15af9b4")))
+  ###### END PATIENT
+
+  
+subset.patient.RLE <-
+ RLE_data[sampleNames(subset.patient)]
+
+# medians 
+subset.patient.row_medians_assayData <- 
+  Biobase::rowMedians(as.matrix(subset.patient.RLE))
+
+# sweep
+subset.patient.RLE_data <- sweep(subset.patient.RLE, 1, 
+                            subset.patient.row_medians_assayData)
+
+# as dataframe
+subset.patient.RLE_data <- as.data.frame(subset.patient.RLE_data)
+
+# gathered
+subset.patient.RLE_data_gathered <- 
+  tidyr::gather(subset.patient.RLE_data, patient_array, log2_expression_deviation)
+
+
+ggplot2::ggplot(subset.patient.RLE_data_gathered, aes(patient_array,log2_expression_deviation)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  ylim(c(-1, 1)) + 
+  theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                  angle = 60, size = 6.5, hjust = 1 ,
+                                  face = "bold"))
+
+  
+  
+```
+
+
+
+Creating a control
+
+```{r}
+
+######## PATIENT 
+  subset.patient <- subEset(
+    eSet=genomic_data[[1]],
+    subset=list(
+      PATIENT=c(input$search)))
+  ###### END PATIENT
+
+
+  diabetes_state <- subset.patient$`diabetes:ch1`[1]
+  gender_state <- subset.patient$`gender:ch1`[1]
+  cad_state <- subset.patient$`cad:ch1`[1]
+  age_range <- c((as.numeric(subset.patient$`age:ch1`) - 5 ),
+                 (as.numeric(subset.patient$`age:ch1`) + 5 ))
+  age_range <- age_range[c(1,5)]
+
+  
+  subset.control <- genomic_data[[1]][,genomic_data[[1]]$`diabetes:ch1` == diabetes_state]
+  subset.control <- subset.control[,subset.control$`gender:ch1` == gender_state]
+  subset.control <- subset.control[,subset.control$`cad:ch1` == cad_state]
+  subset.control <- subset.control[,subset.control$`age:ch1` > age_range[1] 
+                                   & subset.control$`age:ch1` < age_range[2]]
+  subset.control <- subset.control[,subset.control$`cad:ch1` == cad_state]
+  subset.control <- subset.control[,subset.control$`group:ch1` != "Matched Ornish Participant"]
+  subset.control <- subset.control[1]
+  subset.control.samples <- sampleNames(subset.control)[1:3]
+  
+```
+
+
+RLE for the control
+
+```{r}
+
+subset.control.RLE <-
+ RLE_data[subset.control.samples]
+
+# medians 
+subset.control.row_medians_assayData <- 
+  Biobase::rowMedians(as.matrix(subset.control.RLE))
+
+# sweep
+subset.control.RLE_data <- sweep(subset.control.RLE, 1, 
+                            subset.control.row_medians_assayData)
+
+# as dataframe
+subset.control.RLE_data <- as.data.frame(subset.control.RLE_data)
+
+# gathered
+subset.control.RLE_data_gathered <- 
+  tidyr::gather(subset.control.RLE_data, patient_array, log2_expression_deviation)
+
+
+ggplot2::ggplot(subset.control.RLE_data_gathered, aes(patient_array,log2_expression_deviation)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  ylim(c(-1, 1)) + 
+  theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                  angle = 60, size = 6.5, hjust = 1 ,
+                                  face = "bold"))
+
+```
+
+
+
+
 
 RMA cal
 
@@ -246,7 +676,7 @@ dataGG <- data.frame(PC1 = PCA$x[,1], PC2 = PCA$x[,2],
                     Disease = 
                      Biobase::pData(Ellsworth_eset_norm)$`group:ch1`,
                     Phenotype = 
-                     Biobase::pData(Ellsworth_eset_norm)$`diabetes:ch1`)
+                     Biobase::pData(Ellsworth_eset_norm)$`diabetes:ch1`) # change this to input select
 
 
 ggplot(dataGG, aes(PC1, PC2)) +
@@ -262,24 +692,23 @@ ggplot(dataGG, aes(PC1, PC2)) +
 
 ```{r}
 phenotype_names <- ifelse(str_detect(pData
-                                    (Ellsworth_eset_norm)$`diabetes:ch1`,
-                             "No"), "non_diabetic", "diabetic")
+                                    (genomic_data[[1]])$`diabetes:ch1`,"No"), "non_diabetic", "diabetic")
 
 disease_names <- ifelse(str_detect(pData
-                                    (Ellsworth_eset_norm)$`group:ch1`,
+                                    (genomic_data[[1]])$`group:ch1`,
                              "Matched Ornish"), "case", "control")
 
 annotation_for_heatmap <- 
   data.frame(Phenotype = phenotype_names,  Disease = disease_names)
 
-row.names(annotation_for_heatmap) <- row.names(pData(Ellsworth_eset_norm))
+row.names(annotation_for_heatmap) <- row.names(pData(genomic_data[[1]]))
 ```
 
 ```{r}
-dists <- as.matrix(dist(t(exp_Ellsworth), method = "manhattan"))
+dists <- as.matrix(dist(t(exprs(genomic_data[[1]])), method = "manhattan"))
 
 
-rownames(dists) <- row.names(pData(Ellsworth_eset_norm))
+rownames(dists) <- row.names(pData(genomic_data[[1]]))
 hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
 colnames(dists) <- NULL
 diag(dists) <- NA
@@ -307,7 +736,7 @@ Filtering based on intensity
 
 
 ```{r}
-Ellsworth_medians <- rowMedians(Biobase::exprs(Ellsworth_eset_norm))
+Ellsworth_medians <- rowMedians(Biobase::exprs(genomic_data[[1]]))
 
 hist_res <- hist(Ellsworth_medians, 100, col = "cornsilk1", freq = FALSE, 
             main = "Histogram of the median intensities", 
@@ -318,7 +747,7 @@ hist_res <- hist(Ellsworth_medians, 100, col = "cornsilk1", freq = FALSE,
 ```{r}
 
 ## make the threshold a slider input
-man_threshold <- 2.75
+man_threshold <- 12
 
 hist_res <- hist(Ellsworth_medians, 100, col = "cornsilk", freq = FALSE, 
             main = "Histogram of the median intensities",
@@ -331,15 +760,15 @@ abline(v = man_threshold, col = "coral4", lwd = 2)
 
 ```{r}
 no_of_samples <- 
-  table(paste0(pData(Ellsworth_eset_norm)$`group:ch1`, "_", 
-                  pData(Ellsworth_eset_norm)$`diabetes:ch1`))
+  table(paste0(pData(genomic_data[[1]])$`group:ch1`, "_", 
+                  pData(genomic_data[[1]])$`diabetes:ch1`))
 no_of_samples 
 ```
 
 ```{r}
 samples_cutoff <- min(no_of_samples)
 
-idx_man_threshold <- apply(Biobase::exprs(Ellsworth_eset_norm), 1,
+idx_man_threshold <- apply(Biobase::exprs(genomic_data[[1]]), 1,
                            function(x){
                           sum(x > man_threshold) >= samples_cutoff})
                           table(idx_man_threshold)
@@ -347,7 +776,7 @@ idx_man_threshold <- apply(Biobase::exprs(Ellsworth_eset_norm), 1,
 
 
 ```{r}
-Ellsworth_manfiltered <- subset(Ellsworth_eset_norm, idx_man_threshold)
+Ellsworth_manfiltered <- subset(genomic_data[[1]], idx_man_threshold)
 ```
 
 Annotation
@@ -360,6 +789,7 @@ anno_Ellsworth <- AnnotationDbi::select(hgu133a2.db,
                                   keytype = "PROBEID")
 
 anno_Ellsworth <- subset(anno_Ellsworth, !is.na(SYMBOL))
+
 ```
 
 Removing muktiple mappings
@@ -468,36 +898,89 @@ Now to do with the limited values to contain only baseline and 1 year, the 2 mos
 # Subset it to only samples of "CN" and "MB" treatments, and also only "2H",
 # "6H", and "24H" time-points
 library(GOexpress)
-sub.Ellsworth_final <- subEset(
-    eSet=Ellsworth_final,
+sub.genomic_data.case <- subEset(
+    eSet=genomic_data[[1]],
     subset=list(
-        title=c("baseline","year1")))
+        `group:ch1`=c("Matched Ornish Participant")))
+
+library(GOexpress)
+sub.genomic_data.control <- subEset(
+    eSet=genomic_data[[1]],
+    subset=list(
+        `group:ch1`=c("Matched Control Group")))
+
+
+row_medians_assayData.case <- 
+  Biobase::rowMedians(as.matrix(Biobase::exprs(sub.genomic_data.case)))
+
+RLE_data.case <- sweep(Biobase::exprs(sub.genomic_data.case), 1, row_medians_assayData.case)
+
+RLE_data.case <- as.data.frame(RLE_data.case)
+RLE_data_gathered.case <- 
+  tidyr::gather(RLE_data.case, patient_array, log2_expression_deviation)
+
+ggplot2::ggplot(RLE_data_gathered.case, aes(patient_array,
+                                       log2_expression_deviation)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  ylim(c(-2, 2)) + 
+  theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                  angle = 60, size = 6.5, hjust = 1 ,
+                                  face = "bold"))
 
 
 
-tissue <- Biobase::pData(sub.Ellsworth_final)$title
+row_medians_assayData <- 
+  Biobase::rowMedians(as.matrix(Biobase::exprs(genomic_data[[1]])))
+
+RLE_data <- sweep(Biobase::exprs(genomic_data[[1]]), 1, row_medians_assayData)
+
+RLE_data <- as.data.frame(RLE_data)
+RLE_data_gathered <- 
+  tidyr::gather(RLE_data, patient_array, log2_expression_deviation)
+
+ggplot2::ggplot(RLE_data_gathered, aes(patient_array,
+                                       log2_expression_deviation)) + 
+  geom_boxplot(outlier.shape = NA) + 
+  ylim(c(-2, 2)) + 
+  theme(axis.text.x = element_text(colour = "aquamarine4", 
+                                  angle = 60, size = 6.5, hjust = 1 ,
+                                  face = "bold"))
+
+
+
+
+
+
+
+
+```
+
+```{r}
+
+
+
+tissue <- Biobase::pData(sub.genomic_data)$title
 #######
 
-individual <- 
-  as.character(Biobase::pData(sub.Ellsworth_final)$Individual)
-
-#tissue <- str_replace_all(Biobase::pData(sub.Ellsworth_final)$title,
-#                  " ", "_")
-
+individual <- str_replace_all(Biobase::pData(sub.genomic_data)$FULLNAME,
+                  c("'"), "_")
+individual <- str_replace_all(individual,
+                  c(" "), "_")
 
 
-                      
-# tissue <- ifelse(phenotype == "No",
-#                 "non_diabetic", "diabetic")
+tissue <- str_replace_all(Biobase::pData(sub.genomic_data)$title,
+                  " ", "_")
+
+
+# tissue <- ifelse(phenotype == "No","non_diabetic", "diabetic")
 
 # disease <- 
 #  str_replace_all(Biobase::pData(sub.Ellsworth_final)$`group:ch1`,
 #                  " ", "_")
 
 
-
 disease <- 
-  ifelse(str_detect(Biobase::pData(sub.Ellsworth_final)$`group:ch1`, 
+  ifelse(str_detect(Biobase::pData(sub.genomic_data)$`group:ch1`, 
                     "Matched Ornish"), "Case", "Control")
 
 ```
@@ -523,34 +1006,34 @@ rownames(design_Ellsworth_Control) <- i_control
 ```{r}
 
 tissue_Case <- tissue[disease == "Case"]
-LDLR_expr <- Biobase::exprs(sub.Ellsworth_final)["202067_s_at", disease == "Case"]
-LDLR_data <- as.data.frame(LDLR_expr)
-colnames(LDLR_data)[1] <- "org_value"
-LDLR_data <- mutate(LDLR_data, individual = i_case, tissue_Case)
-LDLR_data$tissue_Case <- factor(LDLR_data$tissue_Case, levels = c("baseline", "year1"))
+RPL35_expr <- Biobase::exprs(sub.genomic_data)["200002_at", disease == "Case"]
+RPL35_data <- as.data.frame(RPL35_expr)
+colnames(RPL35_data)[1] <- "org_value"
+RPL35_data <- mutate(RPL35_data, individual = i_case, tissue_Case)
+RPL35_data$tissue_Case <- factor(RPL35_data$tissue_Case, levels = c("baseline", "year1"))
 
 p1 <-
-  ggplot(data = LDLR_data, aes(x = tissue_Case, y = org_value, 
+  ggplot(data = RPL35_data, aes(x = tissue_Case, y = org_value, 
                              group = individual, color = individual)) +
       theme(legend.position = "none") +
       geom_line() + 
-      ggtitle("Expression changes for the LDLR gene")
+      ggtitle("Expression changes for the RPL35 gene")
 
 
 tissue_Control <- tissue[disease == "Control"]
-LDLR_expr <- Biobase::exprs(sub.Ellsworth_final)["202067_s_at", disease == "Control"]
-LDLR_data <- as.data.frame(LDLR_expr)
-colnames(LDLR_data)[1] <- "org_value"
-LDLR_data <- mutate(LDLR_data, individual = i_control, tissue_Control)
+RPL35_expr <- Biobase::exprs(sub.genomic_data)["200002_at", disease == "Control"]
+RPL35_data <- as.data.frame(RPL35_expr)
+colnames(RPL35_data)[1] <- "org_value"
+RPL35_data <- mutate(RPL35_data, individual = i_control, tissue_Control)
 
-LDLR_data$tissue_Control <- factor(LDLR_data$tissue_Control, levels = c("baseline", "month3", "year1"))
+RPL35_data$tissue_Control <- factor(RPL35_data$tissue_Control, levels = c("baseline", "year1"))
 
 p2 <- 
-  ggplot(data = LDLR_data, aes(x = tissue_Control, y = org_value, 
+  ggplot(data = RPL35_data, aes(x = tissue_Control, y = org_value, 
                              group = individual, color = individual)) +
       theme(legend.position = "none") +
       geom_line() +
-      ggtitle("Expression changes for the LDLR gene")
+      ggtitle("Expression changes for the RPL35 gene")
 
 
 library(gridExtra)
@@ -558,25 +1041,27 @@ grid.arrange(p1, p2, nrow = 1)
 
 ```
 
+
+
 ```{r}
-LDLR_coef <- lmFit(sub.Ellsworth_final[,disease == "Case"],
-                design = design_Ellsworth_Case)$coefficients["202067_s_at",]
+RPL35_coef <- lmFit(sub.genomic_data[,disease == "Case"],
+                design = design_Ellsworth_Case)$coefficients["200002_at",]
 ```
 
 ```{r}
-LDLR_fitted <- design_Ellsworth_Case %*% LDLR_coef
-rownames(LDLR_fitted) <- names(LDLR_expr)
-colnames(LDLR_fitted) <- "fitted_value"
+RPL35_fitted <- design_Ellsworth_Case %*% RPL35_coef
+rownames(RPL35_fitted) <- names(RPL35_expr)
+colnames(RPL35_fitted) <- "fitted_value"
 ```
 
 ```{r}
-LDLR_data$fitted_value <- LDLR_fitted
+RPL35_data$fitted_value <- RPL35_fitted
 
-ggplot(data = LDLR_data, aes(x = tissue_Case, y = fitted_value, 
+ggplot(data = RPL35_data, aes(x = tissue_Case, y = fitted_value, 
                              group = individual, color = individual)) +
       geom_line() +
-      ggtitle("Fitted expression changes for the LDLR gene")
-
+      ggtitle("Fitted expression changes for the RPL35 gene")
+ 
 
 ```
 
@@ -587,9 +1072,9 @@ ggplot(data = LDLR_data, aes(x = tissue_Case, y = fitted_value,
 
 ```{r}
 
-LDLR_year1 <- na.exclude(LDLR_data$org_value[tissue == "year1"])
-LDLR_baseline <- na.exclude(LDLR_data$org_value[tissue == "baseline"])
-res_t <- t.test(LDLR_year1 ,LDLR_baseline , paired = TRUE)
+RPL35_year1 <- na.exclude(RPL35_data$org_value[tissue == "year1"])
+RPL35_baseline <- na.exclude(RPL35_data$org_value[tissue == "baseline"])
+res_t <- t.test(RPL35_year1 ,RPL35_baseline , paired = TRUE)
 res_t
 ```
 
@@ -597,16 +1082,16 @@ Contrasts and hypothesis
 ```{r}
 
 
-
 contrast_matrix_Case <- makeContrasts(baseline-year1, levels = design_Ellsworth_Case)
 
-Ellsworth_fit_Case <- eBayes(contrasts.fit(lmFit(sub.Ellsworth_final[,disease == "Case"],
+
+Ellsworth_fit_Case <- eBayes(contrasts.fit(lmFit(sub.genomic_data[,disease == "Case"],
                                 design = design_Ellsworth_Case),
                                 contrast_matrix_Case))
 
 contrast_matrix_Control <- makeContrasts(baseline-year1, levels = design_Ellsworth_Control)
 
-Ellsworth_fit_Control <- eBayes(contrasts.fit(lmFit(sub.Ellsworth_final[,disease == "Control"],
+Ellsworth_fit_Control <- eBayes(contrasts.fit(lmFit(sub.genomic_data[,disease == "Control"],
                                 design = design_Ellsworth_Control),
                                 contrast_matrix_Control))
 
@@ -664,7 +1149,7 @@ DE_genes_Case <- subset(table_Case, adj.P.Val < 0.1)$PROBEID
 Matching background set of genes
 
 ```{r}
-back_genes_idx <- genefilter::genefinder(sub.Ellsworth_final, 
+back_genes_idx <- genefilter::genefinder(sub.genomic_data, 
                                         as.character(DE_genes_Case), 
                                         method = "manhattan", scale = "none")
 ```
@@ -674,7 +1159,7 @@ back_genes_idx <- sapply(back_genes_idx, function(x)x$indices)
 ```
 
 ```{r}
-back_genes <- featureNames(sub.Ellsworth_final)[back_genes_idx]
+back_genes <- featureNames(sub.genomic_data)[back_genes_idx]
 back_genes <- setdiff(back_genes, DE_genes_Case)
 
     
@@ -782,7 +1267,7 @@ emapplot(reactome_enrich, showCategory = 10)
 
 
 ```{r}
-order(pData(genomic_data[[1]])
+order(pData(genomic_data[[1]]))
 ```
 
 
