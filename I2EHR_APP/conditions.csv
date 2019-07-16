@@ -1,127 +1,127 @@
-START,STOP,PATIENT,ENCOUNTER,CODE,DESCRIPTION,group.ch1
-2016-12-12,NA,0cd0592a-774a-4ece-806a-5384a15af9b4,67cd5577-e19e-4e6b-8adf-3078c6522a71,410429000,Cardiac Arrest,Matched Ornish Participant
-2016-12-12,NA,088efea2-9017-4b31-a25b-4bbc802025a1,67cd5577-e19e-4e6b-8adf-3078c6522a71,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-1991-06-07,NA,1e48d3da-d4f0-4680-8106-2304c9d1426e,b28ba4f4-5912-4d90-a3b8-e3d8f37b85a1,53741008,Coronary Heart Disease,Matched Ornish Participant
-2003-09-10,NA,10440527-bf9c-4c4d-86de-89a2820a8ae0,3c303553-53df-4396-93a2-d45cdaf04aa7,49436004,Atrial Fibrillation,Matched Ornish Participant
-2002-07-03,NA,0092f96f-3672-4f3b-80f4-63a026f6b91e,1373109f-3f7a-4e0b-9f7b-d8e45c8d4b90,53741008,Coronary Heart Disease,Matched Ornish Participant
-1988-12-13,NA,399f7b32-7f47-468c-a251-1cfeb9ef218b,7543d84e-b319-4f6e-a672-792b1bcc719d,410429000,Cardiac Arrest,Matched Ornish Participant
-1988-12-13,NA,0dce3cad-570b-4569-90cf-7bc459446d46,7543d84e-b319-4f6e-a672-792b1bcc719d,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-1992-03-03,NA,3f597c45-35a2-4030-ad51-e15b0563c861,6cfa5def-ca7f-4aaa-86d8-6fcc0d9d0c90,53741008,Coronary Heart Disease,Matched Ornish Participant
-1997-02-11,NA,461679a5-c897-4c9a-bd78-e400589815d0,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,22298006,Myocardial Infarction,Matched Ornish Participant
-1997-02-11,NA,46e2a43a-052c-467a-a521-0414aa8e7dfa,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,399211009,History of myocardial infarction (situation),Matched Ornish Participant
-2013-07-29,NA,3d2f222f-5280-4998-89d7-67deab844d72,76650832-ab51-4187-9313-c4e9fb5e481c,410429000,Cardiac Arrest,Matched Ornish Participant
-2013-07-29,NA,4947d7cb-8aee-42fb-97be-0fea93ca4f05,76650832-ab51-4187-9313-c4e9fb5e481c,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-2000-02-15,NA,52d18c8c-c7c8-4f00-a140-cf5eae04a551,0d43f06c-c15e-4706-bff3-2d0b5a7b3aab,410429000,Cardiac Arrest,Matched Ornish Participant
-2000-02-15,NA,2d2f90bb-c8f5-46d3-83e3-7dffabc238ea,0d43f06c-c15e-4706-bff3-2d0b5a7b3aab,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-1996-03-12,NA,54381398-926c-4ccf-8b21-df712ba37885,ee634cc3-c4d2-4852-acfa-9a5da04e34cd,53741008,Coronary Heart Disease,Matched Ornish Participant
-2007-04-24,NA,155e6ceb-56c5-4e24-bf85-fc68b85c34f9,fec2fa90-35f1-48c4-aa79-3df173a74075,22298006,Myocardial Infarction,Matched Ornish Participant
-2007-04-24,NA,14000fd1-f498-4627-8819-8181aaecb382,fec2fa90-35f1-48c4-aa79-3df173a74075,399211009,History of myocardial infarction (situation),Matched Ornish Participant
-1978-10-05,NA,53fc06bc-6314-44a7-8a42-f6dca06cbd91,b99ce345-f04e-4317-b45e-5fed9ff3b329,410429000,Cardiac Arrest,Matched Ornish Participant
-1978-10-05,NA,3de50a46-1642-4cfc-8fc7-c3fca3d5329e,b99ce345-f04e-4317-b45e-5fed9ff3b329,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-1988-01-25,NA,29a644dc-2a42-4a0b-ba92-f352bdf0123b,a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0,410429000,Cardiac Arrest,Matched Ornish Participant
-1988-01-25,NA,47c49827-3d8c-4a8c-9486-9678ba939868,a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-2003-09-25,NA,1fb62d11-9cd4-4324-8632-5ac2a3194acc,e66deb64-c9d2-4143-8fe7-b40ec487142e,49436004,Atrial Fibrillation,Matched Ornish Participant
-2005-08-04,NA,10669dd3-f301-44a6-9781-ad4cdced8328,239da2f3-2cc7-47ff-b9ed-8cb933035aea,230690007,Stroke,Matched Ornish Participant
-1995-06-29,NA,500f7be3-e7d6-4128-b4a5-a3c930c4e97c,2578641b-c5f2-4085-be32-fad56b22bd07,410429000,Cardiac Arrest,Matched Ornish Participant
-1995-06-29,NA,3ae3e0e5-796e-4e09-b5be-f9f59938360e,2578641b-c5f2-4085-be32-fad56b22bd07,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-2006-01-02,NA,43bdada2-5e25-4f67-a4af-7ee6010fcc68,026ea040-3532-4c33-abdf-8187a50bc7a1,53741008,Coronary Heart Disease,Matched Ornish Participant
-2016-03-25,NA,454a29f0-dbe3-4bae-b5e2-c847e8f8088b,3be58d54-2d47-4a25-bd38-d8f21d646bff,49436004,Atrial Fibrillation,Matched Ornish Participant
-1981-11-28,NA,37d242a6-6aef-4a2f-9508-e1b6fd5181b6,c3c4655c-12d8-46e8-8b50-69b17f5b57b9,410429000,Cardiac Arrest,Matched Ornish Participant
-1981-11-28,NA,14eaa2c8-8557-4d65-8bb3-a019dee5cf07,c3c4655c-12d8-46e8-8b50-69b17f5b57b9,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-2017-11-25,NA,2303de7a-33d5-4d7f-8d3c-f989eedc0dd2,cd5913c1-8bcd-4406-bd0e-bb14848490a2,49436004,Atrial Fibrillation,Matched Ornish Participant
-2018-11-29,NA,2bf129a5-4da8-43d6-bcac-22aef6a5de93,7d46b3dd-9a7f-4558-b6e6-8215fd6e4b6a,49436004,Atrial Fibrillation,Matched Ornish Participant
-1986-01-24,NA,3bca398b-1748-43d2-8d1d-9533856eb36c,9a550e62-8954-4e17-9cea-7125f81053e5,53741008,Coronary Heart Disease,Matched Ornish Participant
-2008-05-24,NA,0f0d2e50-e912-4067-b2e7-574c13e8c5b5,c41feaae-655b-4ccf-8232-3364f1bd1c52,53741008,Coronary Heart Disease,Matched Ornish Participant
-1994-04-15,NA,3e537808-5d71-436d-87da-255fc7bef761,f8749df6-adb2-4fd7-a80f-85a5b0424d1f,53741008,Coronary Heart Disease,Matched Ornish Participant
-2005-07-08,NA,23c12702-a473-4b9b-8029-7b83b7f0215f,c7abfec6-41f3-4e57-9cc1-fb5612b0583c,22298006,Myocardial Infarction,Matched Ornish Participant
-2005-07-08,NA,255b9761-72a4-4150-ba26-191498e65361,c7abfec6-41f3-4e57-9cc1-fb5612b0583c,399211009,History of myocardial infarction (situation),Matched Ornish Participant
-2003-11-07,NA,3fc83e0e-240d-4697-acb4-7705bb45368e,4550bd0d-d346-479b-8cb9-b55a61204ca2,10000000,Control,Matched Control Group
-2004-02-05,NA,52ae85f0-8802-4016-b422-66d3b6558a5c,f5bf81f9-f42b-45f2-a876-210ad6494c6a,10000000,Control,Matched Control Group
-2016-12-12,NA,47a56aea-3462-4af2-907f-10803c4ef3c6,67cd5577-e19e-4e6b-8adf-3078c6522a71,10000000,Control,Matched Control Group
-2016-12-12,NA,40351cca-b002-468f-a2db-6e92a0b722b4,67cd5577-e19e-4e6b-8adf-3078c6522a71,10000000,Control,Matched Control Group
-1991-06-07,NA,450a3a0c-2193-4c8c-8f0a-b913f67abe46,b28ba4f4-5912-4d90-a3b8-e3d8f37b85a1,10000000,Control,Matched Control Group
-2003-09-10,NA,32ca5bc7-fecb-4a1e-b840-2fd865c88a1e,3c303553-53df-4396-93a2-d45cdaf04aa7,10000000,Control,Matched Control Group
-2002-07-03,NA,1bd81007-66be-4e55-83dc-017214895039,1373109f-3f7a-4e0b-9f7b-d8e45c8d4b90,10000000,Control,Matched Control Group
-1988-12-13,NA,4719b3a0-e597-407b-a727-8316783fb728,7543d84e-b319-4f6e-a672-792b1bcc719d,10000000,Control,Matched Control Group
-1988-12-13,NA,3e64d6b4-b0cb-49ba-af5d-c267e48289bc,7543d84e-b319-4f6e-a672-792b1bcc719d,10000000,Control,Matched Control Group
-1992-03-03,NA,2126792c-845c-43c5-9cb5-2ea4b1c4a24f,6cfa5def-ca7f-4aaa-86d8-6fcc0d9d0c90,10000000,Control,Matched Control Group
-1997-02-11,NA,08ba4faf-628a-4ff1-9df5-73ef33e6ad03,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,10000000,Control,Matched Control Group
-1997-02-11,NA,07e1995f-9570-4871-b957-c0eaa5f79bee,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,10000000,Control,Matched Control Group
-2013-07-29,NA,0f93d1a5-6b73-489e-bcb5-d3525beba859,76650832-ab51-4187-9313-c4e9fb5e481c,10000000,Control,Matched Control Group
-2013-07-29,NA,2e31a69f-9442-4238-ba86-2880468b073b,76650832-ab51-4187-9313-c4e9fb5e481c,10000000,Control,Matched Control Group
-2000-02-15,NA,1e0e698c-ef71-43ed-94d3-2214eb4a44b5,0d43f06c-c15e-4706-bff3-2d0b5a7b3aab,10000000,Control,Matched Control Group
-2000-02-15,NA,4b687888-0724-4f59-bc81-a4ad318aa986,0d43f06c-c15e-4706-bff3-2d0b5a7b3aab,10000000,Control,Matched Control Group
-1996-03-12,NA,15a3d783-ab5d-4671-a8d4-2d23383738a0,ee634cc3-c4d2-4852-acfa-9a5da04e34cd,10000000,Control,Matched Control Group
-2007-04-24,NA,265eaf35-a78c-49d2-915c-d36369c2469e,fec2fa90-35f1-48c4-aa79-3df173a74075,10000000,Control,Matched Control Group
-2007-04-24,NA,11e2e643-f79a-4df8-9dd4-c80c537b8085,fec2fa90-35f1-48c4-aa79-3df173a74075,10000000,Control,Matched Control Group
-1978-10-05,NA,423dab78-6ec5-4806-85ed-d27f2a9f628a,b99ce345-f04e-4317-b45e-5fed9ff3b329,10000000,Control,Matched Control Group
-1978-10-05,NA,4550a684-8f9c-4522-9c08-be79523777a9,b99ce345-f04e-4317-b45e-5fed9ff3b329,10000000,Control,Matched Control Group
-1988-01-25,NA,1d955f4f-1de5-4a89-a25d-a2f57b8c5e2e,a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0,10000000,Control,Matched Control Group
-1988-01-25,NA,3c597a24-3980-46e3-9951-26ee42a2c58c,a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0,10000000,Control,Matched Control Group
-2003-09-25,NA,432bcce7-9dc0-49b8-ae42-bea089edde62,e66deb64-c9d2-4143-8fe7-b40ec487142e,10000000,Control,Matched Control Group
-2005-08-04,NA,4cef48cc-e4df-4cc5-806b-269eed9ae84a,239da2f3-2cc7-47ff-b9ed-8cb933035aea,10000000,Control,Matched Control Group
-1995-06-29,NA,29cc62d7-f1b5-40db-9129-a729efe4ac7f,2578641b-c5f2-4085-be32-fad56b22bd07,10000000,Control,Matched Control Group
-1995-06-29,NA,27858693-2bef-43ca-969e-c3cdabadf835,2578641b-c5f2-4085-be32-fad56b22bd07,10000000,Control,Matched Control Group
-2006-01-02,NA,1ac1ffcb-313d-4609-9988-f2b84c085e2b,026ea040-3532-4c33-abdf-8187a50bc7a1,10000000,Control,Matched Control Group
-2016-03-25,NA,16d1a15f-148c-435b-bd49-12519f253bcd,3be58d54-2d47-4a25-bd38-d8f21d646bff,10000000,Control,Matched Control Group
-1981-11-28,NA,3ea5345d-cf0d-466d-a0a8-d778c9c101a7,c3c4655c-12d8-46e8-8b50-69b17f5b57b9,10000000,Control,Matched Control Group
-1981-11-28,NA,16bf0c10-0649-49e9-b8a7-7f85851f85b1,c3c4655c-12d8-46e8-8b50-69b17f5b57b9,10000000,Control,Matched Control Group
-2017-11-25,NA,3091d9df-c3fc-45e8-9069-d8f99532da56,cd5913c1-8bcd-4406-bd0e-bb14848490a2,10000000,Control,Matched Control Group
-2018-11-29,NA,1410932b-c665-4e72-b1d1-bea12e356bb4,7d46b3dd-9a7f-4558-b6e6-8215fd6e4b6a,10000000,Control,Matched Control Group
-1986-01-24,NA,075cc594-7207-4dcd-a0c0-95ed9a4c526d,9a550e62-8954-4e17-9cea-7125f81053e5,10000000,Control,Matched Control Group
-2008-05-24,NA,0531165c-222c-4a66-82b8-7d3ead6d9035,c41feaae-655b-4ccf-8232-3364f1bd1c52,10000000,Control,Matched Control Group
-1994-04-15,NA,4849294f-07af-4c1f-b08e-7c6d089e16fd,f8749df6-adb2-4fd7-a80f-85a5b0424d1f,10000000,Control,Matched Control Group
-2005-07-08,NA,3779221d-299f-425f-a774-3784da3228e9,c7abfec6-41f3-4e57-9cc1-fb5612b0583c,22298006,Myocardial Infarction,Matched Ornish Participant
-2005-07-08,NA,0c780a89-ec78-42b6-9c83-64627685fed0,c7abfec6-41f3-4e57-9cc1-fb5612b0583c,399211009,History of myocardial infarction (situation),Matched Ornish Participant
-2003-11-07,NA,022ee3c0-1970-4d54-9383-9ce2a2d6cfd9,4550bd0d-d346-479b-8cb9-b55a61204ca2,230690007,Stroke,Matched Ornish Participant
-2004-02-05,NA,4e84cbba-25a1-4946-b6c7-7e11c50295fd,f5bf81f9-f42b-45f2-a876-210ad6494c6a,49436004,Atrial Fibrillation,Matched Ornish Participant
-2016-12-12,NA,141e74dc-db1b-4120-bf63-de6acd15498f,67cd5577-e19e-4e6b-8adf-3078c6522a71,410429000,Cardiac Arrest,Matched Ornish Participant
-2016-12-12,NA,38050d7a-c177-411c-8e18-7d040443f13f,67cd5577-e19e-4e6b-8adf-3078c6522a71,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-1991-06-07,NA,435c3f7f-d986-4d81-9cbf-a46d3fb0cbb0,b28ba4f4-5912-4d90-a3b8-e3d8f37b85a1,53741008,Coronary Heart Disease,Matched Ornish Participant
-2003-09-10,NA,53617464-c707-4ff0-9518-faa235d2d3cf,3c303553-53df-4396-93a2-d45cdaf04aa7,49436004,Atrial Fibrillation,Matched Ornish Participant
-2002-07-03,NA,4ffea154-1548-4bd5-825a-779503601eab,1373109f-3f7a-4e0b-9f7b-d8e45c8d4b90,53741008,Coronary Heart Disease,Matched Ornish Participant
-1988-12-13,NA,132bd38f-e186-4867-a21f-615dd5cadb8d,7543d84e-b319-4f6e-a672-792b1bcc719d,410429000,Cardiac Arrest,Matched Ornish Participant
-1988-12-13,NA,15963f08-c18c-4ece-97ce-4067df988243,7543d84e-b319-4f6e-a672-792b1bcc719d,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-1992-03-03,NA,49046638-ec2f-48d6-b89a-9abcea74f493,6cfa5def-ca7f-4aaa-86d8-6fcc0d9d0c90,53741008,Coronary Heart Disease,Matched Ornish Participant
-1997-02-11,NA,34b2ced6-5c6a-4e29-8d9e-c2835002755b,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,22298006,Myocardial Infarction,Matched Ornish Participant
-1997-02-11,NA,0de62dd2-215c-430e-bf9d-e4c770d1898b,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,399211009,History of myocardial infarction (situation),Matched Ornish Participant
-2013-07-29,NA,1ac91c7f-de49-427e-81d7-e4beb470dbe0,76650832-ab51-4187-9313-c4e9fb5e481c,410429000,Cardiac Arrest,Matched Ornish Participant
-2013-07-29,NA,0874883f-bedf-4a30-aa4f-965a3c9a70a4,76650832-ab51-4187-9313-c4e9fb5e481c,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-2000-02-15,NA,13423233-1595-40f4-90ae-8520000d7699,0d43f06c-c15e-4706-bff3-2d0b5a7b3aab,410429000,Cardiac Arrest,Matched Ornish Participant
-2000-02-15,NA,364ef961-5763-4246-a6d3-4d586a1070bf,0d43f06c-c15e-4706-bff3-2d0b5a7b3aab,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-1996-03-12,NA,353864dc-7ef4-42a6-af7d-e73fbab80b01,ee634cc3-c4d2-4852-acfa-9a5da04e34cd,53741008,Coronary Heart Disease,Matched Ornish Participant
-2007-04-24,NA,08927a4c-25a6-4b60-b0d7-d0ac0724ce73,fec2fa90-35f1-48c4-aa79-3df173a74075,22298006,Myocardial Infarction,Matched Ornish Participant
-2007-04-24,NA,1685044e-52bc-466b-8ba4-4f4e50b2c833,fec2fa90-35f1-48c4-aa79-3df173a74075,399211009,History of myocardial infarction (situation),Matched Ornish Participant
-1978-10-05,NA,436e2a86-96d1-42e2-b926-20d4159a3289,b99ce345-f04e-4317-b45e-5fed9ff3b329,410429000,Cardiac Arrest,Matched Ornish Participant
-1978-10-05,NA,5464004e-f9c4-481c-bc28-d93fa5ba861d,b99ce345-f04e-4317-b45e-5fed9ff3b329,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-1988-01-25,NA,0ef18439-d319-4271-8749-1805438e838f,a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0,410429000,Cardiac Arrest,Matched Ornish Participant
-1988-01-25,NA,323ae187-7fe2-4467-8124-8e0d64a5c6a4,a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0,429007001,History of cardiac arrest (situation),Matched Ornish Participant
-2003-09-25,NA,3718e8c9-11de-45cd-a2ec-2c7a1fd46314,e66deb64-c9d2-4143-8fe7-b40ec487142e,49436004,Atrial Fibrillation,Matched Ornish Participant
-2005-08-04,NA,32db6924-7327-4a5d-9e9f-aa841370913f,239da2f3-2cc7-47ff-b9ed-8cb933035aea,230690007,Stroke,Matched Ornish Participant
-1995-06-29,NA,258c7a1c-6d92-4460-9f87-b62e5a8cd032,2578641b-c5f2-4085-be32-fad56b22bd07,10000000,Control,Matched Control Group
-1995-06-29,NA,1ce13068-1d77-43dd-81dc-a7a7124bb2b0,2578641b-c5f2-4085-be32-fad56b22bd07,10000000,Control,Matched Control Group
-2006-01-02,NA,3feedd66-5fa0-4e62-a2aa-9c7e0def2c52,026ea040-3532-4c33-abdf-8187a50bc7a1,10000000,Control,Matched Control Group
-2016-03-25,NA,4a0d85db-5271-4040-90c5-5dc95a9e8dc2,3be58d54-2d47-4a25-bd38-d8f21d646bff,10000000,Control,Matched Control Group
-1981-11-28,NA,135e4b27-8df0-48ee-8fea-adb84356a780,c3c4655c-12d8-46e8-8b50-69b17f5b57b9,10000000,Control,Matched Control Group
-1981-11-28,NA,3871f95c-5203-4af8-afbf-77e55fcf7a7b,c3c4655c-12d8-46e8-8b50-69b17f5b57b9,10000000,Control,Matched Control Group
-2017-11-25,NA,3cc32c82-54ac-412f-a6b8-c6581d00718a,cd5913c1-8bcd-4406-bd0e-bb14848490a2,10000000,Control,Matched Control Group
-2018-11-29,NA,24a1a294-cd56-4409-bbb2-9ebeae2e2e4b,7d46b3dd-9a7f-4558-b6e6-8215fd6e4b6a,10000000,Control,Matched Control Group
-1986-01-24,NA,51834d63-a2a3-446c-92d7-57efa005e803,9a550e62-8954-4e17-9cea-7125f81053e5,10000000,Control,Matched Control Group
-2008-05-24,NA,15b9182e-3c15-48d4-bc56-7dd3e44cf51f,c41feaae-655b-4ccf-8232-3364f1bd1c52,10000000,Control,Matched Control Group
-1994-04-15,NA,3b1817c6-5950-49f1-8701-586290bfc705,f8749df6-adb2-4fd7-a80f-85a5b0424d1f,10000000,Control,Matched Control Group
-2005-07-08,NA,0ab0a677-ae47-45d0-b4f0-861d1ebacaa0,c7abfec6-41f3-4e57-9cc1-fb5612b0583c,10000000,Control,Matched Control Group
-2005-07-08,NA,432f0a32-e3d6-4752-92c9-52fbed0a81bd,c7abfec6-41f3-4e57-9cc1-fb5612b0583c,10000000,Control,Matched Control Group
-2003-11-07,NA,53389811-b925-42df-88ea-a9e211b4a030,4550bd0d-d346-479b-8cb9-b55a61204ca2,10000000,Control,Matched Control Group
-2004-02-05,NA,4b46b521-9a7e-4e3e-a0ba-1525787ee207,f5bf81f9-f42b-45f2-a876-210ad6494c6a,10000000,Control,Matched Control Group
-2016-12-12,NA,1095ca38-70f2-4cb0-80e1-8c1b5956ab7a,67cd5577-e19e-4e6b-8adf-3078c6522a71,10000000,Control,Matched Control Group
-2016-12-12,NA,24dd6ada-d448-4e88-84fd-b718afbd4eb1,67cd5577-e19e-4e6b-8adf-3078c6522a71,10000000,Control,Matched Control Group
-1991-06-07,NA,0ac23904-64b6-4357-b5ad-b03571d173e4,b28ba4f4-5912-4d90-a3b8-e3d8f37b85a1,10000000,Control,Matched Control Group
-2003-09-10,NA,4f343efb-37a3-4fd6-926f-6ce62cb327f4,3c303553-53df-4396-93a2-d45cdaf04aa7,10000000,Control,Matched Control Group
-2002-07-03,NA,2b10e8c1-16e4-4908-bf4d-482f0db69d2e,1373109f-3f7a-4e0b-9f7b-d8e45c8d4b90,10000000,Control,Matched Control Group
-1988-12-13,NA,1b9e968d-58af-44f7-8319-dc955ffe7937,7543d84e-b319-4f6e-a672-792b1bcc719d,10000000,Control,Matched Control Group
-1988-12-13,NA,1fc969e5-b95a-47e6-8aee-7bc36779467f,7543d84e-b319-4f6e-a672-792b1bcc719d,10000000,Control,Matched Control Group
-1992-03-03,NA,011aa237-623c-4415-9cfa-d3e5a53e620f,6cfa5def-ca7f-4aaa-86d8-6fcc0d9d0c90,10000000,Control,Matched Control Group
-1997-02-11,NA,3e649b3d-a41a-42a0-aac6-27d2c51cc260,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,10000000,Control,Matched Control Group
-1997-02-11,NA,1a5ad51c-d496-4783-89f7-40dca329a180,5d3e2dfd-8d06-46cd-9973-7fb50996cdd1,10000000,Control,Matched Control Group
-2013-07-29,NA,3085b2bd-0979-44d6-aa43-0fa28d9c2ad9,76650832-ab51-4187-9313-c4e9fb5e481c,10000000,Control,Matched Control Group
-2013-07-29,NA,07b878e4-336a-45a0-8da3-4fc5a1197b37,76650832-ab51-4187-9313-c4e9fb5e481c,10000000,Control,Matched Control Group
+"","START","STOP","PATIENT","ENCOUNTER","CODE","DESCRIPTION","group.ch1"
+"1","2016-12-12",NA,"0cd0592a-774a-4ece-806a-5384a15af9b4","67cd5577-e19e-4e6b-8adf-3078c6522a71",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"2","2016-12-12",NA,"088efea2-9017-4b31-a25b-4bbc802025a1","67cd5577-e19e-4e6b-8adf-3078c6522a71",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"3","1991-06-07",NA,"1e48d3da-d4f0-4680-8106-2304c9d1426e","b28ba4f4-5912-4d90-a3b8-e3d8f37b85a1",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"4","2003-09-10",NA,"10440527-bf9c-4c4d-86de-89a2820a8ae0","3c303553-53df-4396-93a2-d45cdaf04aa7",49436004,"Atrial Fibrillation","Matched Ornish Participant"
+"5","2002-07-03",NA,"0092f96f-3672-4f3b-80f4-63a026f6b91e","1373109f-3f7a-4e0b-9f7b-d8e45c8d4b90",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"6","1988-12-13",NA,"399f7b32-7f47-468c-a251-1cfeb9ef218b","7543d84e-b319-4f6e-a672-792b1bcc719d",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"7","1988-12-13",NA,"0dce3cad-570b-4569-90cf-7bc459446d46","7543d84e-b319-4f6e-a672-792b1bcc719d",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"8","1992-03-03",NA,"3f597c45-35a2-4030-ad51-e15b0563c861","6cfa5def-ca7f-4aaa-86d8-6fcc0d9d0c90",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"9","1997-02-11",NA,"461679a5-c897-4c9a-bd78-e400589815d0","5d3e2dfd-8d06-46cd-9973-7fb50996cdd1",22298006,"Myocardial Infarction","Matched Ornish Participant"
+"10","1997-02-11",NA,"46e2a43a-052c-467a-a521-0414aa8e7dfa","5d3e2dfd-8d06-46cd-9973-7fb50996cdd1",399211009,"History of myocardial infarction (situation)","Matched Ornish Participant"
+"11","2013-07-29",NA,"3d2f222f-5280-4998-89d7-67deab844d72","76650832-ab51-4187-9313-c4e9fb5e481c",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"12","2013-07-29",NA,"4947d7cb-8aee-42fb-97be-0fea93ca4f05","76650832-ab51-4187-9313-c4e9fb5e481c",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"13","2000-02-15",NA,"52d18c8c-c7c8-4f00-a140-cf5eae04a551","0d43f06c-c15e-4706-bff3-2d0b5a7b3aab",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"14","2000-02-15",NA,"2d2f90bb-c8f5-46d3-83e3-7dffabc238ea","0d43f06c-c15e-4706-bff3-2d0b5a7b3aab",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"15","1996-03-12",NA,"54381398-926c-4ccf-8b21-df712ba37885","ee634cc3-c4d2-4852-acfa-9a5da04e34cd",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"16","2007-04-24",NA,"155e6ceb-56c5-4e24-bf85-fc68b85c34f9","fec2fa90-35f1-48c4-aa79-3df173a74075",22298006,"Myocardial Infarction","Matched Ornish Participant"
+"17","2007-04-24",NA,"14000fd1-f498-4627-8819-8181aaecb382","fec2fa90-35f1-48c4-aa79-3df173a74075",399211009,"History of myocardial infarction (situation)","Matched Ornish Participant"
+"18","1978-10-05",NA,"53fc06bc-6314-44a7-8a42-f6dca06cbd91","b99ce345-f04e-4317-b45e-5fed9ff3b329",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"19","1978-10-05",NA,"3de50a46-1642-4cfc-8fc7-c3fca3d5329e","b99ce345-f04e-4317-b45e-5fed9ff3b329",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"20","1988-01-25",NA,"29a644dc-2a42-4a0b-ba92-f352bdf0123b","a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"21","1988-01-25",NA,"47c49827-3d8c-4a8c-9486-9678ba939868","a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"22","2003-09-25",NA,"1fb62d11-9cd4-4324-8632-5ac2a3194acc","e66deb64-c9d2-4143-8fe7-b40ec487142e",49436004,"Atrial Fibrillation","Matched Ornish Participant"
+"23","2005-08-04",NA,"10669dd3-f301-44a6-9781-ad4cdced8328","239da2f3-2cc7-47ff-b9ed-8cb933035aea",230690007,"Stroke","Matched Ornish Participant"
+"24","1995-06-29",NA,"500f7be3-e7d6-4128-b4a5-a3c930c4e97c","2578641b-c5f2-4085-be32-fad56b22bd07",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"25","1995-06-29",NA,"3ae3e0e5-796e-4e09-b5be-f9f59938360e","2578641b-c5f2-4085-be32-fad56b22bd07",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"26","2006-01-02",NA,"43bdada2-5e25-4f67-a4af-7ee6010fcc68","026ea040-3532-4c33-abdf-8187a50bc7a1",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"27","2016-03-25",NA,"454a29f0-dbe3-4bae-b5e2-c847e8f8088b","3be58d54-2d47-4a25-bd38-d8f21d646bff",49436004,"Atrial Fibrillation","Matched Ornish Participant"
+"28","1981-11-28",NA,"37d242a6-6aef-4a2f-9508-e1b6fd5181b6","c3c4655c-12d8-46e8-8b50-69b17f5b57b9",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"29","1981-11-28",NA,"14eaa2c8-8557-4d65-8bb3-a019dee5cf07","c3c4655c-12d8-46e8-8b50-69b17f5b57b9",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"30","2017-11-25",NA,"2303de7a-33d5-4d7f-8d3c-f989eedc0dd2","cd5913c1-8bcd-4406-bd0e-bb14848490a2",49436004,"Atrial Fibrillation","Matched Ornish Participant"
+"31","2018-11-29",NA,"2bf129a5-4da8-43d6-bcac-22aef6a5de93","7d46b3dd-9a7f-4558-b6e6-8215fd6e4b6a",49436004,"Atrial Fibrillation","Matched Ornish Participant"
+"32","1986-01-24",NA,"3bca398b-1748-43d2-8d1d-9533856eb36c","9a550e62-8954-4e17-9cea-7125f81053e5",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"33","2008-05-24",NA,"0f0d2e50-e912-4067-b2e7-574c13e8c5b5","c41feaae-655b-4ccf-8232-3364f1bd1c52",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"34","1994-04-15",NA,"3e537808-5d71-436d-87da-255fc7bef761","f8749df6-adb2-4fd7-a80f-85a5b0424d1f",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"35","2005-07-08",NA,"23c12702-a473-4b9b-8029-7b83b7f0215f","c7abfec6-41f3-4e57-9cc1-fb5612b0583c",22298006,"Myocardial Infarction","Matched Ornish Participant"
+"36","2005-07-08",NA,"255b9761-72a4-4150-ba26-191498e65361","c7abfec6-41f3-4e57-9cc1-fb5612b0583c",399211009,"History of myocardial infarction (situation)","Matched Ornish Participant"
+"37","2003-11-07",NA,"3fc83e0e-240d-4697-acb4-7705bb45368e","4550bd0d-d346-479b-8cb9-b55a61204ca2",10000000,"Control","Matched Control Group"
+"38","2004-02-05",NA,"52ae85f0-8802-4016-b422-66d3b6558a5c","f5bf81f9-f42b-45f2-a876-210ad6494c6a",10000000,"Control","Matched Control Group"
+"39","2016-12-12",NA,"47a56aea-3462-4af2-907f-10803c4ef3c6","67cd5577-e19e-4e6b-8adf-3078c6522a71",10000000,"Control","Matched Control Group"
+"40","2016-12-12",NA,"40351cca-b002-468f-a2db-6e92a0b722b4","67cd5577-e19e-4e6b-8adf-3078c6522a71",10000000,"Control","Matched Control Group"
+"41","1991-06-07",NA,"450a3a0c-2193-4c8c-8f0a-b913f67abe46","b28ba4f4-5912-4d90-a3b8-e3d8f37b85a1",10000000,"Control","Matched Control Group"
+"42","2003-09-10",NA,"32ca5bc7-fecb-4a1e-b840-2fd865c88a1e","3c303553-53df-4396-93a2-d45cdaf04aa7",10000000,"Control","Matched Control Group"
+"43","2002-07-03",NA,"1bd81007-66be-4e55-83dc-017214895039","1373109f-3f7a-4e0b-9f7b-d8e45c8d4b90",10000000,"Control","Matched Control Group"
+"44","1988-12-13",NA,"4719b3a0-e597-407b-a727-8316783fb728","7543d84e-b319-4f6e-a672-792b1bcc719d",10000000,"Control","Matched Control Group"
+"45","1988-12-13",NA,"3e64d6b4-b0cb-49ba-af5d-c267e48289bc","7543d84e-b319-4f6e-a672-792b1bcc719d",10000000,"Control","Matched Control Group"
+"46","1992-03-03",NA,"2126792c-845c-43c5-9cb5-2ea4b1c4a24f","6cfa5def-ca7f-4aaa-86d8-6fcc0d9d0c90",10000000,"Control","Matched Control Group"
+"47","1997-02-11",NA,"08ba4faf-628a-4ff1-9df5-73ef33e6ad03","5d3e2dfd-8d06-46cd-9973-7fb50996cdd1",10000000,"Control","Matched Control Group"
+"48","1997-02-11",NA,"07e1995f-9570-4871-b957-c0eaa5f79bee","5d3e2dfd-8d06-46cd-9973-7fb50996cdd1",10000000,"Control","Matched Control Group"
+"49","2013-07-29",NA,"0f93d1a5-6b73-489e-bcb5-d3525beba859","76650832-ab51-4187-9313-c4e9fb5e481c",10000000,"Control","Matched Control Group"
+"50","2013-07-29",NA,"2e31a69f-9442-4238-ba86-2880468b073b","76650832-ab51-4187-9313-c4e9fb5e481c",10000000,"Control","Matched Control Group"
+"51","2000-02-15",NA,"1e0e698c-ef71-43ed-94d3-2214eb4a44b5","0d43f06c-c15e-4706-bff3-2d0b5a7b3aab",10000000,"Control","Matched Control Group"
+"52","2000-02-15",NA,"4b687888-0724-4f59-bc81-a4ad318aa986","0d43f06c-c15e-4706-bff3-2d0b5a7b3aab",10000000,"Control","Matched Control Group"
+"53","1996-03-12",NA,"15a3d783-ab5d-4671-a8d4-2d23383738a0","ee634cc3-c4d2-4852-acfa-9a5da04e34cd",10000000,"Control","Matched Control Group"
+"54","2007-04-24",NA,"265eaf35-a78c-49d2-915c-d36369c2469e","fec2fa90-35f1-48c4-aa79-3df173a74075",10000000,"Control","Matched Control Group"
+"55","2007-04-24",NA,"11e2e643-f79a-4df8-9dd4-c80c537b8085","fec2fa90-35f1-48c4-aa79-3df173a74075",10000000,"Control","Matched Control Group"
+"56","1978-10-05",NA,"423dab78-6ec5-4806-85ed-d27f2a9f628a","b99ce345-f04e-4317-b45e-5fed9ff3b329",10000000,"Control","Matched Control Group"
+"57","1978-10-05",NA,"4550a684-8f9c-4522-9c08-be79523777a9","b99ce345-f04e-4317-b45e-5fed9ff3b329",10000000,"Control","Matched Control Group"
+"58","1988-01-25",NA,"1d955f4f-1de5-4a89-a25d-a2f57b8c5e2e","a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0",10000000,"Control","Matched Control Group"
+"59","1988-01-25",NA,"3c597a24-3980-46e3-9951-26ee42a2c58c","a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0",10000000,"Control","Matched Control Group"
+"60","2003-09-25",NA,"432bcce7-9dc0-49b8-ae42-bea089edde62","e66deb64-c9d2-4143-8fe7-b40ec487142e",10000000,"Control","Matched Control Group"
+"61","2005-08-04",NA,"4cef48cc-e4df-4cc5-806b-269eed9ae84a","239da2f3-2cc7-47ff-b9ed-8cb933035aea",10000000,"Control","Matched Control Group"
+"62","1995-06-29",NA,"29cc62d7-f1b5-40db-9129-a729efe4ac7f","2578641b-c5f2-4085-be32-fad56b22bd07",10000000,"Control","Matched Control Group"
+"63","1995-06-29",NA,"27858693-2bef-43ca-969e-c3cdabadf835","2578641b-c5f2-4085-be32-fad56b22bd07",10000000,"Control","Matched Control Group"
+"64","2006-01-02",NA,"1ac1ffcb-313d-4609-9988-f2b84c085e2b","026ea040-3532-4c33-abdf-8187a50bc7a1",10000000,"Control","Matched Control Group"
+"65","2016-03-25",NA,"16d1a15f-148c-435b-bd49-12519f253bcd","3be58d54-2d47-4a25-bd38-d8f21d646bff",10000000,"Control","Matched Control Group"
+"66","1981-11-28",NA,"3ea5345d-cf0d-466d-a0a8-d778c9c101a7","c3c4655c-12d8-46e8-8b50-69b17f5b57b9",10000000,"Control","Matched Control Group"
+"67","1981-11-28",NA,"16bf0c10-0649-49e9-b8a7-7f85851f85b1","c3c4655c-12d8-46e8-8b50-69b17f5b57b9",10000000,"Control","Matched Control Group"
+"68","2017-11-25",NA,"3091d9df-c3fc-45e8-9069-d8f99532da56","cd5913c1-8bcd-4406-bd0e-bb14848490a2",10000000,"Control","Matched Control Group"
+"69","2018-11-29",NA,"1410932b-c665-4e72-b1d1-bea12e356bb4","7d46b3dd-9a7f-4558-b6e6-8215fd6e4b6a",10000000,"Control","Matched Control Group"
+"70","1986-01-24",NA,"075cc594-7207-4dcd-a0c0-95ed9a4c526d","9a550e62-8954-4e17-9cea-7125f81053e5",10000000,"Control","Matched Control Group"
+"71","2008-05-24",NA,"0531165c-222c-4a66-82b8-7d3ead6d9035","c41feaae-655b-4ccf-8232-3364f1bd1c52",10000000,"Control","Matched Control Group"
+"72","1994-04-15",NA,"4849294f-07af-4c1f-b08e-7c6d089e16fd","f8749df6-adb2-4fd7-a80f-85a5b0424d1f",10000000,"Control","Matched Control Group"
+"73","2005-07-08",NA,"3779221d-299f-425f-a774-3784da3228e9","c7abfec6-41f3-4e57-9cc1-fb5612b0583c",22298006,"Myocardial Infarction","Matched Ornish Participant"
+"74","2005-07-08",NA,"0c780a89-ec78-42b6-9c83-64627685fed0","c7abfec6-41f3-4e57-9cc1-fb5612b0583c",399211009,"History of myocardial infarction (situation)","Matched Ornish Participant"
+"75","2003-11-07",NA,"022ee3c0-1970-4d54-9383-9ce2a2d6cfd9","4550bd0d-d346-479b-8cb9-b55a61204ca2",230690007,"Stroke","Matched Ornish Participant"
+"76","2004-02-05",NA,"4e84cbba-25a1-4946-b6c7-7e11c50295fd","f5bf81f9-f42b-45f2-a876-210ad6494c6a",49436004,"Atrial Fibrillation","Matched Ornish Participant"
+"77","2016-12-12",NA,"141e74dc-db1b-4120-bf63-de6acd15498f","67cd5577-e19e-4e6b-8adf-3078c6522a71",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"78","2016-12-12",NA,"38050d7a-c177-411c-8e18-7d040443f13f","67cd5577-e19e-4e6b-8adf-3078c6522a71",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"79","1991-06-07",NA,"435c3f7f-d986-4d81-9cbf-a46d3fb0cbb0","b28ba4f4-5912-4d90-a3b8-e3d8f37b85a1",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"80","2003-09-10",NA,"53617464-c707-4ff0-9518-faa235d2d3cf","3c303553-53df-4396-93a2-d45cdaf04aa7",49436004,"Atrial Fibrillation","Matched Ornish Participant"
+"81","2002-07-03",NA,"4ffea154-1548-4bd5-825a-779503601eab","1373109f-3f7a-4e0b-9f7b-d8e45c8d4b90",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"82","1988-12-13",NA,"132bd38f-e186-4867-a21f-615dd5cadb8d","7543d84e-b319-4f6e-a672-792b1bcc719d",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"83","1988-12-13",NA,"15963f08-c18c-4ece-97ce-4067df988243","7543d84e-b319-4f6e-a672-792b1bcc719d",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"84","1992-03-03",NA,"49046638-ec2f-48d6-b89a-9abcea74f493","6cfa5def-ca7f-4aaa-86d8-6fcc0d9d0c90",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"85","1997-02-11",NA,"34b2ced6-5c6a-4e29-8d9e-c2835002755b","5d3e2dfd-8d06-46cd-9973-7fb50996cdd1",22298006,"Myocardial Infarction","Matched Ornish Participant"
+"86","1997-02-11",NA,"0de62dd2-215c-430e-bf9d-e4c770d1898b","5d3e2dfd-8d06-46cd-9973-7fb50996cdd1",399211009,"History of myocardial infarction (situation)","Matched Ornish Participant"
+"87","2013-07-29",NA,"1ac91c7f-de49-427e-81d7-e4beb470dbe0","76650832-ab51-4187-9313-c4e9fb5e481c",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"88","2013-07-29",NA,"0874883f-bedf-4a30-aa4f-965a3c9a70a4","76650832-ab51-4187-9313-c4e9fb5e481c",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"89","2000-02-15",NA,"13423233-1595-40f4-90ae-8520000d7699","0d43f06c-c15e-4706-bff3-2d0b5a7b3aab",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"90","2000-02-15",NA,"364ef961-5763-4246-a6d3-4d586a1070bf","0d43f06c-c15e-4706-bff3-2d0b5a7b3aab",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"91","1996-03-12",NA,"353864dc-7ef4-42a6-af7d-e73fbab80b01","ee634cc3-c4d2-4852-acfa-9a5da04e34cd",53741008,"Coronary Heart Disease","Matched Ornish Participant"
+"92","2007-04-24",NA,"08927a4c-25a6-4b60-b0d7-d0ac0724ce73","fec2fa90-35f1-48c4-aa79-3df173a74075",22298006,"Myocardial Infarction","Matched Ornish Participant"
+"93","2007-04-24",NA,"1685044e-52bc-466b-8ba4-4f4e50b2c833","fec2fa90-35f1-48c4-aa79-3df173a74075",399211009,"History of myocardial infarction (situation)","Matched Ornish Participant"
+"94","1978-10-05",NA,"436e2a86-96d1-42e2-b926-20d4159a3289","b99ce345-f04e-4317-b45e-5fed9ff3b329",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"95","1978-10-05",NA,"5464004e-f9c4-481c-bc28-d93fa5ba861d","b99ce345-f04e-4317-b45e-5fed9ff3b329",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"96","1988-01-25",NA,"0ef18439-d319-4271-8749-1805438e838f","a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0",410429000,"Cardiac Arrest","Matched Ornish Participant"
+"97","1988-01-25",NA,"323ae187-7fe2-4467-8124-8e0d64a5c6a4","a040ef8f-f5cb-45a9-a2f8-891b1c49bdb0",429007001,"History of cardiac arrest (situation)","Matched Ornish Participant"
+"98","2003-09-25",NA,"3718e8c9-11de-45cd-a2ec-2c7a1fd46314","e66deb64-c9d2-4143-8fe7-b40ec487142e",49436004,"Atrial Fibrillation","Matched Ornish Participant"
+"99","2005-08-04",NA,"32db6924-7327-4a5d-9e9f-aa841370913f","239da2f3-2cc7-47ff-b9ed-8cb933035aea",230690007,"Stroke","Matched Ornish Participant"
+"100","1995-06-29",NA,"258c7a1c-6d92-4460-9f87-b62e5a8cd032","2578641b-c5f2-4085-be32-fad56b22bd07",10000000,"Control","Matched Control Group"
+"101","1995-06-29",NA,"1ce13068-1d77-43dd-81dc-a7a7124bb2b0","2578641b-c5f2-4085-be32-fad56b22bd07",10000000,"Control","Matched Control Group"
+"102","2006-01-02",NA,"3feedd66-5fa0-4e62-a2aa-9c7e0def2c52","026ea040-3532-4c33-abdf-8187a50bc7a1",10000000,"Control","Matched Control Group"
+"103","2016-03-25",NA,"4a0d85db-5271-4040-90c5-5dc95a9e8dc2","3be58d54-2d47-4a25-bd38-d8f21d646bff",10000000,"Control","Matched Control Group"
+"104","1981-11-28",NA,"135e4b27-8df0-48ee-8fea-adb84356a780","c3c4655c-12d8-46e8-8b50-69b17f5b57b9",10000000,"Control","Matched Control Group"
+"105","1981-11-28",NA,"3871f95c-5203-4af8-afbf-77e55fcf7a7b","c3c4655c-12d8-46e8-8b50-69b17f5b57b9",10000000,"Control","Matched Control Group"
+"106","2017-11-25",NA,"3cc32c82-54ac-412f-a6b8-c6581d00718a","cd5913c1-8bcd-4406-bd0e-bb14848490a2",10000000,"Control","Matched Control Group"
+"107","2018-11-29",NA,"24a1a294-cd56-4409-bbb2-9ebeae2e2e4b","7d46b3dd-9a7f-4558-b6e6-8215fd6e4b6a",10000000,"Control","Matched Control Group"
+"108","1986-01-24",NA,"51834d63-a2a3-446c-92d7-57efa005e803","9a550e62-8954-4e17-9cea-7125f81053e5",10000000,"Control","Matched Control Group"
+"109","2008-05-24",NA,"15b9182e-3c15-48d4-bc56-7dd3e44cf51f","c41feaae-655b-4ccf-8232-3364f1bd1c52",10000000,"Control","Matched Control Group"
+"110","1994-04-15",NA,"3b1817c6-5950-49f1-8701-586290bfc705","f8749df6-adb2-4fd7-a80f-85a5b0424d1f",10000000,"Control","Matched Control Group"
+"111","2005-07-08",NA,"0ab0a677-ae47-45d0-b4f0-861d1ebacaa0","c7abfec6-41f3-4e57-9cc1-fb5612b0583c",10000000,"Control","Matched Control Group"
+"112","2005-07-08",NA,"432f0a32-e3d6-4752-92c9-52fbed0a81bd","c7abfec6-41f3-4e57-9cc1-fb5612b0583c",10000000,"Control","Matched Control Group"
+"113","2003-11-07",NA,"53389811-b925-42df-88ea-a9e211b4a030","4550bd0d-d346-479b-8cb9-b55a61204ca2",10000000,"Control","Matched Control Group"
+"114","2004-02-05",NA,"4b46b521-9a7e-4e3e-a0ba-1525787ee207","f5bf81f9-f42b-45f2-a876-210ad6494c6a",10000000,"Control","Matched Control Group"
+"115","2016-12-12",NA,"1095ca38-70f2-4cb0-80e1-8c1b5956ab7a","67cd5577-e19e-4e6b-8adf-3078c6522a71",10000000,"Control","Matched Control Group"
+"116","2016-12-12",NA,"24dd6ada-d448-4e88-84fd-b718afbd4eb1","67cd5577-e19e-4e6b-8adf-3078c6522a71",10000000,"Control","Matched Control Group"
+"117","1991-06-07",NA,"0ac23904-64b6-4357-b5ad-b03571d173e4","b28ba4f4-5912-4d90-a3b8-e3d8f37b85a1",10000000,"Control","Matched Control Group"
+"118","2003-09-10",NA,"4f343efb-37a3-4fd6-926f-6ce62cb327f4","3c303553-53df-4396-93a2-d45cdaf04aa7",10000000,"Control","Matched Control Group"
+"119","2002-07-03",NA,"2b10e8c1-16e4-4908-bf4d-482f0db69d2e","1373109f-3f7a-4e0b-9f7b-d8e45c8d4b90",10000000,"Control","Matched Control Group"
+"120","1988-12-13",NA,"1b9e968d-58af-44f7-8319-dc955ffe7937","7543d84e-b319-4f6e-a672-792b1bcc719d",10000000,"Control","Matched Control Group"
+"121","1988-12-13",NA,"1fc969e5-b95a-47e6-8aee-7bc36779467f","7543d84e-b319-4f6e-a672-792b1bcc719d",10000000,"Control","Matched Control Group"
+"122","1992-03-03",NA,"011aa237-623c-4415-9cfa-d3e5a53e620f","6cfa5def-ca7f-4aaa-86d8-6fcc0d9d0c90",10000000,"Control","Matched Control Group"
+"123","1997-02-11",NA,"3e649b3d-a41a-42a0-aac6-27d2c51cc260","5d3e2dfd-8d06-46cd-9973-7fb50996cdd1",10000000,"Control","Matched Control Group"
+"124","1997-02-11",NA,"1a5ad51c-d496-4783-89f7-40dca329a180","5d3e2dfd-8d06-46cd-9973-7fb50996cdd1",10000000,"Control","Matched Control Group"
+"125","2013-07-29",NA,"3085b2bd-0979-44d6-aa43-0fa28d9c2ad9","76650832-ab51-4187-9313-c4e9fb5e481c",10000000,"Control","Matched Control Group"
+"126","2013-07-29",NA,"07b878e4-336a-45a0-8da3-4fc5a1197b37","76650832-ab51-4187-9313-c4e9fb5e481c",10000000,"Control","Matched Control Group"

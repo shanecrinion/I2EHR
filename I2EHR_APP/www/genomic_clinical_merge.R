@@ -7,8 +7,6 @@ genomic_data <- getGEO("GSE46097", GSEMatrix = TRUE)
 
 # clean genomic data
 library(stringr)
-
-
 pData(genomic_data[[1]])$title <- as.character(pData(genomic_data[[1]])$title)
 
 x <- replace(pData(genomic_data[[1]])$title, str_detect(Biobase::pData(genomic_data[[1]])$title, 
