@@ -316,11 +316,19 @@ pData(genomic_data[[1]]) <- pData(genomic_data[[1]])[, c("geo_accession",
 ### ANALYSIS SPECIFIC FILES
 
 
+
 ######### RLE
+exp_data <- Biobase::exprs(genomic_data[[1]])
 row_medians_assayData <- 
   Biobase::rowMedians(as.matrix(exp_data))
 
-RLE_data <- sweep(Biobase::exprs(genomic_data[[1]]), 1, row_medians_assayData)
+RLE_data <- sweep(exp_data, 1, row_medians_assayData)
+RLE_data <- as.data.frame(RLE_data)
+
+row_medians_assayData <- 
+  Biobase::rowMedians(as.matrix(exp_data))
+
+
 
 ######### PCA FILES
 
@@ -366,6 +374,13 @@ Ellsworth_final_info <- AnnotationDbi::select(hgu133a2.db,
 # restore rownames after left_join
 rownames(fData(Ellsworth_final)) <- fData(Ellsworth_final)$PROBEID ## make the threshold a slider input
 
+###### SET UP FOR LIT
+
+library(GOexpress)
+sub.genomic_data <- subEset(
+  eSet=Ellsworth_final,
+  subset=list(
+    title=c("baseline","year1")))
 
 
 
@@ -479,20 +494,6 @@ rownames(design_Ellsworth_Control) <- i_control
 
 
 
-##### subsetting the data
-
-pData(genomic_data[[1]]) <- pData(genomic_data[[1]])[, c("FULLNAME",
-                                                         "geo_accession",
-                                                         "PATIENT", 
-                                                         "age:ch1",
-                                                         "title",
-                                                         "group:ch1",
-                                                         "cad:ch1",
-                                                         "diabetes:ch1",
-                                                         "gender:ch1",
-                                                         "ch1:highBMI_stat",
-                                                         "ch1:DBP",
-                                                         "ch1:SBP")]
 
 
 
@@ -535,12 +536,13 @@ ui <- dashboardPage(
       tabItem(tabName = "overview", 
               box(title = "Welcome to the Interactive Integrated 
                   Electronic Health Record (I2EHR)", 
-                  width=12, 
+                  width=12,
                   tabsetPanel(
                     tabPanel(title = "Project Aims", 
-                             img(src="flowchart.png", 
+                                img(src="flowchart.png", 
                                  width=400, 
                                  height=400),
+                             br(),
                              h5("This project involves the development of a Shiny application 
                                   to analyse and interact with clinical data. Synthea will be
                                   used to model a disease cohort and perform predictive analytics. 
@@ -551,13 +553,48 @@ ui <- dashboardPage(
                     tabPanel(title="Clinical data",
                              img(src="synthea_logo.png", 
                                  width = 650, 
-                                 height = 150)
+                                 height = 150),
+                             br(),
+                            h5("Synthea (https://synthetichealth.github.io/synthea) is an open-source package
+                                containing synthetic EHRs encoded in FHIR standard. Synthea models the
+                                lifespan of patients based on the top 10 chronic conditions and reasons for medical
+                                care encounters in the US. The objective of Synthea is to address the legal and ethical 
+                                limitations that has caused lagging in health record technology [40]. The framework for 
+                                Synthea is based on the Publicly 
+                                Available Data Approach to the Realistic Synthetic Data (PADARSER). The model uses publicly available 
+                                health statistics as inputs to generate data from clinical workflow and
+                                disease progression. Finally, the model includes a temporal model to provide a
+                                complete profile for the patient beyond the disease of interest. The longitu
+                                dinal model is ideal for modelling disease progression and performing population analysis.")
                     ), # close clinical data tabpanel
                     tabPanel(title = "Genomic data",
                              img(src="geo_logo.png",
                                  width = 600, 
-                                 height = 250)
-                    ) # close genomic data tabpanel
+                                 height = 250),
+                             br(),
+                             h5("The Gene Expression Omnibus is an online public repository containing gene
+                              expression data that is publicly available for clinical research [60]. GEO accepts
+                              data of many forms and specifies criteria to allow an integrative design for large
+                              scale analysis of raw and processed data. The reusing of GEO facilitates genomic
+                              data integration and is useful in identifying gene expression to phenotype patterns.
+                              The heterogenous nature of T2D means that many patients do not respond well
+                              to certain drugs. Genetic variants associated with positive drug response may be
+                              identifiable by disease modelling using Synthea and GEO [46]. GEO has been
+                              used to study gene expression and methylation patterns in T2D patterns and
+                              identified 47 upregulated and 56 downregulated genes associated with fatty acid
+                              and glucose metabolic pathways [61]. shinyGEO is a web application that allows
+                              gene expression data analysis including differential expression analysis [62].
+                              Gene expression data will be integrated with Synthea generated patients to
+                              model gene expression variation associated with disease. The project will provide
+                              a framework for combined clinical and molecular analytics without legal or ethical
+                              restrictions.")
+                    ), # close genomic data tabpanel
+                    tabPanel("Contact Details",
+                                    h4("Shane Crinion"),
+                                    h4("shanecrinion@gmail.com"), 
+                                    h4("+ 353 858018212"),
+                                    img(src="nui-galway.jpg", width=120, height=40)
+                  ) # close tabpanel contact details
                   ), # close tabset panel
                   solidHeader = TRUE) # close 0
               
@@ -566,7 +603,7 @@ ui <- dashboardPage(
       tabItem(tabName = "Patient_Tab",
               icon=icon("id-card"),
               box(title = "Enter Patient Information:",
-                  solidHeader = TRUE,
+                  status="info",
                   width = 12,
                   fluidRow(
                     column(8,
@@ -645,41 +682,43 @@ ui <- dashboardPage(
       tabItem(tabName="Cohort_Tab",
               tabsetPanel(type = "tabs", 
                           tabPanel("Clinical",
-                                   box("Ethnicity and Gender",
-                                       width = 12,
-                                       fluidRow(column(3,
-                                       radioButtons(inputId = "cohort_patient_demographics_plotted",
-                                                    choices = c("ETHNICITY", "GENDER", "RACE"),
-                                                    label = "Feature selection:"),
-                                       radioButtons(
-                                                    choices = c("ETHNICITY", "GENDER", "RACE"),
-                                                    label = "Fill selection:",
-                                                    inputId = "cohort_patient_demographics_plotted_fill")), # close columnn
-                                       column(9,
-                                       plotOutput("cohort_patient_demographics")
-                                       ) # close column
-                                       ) # close row
-                                   ), # close box 
-                                   box("Disease Prevalance",
+                                   br(),
+                                   box(title = "Clinical Observation Plots",
+                                       solidHeader = TRUE,
                                        width=12,
+                                       radioButtons(inline = TRUE,
+                                                    inputId = "cohort_clinical_stats",
+                                                    label = "Frequency:",
+                                                   choices = c("Conditions",
+                                                     "Immunizations",
+                                                     "Medications")),
                                        plotOutput("cohort_clinical_disease_prevalence")),
+                                   box(title = "Demographic Features",
+                                       collapsible = TRUE,
+                                       width = 12,
+                                       fluidRow(column(6,
+                                                       radioButtons(inline = TRUE,
+                                                                    inputId = "cohort_patient_demographics_plotted",
+                                                                    choices = c("ETHNICITY", "RACE"),
+                                                                    label = "Feature selection:")
+                                       )), # close fluidrow
+                                       plotOutput("cohort_patient_demographics")
+                                   ), # close box
+                                   
                                    textOutput("patient_clinical_summary"), 
                                    plotlyOutput("patient_clinical_plot_obs")
                           ), # close tabpanel clinical 
                           
                           tabPanel("Genomic",
-                                   h5("Genomic data for the cohort"),
-                                   
                                    box(title = "CVD samples by Diabetes status",
                                        width = 4,
                                        collapsible=TRUE,
                                        tableOutput("cohort_data_sample_numbers")),
-                                   br(),
-                                   box(width = 6,
+                                   box(width = 8,
                                        title = "Principal Component Analysis", 
                                        collapsible = TRUE,
                                        selectInput(inputId = "PCA_colour",
-                                                   label = "Select an observation from the clinical or genomic data to overlay",
+                                                   label = "Phenotype Selection:",
                                                    selected = "Diabetes (G)",
                                                    choices= c("Coronary Artery Disease (G)",
                                                               "BMI (C)",
@@ -687,42 +726,45 @@ ui <- dashboardPage(
                                                               "Systolic Blood Pressure (C)",
                                                               "Diastolic Blood Pressure (C)")),
                                        plotOutput("cohort_qc_PCA")),
-                                   box(
-                                       title = "Heatmap of gene expression values",
-                                       d3heatmapOutput("cohort_bioint_heatmap")),
                                    box(width = 12, 
                                        title = "Differential Expression Analysis",
-                                       fluidRow(column(6, 
-                                                            DT::dataTableOutput("cohort_topgenes_list"))
-                                                       ), # close column
-                                         column(6, 
-                                                      selectInput(inputId = "subgroup_select",
-                                                                  label = "Select a subgroup to compare",
-                                                                  choices= c("Coronary Artery Disease (G)",
-                                                                  "BMI (C)",
-                                                                  "Diabetes (G)",
-                                                                  "Systolic Blood Pressure (C)",
-                                                                  "Diastolic Blood Pressure (C)")),
-                                                      selectInput(inputId = "probe_select", 
-                                                                  label = "Select a probe to view subgroup mediated variation",
-                                                                  choices = c(unique(sort(as.character(unique(Ellsworth_final_info$PROBEID))))))
-                                                ) # close column
-                                         ) # close fluid row
+                                       fluidRow(
+                                         column(4, 
+                                                selectInput(inputId = "subgroup_select",
+                                                            label = "Phenotype Selection:",
+                                                            selected = "Coronary Artery Disease (G)",
+                                                            choices= c("Coronary Artery Disease (G)",
+                                                                       "BMI (C)",
+                                                                       "Diabetes (G)",
+                                                                       "Systolic Blood Pressure (C)",
+                                                                       "Diastolic Blood Pressure (C)")),
+                                                selectInput(inputId = "probe_select", 
+                                                            selected = "200002_at",
+                                                            label = "Probe Selection:",
+                                                            choices = c(unique(sort(as.character(unique(Ellsworth_final_info$PROBEID))))))
+                                         ), # close column
+                                         column(6,
+                                                plotOutput("Density_Plot"))
+                                       )), # close fluid row
+                                   box(
+                                       title = "Heatmap",
+                                       width=12,
+                                       collapsed = TRUE,
+                                       collapsible = TRUE,
+                                       d3heatmapOutput("cohort_bioint_heatmap")),
+                                   box(title = "Gene Query",
+                                       width = 12,
+                                              DT::dataTableOutput("cohort_topgenes_list")
+                                       ) # close box
                                    ), # close tabpanel genomic
+                          
                       tabPanel("Analysis",
-                           box("Volcano Plot",
-                           plotOutput("volcanoplot"),
-                           img(src("MDS.png"), width = 400, height = 200)),
-                           br(),
-                       
-                           box(title= "Gene Ontology & Enriched Pathways",
-                           collapsible=TRUE,
-                           width = 12,
-                           img(src("topGO.png")),
-                           br(),
-                           DT::dataTableOutput("TopTable"))
+                           box(title = "Volcano Plot", img(src="volcanoplot.png", width = 200,height=200), width = 6),
+                           box(title = "Multi Dimensional Scaling", img(src="MDS.png", width = 200, height=200), width = 6),
+                           box(title = "Gene Ontology", img(src="topGO.png", width=200,height=200), width = 6),
+                           box(title = "Enriched Pathways", img(src="reactome_enriched.png",width=200,height=200), width=6),
+                           box(title = "Major Enrichments", img(src="reactome_enriched_barchart.png",width=300,height=300))
                       ) # close tabpanel analysis 
-                      
                   ) # close tabset panel
               ) # close tab item cohort-tab
           ) # close tabitems 
@@ -875,6 +917,7 @@ pData(subset.patient)
 output$patient_RLE <- renderPlot({
 
   
+  
   ######## PATIENT SET UP
   subset.patient <- subEset(
     eSet=genomic_data[[1]],
@@ -976,9 +1019,8 @@ output$cohort_topgenes_list <- DT::renderDataTable({
 
 
 output$patient_genomic_gene_ttest <- renderPrint({
-  
-  
-  
+
+
   tissue_Case <- tissue[disease == "Case"]
   RPL35_expr <- Biobase::exprs(sub.genomic_data)[input$patient_genomic_gene_select, disease == "Case"]
   RPL35_data <- as.data.frame(RPL35_expr)
@@ -986,7 +1028,6 @@ output$patient_genomic_gene_ttest <- renderPrint({
   
 
   RPL35_data <- mutate(RPL35_data, individual = i_case, tissue_Case)
-  RPL35_data$tissue_Case <- NULL
   RPL35_data$tissue_Case <- factor(RPL35_data$tissue_Case, levels = c("baseline", "year1"))
   
   
@@ -994,7 +1035,6 @@ output$patient_genomic_gene_ttest <- renderPrint({
   RPL35_expr <- Biobase::exprs(sub.genomic_data)[input$patient_genomic_gene_select, disease == "Control"]
   RPL35_data <- as.data.frame(RPL35_expr)
   colnames(RPL35_data)[1] <- "org_value"
-  RPL35_data$tissue_Control <- NULL
   RPL35_data <- mutate(RPL35_data, individual = i_control, tissue_Control)
   RPL35_data$tissue_Control <- factor(RPL35_data$tissue_Control, levels = c("baseline", "year1"))
   
@@ -1003,7 +1043,8 @@ output$patient_genomic_gene_ttest <- renderPrint({
   RPL35_baseline <- na.exclude(RPL35_data$org_value[tissue == "baseline"])
   res_t <- t.test(RPL35_year1 ,RPL35_baseline , paired = TRUE)
   res_t
-  
+
+    
 })
 
 ## --------- close PATIENT GENOMIC  
@@ -1015,11 +1056,15 @@ output$patient_genomic_gene_ttest <- renderPrint({
 
 output$cohort_patient_demographics <- renderPlot({
 
-demographic <- input$cohort_patient_demographics_plotted
-demographic_colour <- input$cohort_patient_demographics_fill
+if (input$cohort_patient_demographics_plotted == "ETHNICITY"){
+  demographic <-patients.csv$ETHNICITY
+} else if (input$cohort_patient_demographics_plotted == "RACE"){
+  demographic <- patients.csv$RACE
+} 
 
-ggplot(as.data.frame(patients.csv$ETHNICITY),
-       aes(x=patients.csv$ETHNICITY, 
+
+ggplot(as.data.frame(demographic),
+       aes(x=demographic, 
            color=patients.csv$GENDER)) +
   
   geom_histogram(fill = "white", 
@@ -1098,8 +1143,17 @@ output$cohort_data_sample_numbers <- renderTable({
 #}) # close cohort_qc_RLE
 
 output$cohort_clinical_disease_prevalence <- renderPlot({
+
   
-  disorders_vector <- as.vector(plyr::count(conditions_full.csv$DESCRIPTION))
+  if (input$cohort_clinical_stats == "Conditions"){
+    selection <- conditions_full.csv$DESCRIPTION
+  } else if (input$cohort_clinical_stats == "Immunizations"){
+    selection <- immunizations.csv$DESCRIPTION
+  } else if (input$cohort_clinical_stats == "Medications"){
+    selection <- medications.csv$DESCRIPTION
+  }
+  
+  disorders_vector <- as.vector(plyr::count(selection))
   #disorders_vector$freqs <- as.numeric(disorders_vector$freqs)
   
   par(mar=c(2, 28, 5, 5))
@@ -1112,7 +1166,7 @@ output$cohort_clinical_disease_prevalence <- renderPlot({
                 col=viridis(12),
                 width = 12,
                 xlim = xlim,
-                main = "Frequency of each metabolics disorder",
+                main = "Frequency for each clinical measurement",
                 xlab = "Frequency")
   
   ## Add text at top of bars
@@ -1155,7 +1209,7 @@ output$patient_genomic_gene_level_expression <- renderPlot({
                                   group = individual, color = individual)) +
     theme(legend.position = "none") +
     geom_line() + 
-    ggtitle("Expression changes in Case Vs. Control")
+    ggtitle("Expression changes for CVD sample after 1 year")
   
  
   
@@ -1164,7 +1218,7 @@ output$patient_genomic_gene_level_expression <- renderPlot({
                                   group = individual, color = individual)) +
     theme(legend.position = "none") +
     geom_line() +
-    ggtitle("Expression changes for the gene")
+    ggtitle("Expression changes for Control sample after 1 year")
 
   library(gridExtra)
   grid.arrange(p1, p2, nrow = 1)
@@ -1211,43 +1265,44 @@ output$cohort_qc_PCA <- renderPlot({
     scale_color_manual(values = c("darkorange2", "dodgerblue4"))
 })
   
-output$cohort_bioint_heatmap <- renderPlot({
-  
-  phenotype_names <- ifelse(str_detect(pData
-                                       (genomic_data[[1]])$`diabetes:ch1`,
-                                       "No"), "non_diabetic", "diabetic")
-  
-  disease_names <- ifelse(str_detect(pData
-                                     (genomic_data[[1]])$`group:ch1`,
-                                     "Matched Ornish"), "case", "control")
-  
-  annotation_for_heatmap <- 
-    data.frame(Phenotype = phenotype_names,  Disease = disease_names)
-  
-  row.names(annotation_for_heatmap) <- row.names(pData(genomic_data[[1]]))
-  
-  dists <- as.matrix(dist(t(exprs(genomic_data[[1]])), method = "manhattan"))
-  
-  rownames(dists) <- row.names(pData(genomic_data[[1]]))
-  hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
-  colnames(dists) <- NULL
-  diag(dists) <- NA
-  
-  ann_colors <- list(
-    Phenotype = c(non_diabetic = "chartreuse4", diabetic = "burlywood3"),
-    Disease = c(case = "blue4", control = "cadetblue2")
-  )
-  
-  library(d3heatmap)
-  d3heatmap(dists, color = (hmcol), 
-            annotation_row = annotation_for_heatmap,
-            annotation_colors = ann_colors,
-            legend = TRUE, 
-            treeheight_row = 0,
-            legend_breaks = c(min(dists, na.rm = TRUE), 
-                              max(dists, na.rm = TRUE)), 
-            legend_labels = (c("small distance", "large distance")),
-            main = "Clustering heatmap for the calibrated samples")
+output$cohort_bioint_heatmap <- renderD3heatmap({
+    
+    phenotype_names <- ifelse(str_detect(pData
+                                         (genomic_data[[1]])$`diabetes:ch1`,
+                                         "No"), "non_diabetic", "diabetic")
+    
+    disease_names <- ifelse(str_detect(pData
+                                       (genomic_data[[1]])$`group:ch1`,
+                                       "Matched Ornish"), "case", "control")
+    
+    annotation_for_heatmap <- 
+      data.frame(Phenotype = phenotype_names,  Disease = disease_names)
+    
+    row.names(annotation_for_heatmap) <- row.names(pData(genomic_data[[1]]))
+    
+    dists <- as.matrix(dist(t(exprs(genomic_data[[1]])), method = "manhattan"))
+    
+    rownames(dists) <- row.names(pData(genomic_data[[1]]))
+    hmcol <- rev(colorRampPalette(RColorBrewer::brewer.pal(9, "YlOrRd"))(255))
+    colnames(dists) <- NULL
+    diag(dists) <- NA
+    
+    ann_colors <- list(
+      Phenotype = c(non_diabetic = "chartreuse4", diabetic = "burlywood3"),
+      Disease = c(case = "blue4", control = "cadetblue2")
+    )
+    
+    #### add the diabetes sidebar
+    library(d3heatmap)
+    d3heatmap(dists, color = (hmcol), 
+              annotation_row = annotation_for_heatmap,
+              annotation_colors = ann_colors,
+              legend = TRUE, 
+              treeheight_row = 0,
+              legend_breaks = c(min(dists, na.rm = TRUE), 
+                                max(dists, na.rm = TRUE)), 
+              legend_labels = (c("small distance", "large distance")),
+              main = "Clustering heatmap for the calibrated samples")
   })
 
 
@@ -1272,7 +1327,6 @@ output$TopTable <- DT::renderDataTable ({
                                 c("'"), "_")
   individual <- str_replace_all(individual,
                                 c(" "), "_")
-  
   
   tissue <- str_replace_all(Biobase::pData(sub.genomic_data)$title,
                             " ", "_")
@@ -1534,6 +1588,71 @@ output$cohort_gene_ontology <- renderPlot({
   
 })
 
+output$Density_Plot <- renderPlot({
+  
+  if(input$subgroup_select=="Coronary Artery Disease (G)"){
+    subset.patient <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "cad:ch1"=c("Yes")))
+    subset.control <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "cad:ch1"=c("No")))
+  } else if (input$subgroup_select=="BMI (C)"){
+    subset.patient <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "ch1:highBMI_stat"=c("Overweight")))
+    subset.control <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "ch1:highBMI_stat"=c("Healthy")))
+  } else if (input$subgroup_select=="Diabetes (G)"){
+    subset.patient <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "diabetes:ch1"=c("Yes")))
+    subset.control <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "diabetes:ch1"=c("No")))
+  } else if (input$subgroup_select=="Systolic Blood Pressure (C)"){
+    subset.patient <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "ch1:SBP"=c("High Systolic")))
+    subset.control <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "ch1:SBP"=c("Healthy")))
+  } else if (input$subgroup_select == "Diastolic Blood Pressure (C)"){
+    subset.patient <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "ch1:DBP"=c("High Diastolic")))
+    subset.control <- subEset(
+      eSet=genomic_data[[1]],
+      subset=list(
+        "ch1:DBP"=c("Healthy")))}
+  
+  subset.patient.exprs <- data.frame(x= as.numeric(exprs(subset.patient)[input$probe_select,]))
+  subset.control.exprs <- data.frame(x= as.numeric(exprs(subset.control)[input$probe_select,]))
+  
+  library(ggplot2)
+  
+  p <- ggplot() + geom_density(aes(x=x), colour="red", data=subset.patient.exprs) + 
+    geom_density(aes(x=x), colour="blue", data=subset.control.exprs) +
+    labs(
+      x = "Expression value",
+      y = "Density",
+      color = "Class"
+    )
+  theme(legend.position="right")
+  
+  print(p)
+})
+  
 } # close server
 
 shinyApp(ui, server)

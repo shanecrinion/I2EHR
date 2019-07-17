@@ -450,9 +450,10 @@ exp_data <- Biobase::exprs(genomic_data[[1]])
 row_medians_assayData <- 
   Biobase::rowMedians(as.matrix(exp_data))
 
-RLE_data <- sweep(Biobase::exprs(genomic_data[[1]]), 1, row_medians_assayData)
+RLE_data <- sweep(exp_data, 1, row_medians_assayData)
 
 RLE_data <- as.data.frame(RLE_data)
+
 RLE_data_gathered <- 
   tidyr::gather(RLE_data, patient_array, log2_expression_deviation)
 
@@ -549,6 +550,8 @@ RLE for the patient
 
 ```{r}
 
+
+
 ######## PATIENT 
   subset.patient <- subEset(
     eSet=genomic_data[[1]],
@@ -556,6 +559,18 @@ RLE for the patient
       PATIENT=c("0cd0592a-774a-4ece-806a-5384a15af9b4")))
   ###### END PATIENT
 
+
+
+genomic_data[[1]]$PATIENT <- NULL
+genomic_data[[1]]$PATIENT <- rep(patients.csv$PATIENT, each=3)
+
+exp_data <- Biobase::exprs(genomic_data[[1]])
+row_medians_assayData <- 
+  Biobase::rowMedians(as.matrix(exp_data))
+
+RLE_data <- sweep(exp_data, 1, row_medians_assayData)
+
+RLE_data <- as.data.frame(RLE_data)
   
 subset.patient.RLE <-
  RLE_data[sampleNames(subset.patient)]
