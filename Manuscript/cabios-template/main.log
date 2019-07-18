@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.9)  28 JUN 2019 08:53
+This is pdfTeX, Version 3.14159265-2.6-1.40.18 (TeX Live 2017/Debian) (preloaded format=pdflatex 2018.11.9)  18 JUL 2019 03:31
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -291,28 +291,73 @@ Package textcomp Info: Setting pplx sub-encoding to TS1/3 on input line 406.
 Package textcomp Info: Setting pplj sub-encoding to TS1/3 on input line 407.
 Package textcomp Info: Setting ptmx sub-encoding to TS1/4 on input line 408.
 Package textcomp Info: Setting ptmj sub-encoding to TS1/4 on input line 409.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty
+Package: booktabs 2016/04/27 v1.618033 publication quality tables
+\heavyrulewidth=\dimen121
+\lightrulewidth=\dimen122
+\cmidrulewidth=\dimen123
+\belowrulesep=\dimen124
+\belowbottomsep=\dimen125
+\aboverulesep=\dimen126
+\abovetopsep=\dimen127
+\cmidrulesep=\dimen128
+\cmidrulekern=\dimen129
+\defaultaddspace=\dimen130
+\@cmidla=\count105
+\@cmidlb=\count106
+\@aboverulesep=\dimen131
+\@belowrulesep=\dimen132
+\@thisruleclass=\count107
+\@lastruleclass=\count108
+\@thisrulewidth=\dimen133
+)
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+Package: xcolor 2016/05/11 v2.12 LaTeX color extensions (UK)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package xcolor Info: Driver file: pdftex.def on input line 225.
+
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+Package: colortbl 2012/02/13 v1.0a Color table columns (DPC)
+\everycr=\toks30
+\minrowclearance=\skip56
+)
+LaTeX Info: Redefining \color on input line 709.
+\rownum=\count109
+Package xcolor Info: Model `cmy' substituted by `cmy0' on input line 1348.
+Package xcolor Info: Model `hsb' substituted by `rgb' on input line 1352.
+Package xcolor Info: Model `RGB' extended on input line 1364.
+Package xcolor Info: Model `HTML' substituted by `rgb' on input line 1366.
+Package xcolor Info: Model `Hsb' substituted by `hsb' on input line 1367.
+Package xcolor Info: Model `tHsb' substituted by `hsb' on input line 1368.
+Package xcolor Info: Model `HSB' substituted by `hsb' on input line 1369.
+Package xcolor Info: Model `Gray' substituted by `gray' on input line 1370.
+Package xcolor Info: Model `wave' substituted by `hsb' on input line 1371.
 ) (./main.aux)
 \openout1 = `main.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 9.
-LaTeX Font Info:    ... okay on input line 9.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 9.
-LaTeX Font Info:    Try loading font information for TS1+cmr on input line 9.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 11.
+LaTeX Font Info:    ... okay on input line 11.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 11.
+LaTeX Font Info:    Try loading font information for TS1+cmr on input line 11.
 
 (/usr/share/texlive/texmf-dist/tex/latex/base/ts1cmr.fd
 File: ts1cmr.fd 2014/09/29 v2.5h Standard LaTeX font definitions
 )
-LaTeX Font Info:    ... okay on input line 9.
+LaTeX Font Info:    ... okay on input line 11.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -321,29 +366,29 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.9 \begin{document}
-                    
+l.11 \begin{document}
+                     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-LaTeX Font Info:    Try loading font information for OT1+ptm on input line 9.
+LaTeX Font Info:    Try loading font information for OT1+ptm on input line 11.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd
 File: ot1ptm.fd 2001/06/04 font definitions for OT1/ptm.
 )
 (/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
 [Loading MPS to PDF converter (version 2006.09.02).]
-\scratchcounter=\count105
-\scratchdimen=\dimen121
+\scratchcounter=\count110
+\scratchdimen=\dimen134
 \scratchbox=\box33
-\nofMPsegments=\count106
-\nofMParguments=\count107
-\everyMPshowfont=\toks30
-\MPscratchCnt=\count108
-\MPscratchDim=\dimen122
-\MPnumerator=\count109
-\makeMPintoPDFobject=\count110
-\everyMPtoPDFconversion=\toks31
+\nofMPsegments=\count111
+\nofMParguments=\count112
+\everyMPshowfont=\toks31
+\MPscratchCnt=\count113
+\MPscratchDim=\dimen135
+\MPnumerator=\count114
+\makeMPintoPDFobject=\count115
+\everyMPtoPDFconversion=\toks32
 ) (/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
 Package: epstopdf-base 2016/05/15 v2.6 Base part for package epstopdf
 
@@ -400,7 +445,7 @@ G,.JBIG2,.JB2,.eps]
 File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
 e
 ))
-LaTeX Font Info:    Try loading font information for OT1+phv on input line 37.
+LaTeX Font Info:    Try loading font information for OT1+phv on input line 39.
 
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1phv.fd
 File: ot1phv.fd 2001/06/04 scalable font definitions for OT1/phv.
@@ -414,26 +459,26 @@ f>
 (epstopdf)                    size: 9259 bytes
 (epstopdf)             Command: <repstopdf --outfile=OUP_First_SBk_Bot_8401-eps
 -converted-to.pdf OUP_First_SBk_Bot_8401.eps>
-(epstopdf)             \includegraphics on input line 37.
+(epstopdf)             \includegraphics on input line 39.
 Package epstopdf Info: Output file is already uptodate.
 <OUP_First_SBk_Bot_8401-eps-converted-to.pdf, id=1, 54.2025pt x 54.2025pt>
 File: OUP_First_SBk_Bot_8401-eps-converted-to.pdf Graphic file (type pdf)
 <use OUP_First_SBk_Bot_8401-eps-converted-to.pdf>
 Package pdftex.def Info: OUP_First_SBk_Bot_8401-eps-converted-to.pdf  used on i
-nput line 37.
+nput line 39.
 (pdftex.def)             Requested size: 54.20236pt x 54.20236pt.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <8> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 37.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 39.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <18> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 37.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 39.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <12> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 37.
-LaTeX Font Info:    Try loading font information for U+msa on input line 37.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 39.
+LaTeX Font Info:    Try loading font information for U+msa on input line 39.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsa.fd
 File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 )
-LaTeX Font Info:    Try loading font information for U+msb on input line 37.
+LaTeX Font Info:    Try loading font information for U+msb on input line 39.
 
 (/usr/share/texlive/texmf-dist/tex/latex/amsfonts/umsb.fd
 File: umsb.fd 2013/01/14 v3.01 AMS symbols B
@@ -445,27 +490,27 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.37 \maketitle
+l.39 \maketitle
                
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <9> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 37.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 39.
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <7> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 37.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 39.
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 37.
+(Font)              size <6> substituted on input line 39.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <6.5> not available
-(Font)              size <6> substituted on input line 37.
+(Font)              size <6> substituted on input line 39.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <6.5> not available
-(Font)              size <6> substituted on input line 37.
+(Font)              size <6> substituted on input line 39.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -474,43 +519,57 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.37 \maketitle
+l.39 \maketitle
                
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 37.
+LaTeX Font Info:    Calculating math sizes for size <8.5> on input line 39.
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <8.5> not available
-(Font)              size <8> substituted on input line 37.
+(Font)              size <8> substituted on input line 39.
 
 
 LaTeX Font Warning: Font shape `OT1/cmr/m/n' in size <4.25> not available
-(Font)              size <5> substituted on input line 37.
+(Font)              size <5> substituted on input line 39.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <8.5> not available
-(Font)              size <8> substituted on input line 37.
+(Font)              size <8> substituted on input line 39.
 
 
 LaTeX Font Warning: Font shape `OML/cmm/m/it' in size <4.25> not available
-(Font)              size <5> substituted on input line 37.
+(Font)              size <5> substituted on input line 39.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <8.5> not available
-(Font)              size <8> substituted on input line 37.
+(Font)              size <8> substituted on input line 39.
 
 
 LaTeX Font Warning: Font shape `OMS/cmsy/m/n' in size <4.25> not available
-(Font)              size <5> substituted on input line 37.
+(Font)              size <5> substituted on input line 39.
 
 LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <10> not available
-(Font)              Font shape `OT1/phv/b/n' tried instead on input line 37.
-LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <9> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 37.
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 39.
 
-Underfull \hbox (badness 10000) detected at line 37
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.39 \maketitle
+               
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+LaTeX Font Info:    Try loading font information for OT1+pcr on input line 39.
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
+File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
+)
+Underfull \hbox (badness 10000) detected at line 39
 []
  []
 
@@ -521,34 +580,21 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.38 \section{Introduction}
+l.40 \section{Introduction}
                            
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-! Undefined control sequence.
-l.40 ... profile of the patient  \textquotesingles
-                                                   s historical recordings c...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
-
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-LaTeX Font Info:    Try loading font information for TS1+ptm on input line 47.
 
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd
-File: ts1ptm.fd 2001/06/04 font definitions for TS1/ptm.
-)
-LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
-(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 47.
-Missing character: There is no ‚ in font ptmb7t!
-Missing character: There is no Ä in font ptmb7t!
-Missing character: There is no ¢ in font ptmb7t!
+Underfull \hbox (badness 2980) in paragraph at lines 48--49
+\OT1/ptm/m/n/8 simultaneously [[]]. At patient level, a timeline or other visua
+l
+ []
+
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -560,13 +606,13 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.54 
+l.51 
      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-LaTeX Font Info:    Try loading font information for TS1+phv on input line 54.
+LaTeX Font Info:    Try loading font information for TS1+phv on input line 51.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd
 File: ts1phv.fd 2001/06/04 scalable font definitions for TS1/phv.
 )
@@ -581,7 +627,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.54 
+l.51 
      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -592,11 +638,6 @@ or  <return>  to continue without it.
 
 
  <./OUP_First_SBk_Bot_8401-eps-converted-to.pdf>]
-Underfull \hbox (badness 1708) in paragraph at lines 58--59
-\OT1/ptm/m/n/8 biobanks have demonstrated the potential for pattern identificat
-ion
- []
-
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
 
@@ -604,73 +645,39 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.68 \section{Materials and Methods}
+l.69 \section{Materials and Methods}
                                     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-! Misplaced alignment tab character &.
-l.69 ...ics, clinical practise guidelines (CPGs) &
-                                                   Protocols and Medical Cod...
-I can't figure out why you would want to use a tab mark
-here. If you just want an ampersand, the remedy is
-simple: Just type `I\&' now. But if some right brace
-up above has ended a previous alignment prematurely,
-you're probably due for more error messages, and you
-might try typing `S' now just to see what is salvageable.
 
-
-Underfull \hbox (badness 1325) in paragraph at lines 69--70
-\OT1/ptm/m/n/8 of 'clean' structured data without data entry related discrepanc
-ies.
- []
-
-
-Underfull \hbox (badness 2608) in paragraph at lines 71--72
-\OT1/ptm/m/n/8 address and gender. The selection criteria specified that patien
-ts
- []
-
-
-Underfull \hbox (badness 1383) in paragraph at lines 71--72
-\OT1/ptm/m/n/8 metabolic syndrome care. These 2 modules were used to include
- []
-
-
-! LaTeX Error: There's no line here to end.
+! LaTeX Error: Encoding scheme `LY1' unknown.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.79 \\\
-        
+l.71 \includegraphics
+                     [width=8cm, height=11cm]{/media/shane/Data/github/I2EHR...
+
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ò in font ptmr7t!
-! Undefined control sequence.
-l.84 ...e samples ]} : ``1000"{[}n\textunderscorec
-                                                   samples {]})"  and filter...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+</media/shane/Data/github/I2EHR/I2EHR_APP/www/flowchart.png, id=19, 366.61969pt
+ x 369.63094pt>
+File: /media/shane/Data/github/I2EHR/I2EHR_APP/www/flowchart.png Graphic file (
+type png)
+<use /media/shane/Data/github/I2EHR/I2EHR_APP/www/flowchart.png>
+Package pdftex.def Info: /media/shane/Data/github/I2EHR/I2EHR_APP/www/flowchart
+.png  used on input line 71.
+(pdftex.def)             Requested size: 227.62631pt x 312.98079pt.
+LaTeX Font Info:    Try loading font information for OT1+phb on input line 72.
+LaTeX Font Info:    No file OT1phb.fd. on input line 72.
 
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
+LaTeX Font Warning: Font shape `OT1/phb/m/n' undefined
+(Font)              using `OT1/cmr/m/n' instead on input line 72.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -679,15 +686,42 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.87 A
-      s previously mentioned, the drug Simvastatin (20 MG Oral Tablet) was s...
+l.72 ...n values to visualise subgroup variation.}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
+LaTeX Font Info:    Font shape `OT1/phv/bx/n' in size <6.5> not available
+(Font)              Font shape `OT1/phv/b/n' tried instead on input line 72.
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \hbox (badness 1087) in paragraph at lines 75--76
+\OT1/ptm/m/n/8 due to human error. Synthea is built with the top-down approach
+ []
+
+
+Underfull \hbox (badness 3701) in paragraph at lines 79--80
+[]\OT1/ptm/m/n/8 The original population generated consisted of 1000 patients
+ []
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.80 
+     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 LaTeX Font Info:    Font shape `OT1/phv/m/it' in size <8> not available
-(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 87.
+(Font)              Font shape `OT1/phv/m/sl' tried instead on input line 80.
 
 Overfull \hbox (252.0pt too wide) has occurred while \output is active
 [][] 
@@ -700,97 +734,21 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.87 A
-      s previously mentioned, the drug Simvastatin (20 MG Oral Tablet) was s...
-
+l.80 
+     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[2]
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
+[2 </media/shane/Data/github/I2EHR/I2EHR_APP/www/flowchart.png (PNG copy)>]
+Underfull \hbox (badness 1163) in paragraph at lines 84--86
+\OT1/ptm/m/n/8 of above 30 is considered high and is expected for an individual
 
-Underfull \hbox (badness 1237) in paragraph at lines 89--90
-\OT1/ptm/m/n/8 of a larger size was considered - GSE115313. This dataset titled
-
- []
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.96 \begin{verbatim}
-                     
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-LaTeX Font Info:    Try loading font information for OT1+pcr on input line 96.
-(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1pcr.fd
-File: ot1pcr.fd 2001/06/04 font definitions for OT1/pcr.
-)
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
-
-Underfull \hbox (badness 4303) in paragraph at lines 108--109
-[]\OT1/ptm/m/n/8 The introduction of genomic data was made possible using
- []
-
-
-Underfull \hbox (badness 5667) in paragraph at lines 108--109
-\OT1/ptm/m/n/8 multiple packages from Bioconductor which include GEOquery,
- []
-
-
-Underfull \hbox (badness 4792) in paragraph at lines 108--109
-\OT1/ptm/m/n/8 hugene10sttranscriptcluster.db, oligo, arrayQualityMetrics and t
-he
- []
-
-
-Underfull \hbox (badness 1859) in paragraph at lines 108--109
-\OT1/ptm/m/n/8 analytics and statistics packages limma, topGO, ReactomePA and
  []
 
 
 LaTeX Warning: No positions in optional float specifier.
-               Default added (so using `tbp') on input line 113.
+               Default added (so using `tbp') on input line 92.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -799,19 +757,32 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.113 \begin{table}[]
-                     
+l.92 \begin{table}[]
+                    
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-LaTeX Font Info:    Try loading font information for OML+ptm on input line 117.
-
+LaTeX Font Info:    Font shape `OT1/ptm/bx/n' in size <8> not available
+(Font)              Font shape `OT1/ptm/b/n' tried instead on input line 96.
+LaTeX Font Info:    Try loading font information for OML+ptm on input line 97.
 (/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlptm.fd
 File: omlptm.fd 
 )
 LaTeX Font Info:    Font shape `OML/ptm/m/n' in size <8> not available
-(Font)              Font shape `OML/cmm/m/it' tried instead on input line 117.
+(Font)              Font shape `OML/cmm/m/it' tried instead on input line 97.
+
+
+! LaTeX Error: Not in outer par mode.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.101 \figure{
+              Each of the }
+You've lost some text.  Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -820,8 +791,77 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.124 \section{Applications}
-                            
+l.101 \figure{
+              Each of the }
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.102 \end{tabular}
+                   
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Extra }, or forgotten \endgroup.
+<template> ...x \d@llarend \hfill \egroup \egroup 
+                                                  \begingroup \CT@setup \CT@...
+l.102 \end{tabular}
+                   
+I've deleted a group-closing symbol because it seems to be
+spurious, as in `$x}$'. But perhaps the } is legitimate and
+you forgot something else, as in `\hbox{$x}'. In such cases
+the way to recover is to insert both the forgotten and the
+deleted material, e.g., by typing `I$}'.
+
+! Missing \endgroup inserted.
+<inserted text> 
+                \endgroup 
+l.102 \end{tabular}
+                   
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.102 \end{tabular}
+                   
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+! Missing } inserted.
+<inserted text> 
+                }
+l.102 \end{tabular}
+                   
+I've inserted something that you may have forgotten.
+(See the <inserted text> above.)
+With luck, this will get me unwedged. But if you
+really didn't forget anything, try typing `2' now; then
+my insertion and my current dilemma will both disappear.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.108 ...number \cite{Davis2007}. The command {\tt
+                                                   \small getGEO("GSE46097")...
+
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
@@ -833,37 +873,96 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.128 \subsection{Individual Patient Query}
+l.108 ...sed for the experiment. The function {\tt
+                                                   \small exprs} is used to ...
+
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.115 ....0. The user can obtain the app from {\tt
+                                                   \small github.com/shanecr...
+
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 2529) in paragraph at lines 114--116
+[]\OT1/ptm/m/n/8 The development of this dashboard was made possible using
+ []
+
+
+Underfull \hbox (badness 1648) in paragraph at lines 114--116
+\OT1/ptm/m/n/8 the packages R and shiny R version 3.6.0. The user can obtain
+ []
+
+
+Underfull \hbox (badness 1005) in paragraph at lines 114--116
+\OT1/ptm/m/n/8 the app from \OT1/pcr/m/n/7 github.com/shanecrinion/I2EHR/I2EHR[
+]APP. \OT1/ptm/m/n/8 The
+ []
+
+
+Underfull \hbox (badness 1019) in paragraph at lines 114--116
+\OT1/ptm/m/n/8 possible using multiple packages from Bioconductor which include
+
+ []
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.123 \section{Results}
+                       
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.133 \subsection{Patient level data query}
                                            
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-! Undefined control sequence.
-l.132 ...ociated with the patient\textquotesingles
-                                                   s under the headings care...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 
+! LaTeX Error: Encoding scheme `LY1' unknown.
 
-Underfull \hbox (badness 3189) in paragraph at lines 132--133
-[]\OT1/ptm/m/n/8 Each tab is then populated with information associated with
- []
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.134 \begin{figure}[!h]
+                        
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
+<BMIpatient.png, id=26, 702.625pt x 451.6875pt>
+File: BMIpatient.png Graphic file (type png)
+<use BMIpatient.png>
+Package pdftex.def Info: BMIpatient.png  used on input line 135.
+(pdftex.def)             Requested size: 227.62204pt x 146.32802pt.
 
-Underfull \hbox (badness 1701) in paragraph at lines 132--133
-\OT1/ptm/m/n/8 the patients under the headings careplans, conditions, encounter
-s,
- []
-
-
-Underfull \hbox (badness 2913) in paragraph at lines 132--133
-\OT1/ptm/m/n/8 immunizations, medications, observations, organisations, patient
-s,
- []
+LaTeX Font Warning: Font shape `OT1/phb/m/n' in size <6.5> not available
+(Font)              size <6> substituted on input line 136.
 
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
@@ -872,8 +971,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.134 \begin{verbatim}
-                      
+l.136 ...of the observation to observe over time.}
+                                                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
@@ -885,56 +984,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.143 ...{Plot of clinical observations over time}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-Underfull \hbox (badness 7221) in paragraph at lines 148--149
-[]\OT1/ptm/m/n/8 The dropdown menu is populated by available observation
- []
-
-
-Underfull \hbox (badness 1394) in paragraph at lines 148--149
-\OT1/ptm/m/n/8 measurements specific to the patient in question. For presentati
-on
- []
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.152 ...cterisation of the cohort by co-variates}
-                                                  
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-Underfull \hbox (badness 1077) in paragraph at lines 153--154
-\OT1/ptm/m/n/8 age, sex, ethnicity and disease. The default selection is ethnic
-ity.
- []
-
-
-Underfull \hbox (badness 1028) in paragraph at lines 153--154
-\OT1/ptm/m/n/8 Characterising the individuals by ethnicity is useful for identi
-fying
- []
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.154 
+l.141 
       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -952,13 +1002,13 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.154 
+l.141 
       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[3]
+[3 <./BMIpatient.png>]
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
 
@@ -966,46 +1016,214 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.156 \subsection{Integration of microarray data}
-                                                 
+l.144 ...{Patient level gene expression variation}
+                                                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 3557) in paragraph at lines 158--159
-\OT1/ptm/m/n/8 Each sample of gene expression data is assigned a patient ID
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.146 \begin{figure}[!h]
+                        
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+<exprschangettest.png, id=34, 652.4375pt x 650.43pt>
+File: exprschangettest.png Graphic file (type png)
+<use exprschangettest.png>
+Package pdftex.def Info: exprschangettest.png  used on input line 147.
+(pdftex.def)             Requested size: 227.61984pt x 227.62413pt.
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.148 ... between baseline and 1 year assessment.}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.154 \subsection{Cohort level barcharts}
+                                         
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.155 \begin{figure}[!h]
+                        
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+<barcharts.png, id=35, 1105.12875pt x 745.78625pt>
+File: barcharts.png Graphic file (type png)
+<use barcharts.png>
+Package pdftex.def Info: barcharts.png  used on input line 157.
+(pdftex.def)             Requested size: 227.62204pt x 153.6041pt.
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.158 ...ures and (D) conditions at cohort level.}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 3514) in paragraph at lines 158--158
+[][] \OT1/phb/m/n/6 Barcharts: Plots indicate the frequency for each of (A)
  []
 
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ú in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ù in font ptmr7t!
 
-Underfull \hbox (badness 1215) in paragraph at lines 163--164
-[]\OT1/ptm/m/n/8 Given the integrative design of the application, the microarra
-y
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.165 \begin{figure*}[!t]
+                         
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+<DashboardLayout2.png, id=36, 1353.055pt x 770.88pt>
+File: DashboardLayout2.png Graphic file (type png)
+<use DashboardLayout2.png>
+Package pdftex.def Info: DashboardLayout2.png  used on input line 167.
+(pdftex.def)             Requested size: 483.69684pt x 275.57574pt.
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.168 ...clustering or gene expression variation.}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.171 \subsection{Principal component analysis}
+                                               
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Underfull \hbox (badness 2781) in paragraph at lines 173--174
+\OT1/ptm/m/n/8 Principal component analysis (PCA) is used to identify possibly
  []
 
-! Undefined control sequence.
-l.165 ...nd ensure that no sample\textquotesingles
-                                                   reading\textquotesingles ...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
 
-! Undefined control sequence.
-l.165 ...textquotesingles reading\textquotesingles
-                                                   are considerably differen...
-The control sequence at the end of the top line
-of your error message was never \def'ed. If you have
-misspelled it (e.g., `\hobx'), type `I' and the correct
-spelling (e.g., `I\hbox'). Otherwise just continue,
-and I'll forget about whatever was undefined.
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.177 \subsection{Gene expression density plots}
+                                                
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.178 \begin{figure}[!h]
+                        
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: File `densityplots.png' not found on input line 179.
+
+
+! Package pdftex.def Error: File `densityplots.png' not found: using draft sett
+ing.
+
+See the pdftex.def package documentation for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.179 ...[width=8cm, height=8cm]{densityplots.png}
+                                                  
+Try typing  <return>  to proceed.
+If that doesn't work, type  X <return>  to quit.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.180 ...he participant (blue) and control (red).}
+                                                  
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+LaTeX Warning: `!h' float specifier changed to `!ht'.
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.186 \subsection{Microarray analysis}
+                                      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
 
 Missing character: There is no ‚ in font ptmr7t!
 Missing character: There is no Ä in font ptmr7t!
@@ -1020,7 +1238,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.167 \begin{Discussion}
+l.193 \begin{Discussion}
                         
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1033,97 +1251,26 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.169 \section{Discussion}
+l.195 \section{Discussion}
                           
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
 
-Underfull \hbox (badness 4582) in paragraph at lines 173--174
+Underfull \hbox (badness 4582) in paragraph at lines 199--200
 []\OT1/ptm/m/n/8 Visualisations of longitudinal clinical data proved useful for
 
  []
 
 
-Underfull \hbox (badness 2809) in paragraph at lines 176--178
-[]\OT1/ptm/m/n/8 Issues regarding standardisation have caused difficultly in th
-e
- []
-
-
-Underfull \hbox (badness 1342) in paragraph at lines 180--181
-\OT1/ptm/m/n/8 observations using the plotly generated plots. A core element fo
-r
- []
-
-
-Underfull \hbox (badness 2293) in paragraph at lines 186--187
-[]\OT1/ptm/m/n/8 Another caveat using Synthea occurs when generating control
- []
-
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ò in font ptmr7t!
-Missing character: There is no ‚ in font ptmr7t!
-Missing character: There is no Ä in font ptmr7t!
-Missing character: There is no ô in font ptmr7t!
-
-Underfull \hbox (badness 1325) in paragraph at lines 188--189
-[]\OT1/ptm/m/n/8 Despite the caveats, Synthea has proved highly useful for the
- []
-
-
-Underfull \hbox (badness 4242) in paragraph at lines 190--191
-[]\OT1/ptm/m/n/8 This framework developed with the help of Synthea allows
- []
-
-
 ! LaTeX Error: Encoding scheme `LY1' unknown.
 
 See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.193 Figure~2\vphantom{\ref{fig:02}}
-                                      Talk about a second use of I2EHR. Talk...
-
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-LaTeX Warning: Reference `fig:02' on page 4 undefined on input line 193.
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.193 ... 2 diabetes patients \citealp{Boffelli03}
-                                                   might want to know about
-Your command was ignored.
-Type  I <command> <return>  to replace it with another command,
-or  <return>  to continue without it.
-
-
-Package natbib Warning: Citation `Boffelli03' on page 4 undefined on input line
- 193.
-
-
-Underfull \vbox (badness 10000) has occurred while \output is active []
-
-
-
-! LaTeX Error: Encoding scheme `LY1' unknown.
-
-See the LaTeX manual or LaTeX Companion for explanation.
-Type  H <return>  for immediate help.
- ...                                              
-                                                  
-l.196 
+l.200 
       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1141,15 +1288,75 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.196 
+l.200 
       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[4]
-Underfull \hbox (badness 2359) in paragraph at lines 199--200
-[]\OT1/ptm/m/n/8 For app development, Shiny proved especially useful for the
+[4 <./exprschangettest.png> <./barcharts.png>]
+Underfull \hbox (badness 2809) in paragraph at lines 202--204
+[]\OT1/ptm/m/n/8 Issues regarding standardisation have caused difficultly in th
+e
+ []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.207 
+      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.207 
+      
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[5 <./DashboardLayout2.png>]
+Underfull \hbox (badness 2293) in paragraph at lines 211--212
+[]\OT1/ptm/m/n/8 Another caveat using Synthea occurs when generating control
+ []
+
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ò in font ptmr7t!
+Missing character: There is no ‚ in font ptmr7t!
+Missing character: There is no Ä in font ptmr7t!
+Missing character: There is no ô in font ptmr7t!
+
+Underfull \hbox (badness 1325) in paragraph at lines 213--214
+[]\OT1/ptm/m/n/8 Despite the caveats, Synthea has proved highly useful for the
+ []
+
+
+Underfull \hbox (badness 4242) in paragraph at lines 215--216
+[]\OT1/ptm/m/n/8 This framework developed with the help of Synthea allows
  []
 
 
@@ -1159,7 +1366,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.205 \end{Discussion}
+l.228 \end{Discussion}
                       
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1172,14 +1379,12 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.216 \section*{Acknowledgements}
+l.239 \section*{Acknowledgements}
                                  
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-Missing character: There is no √ in font ptmr7t!
-Missing character: There is no ì in font ptmr7t!
 
 ! LaTeX Error: Encoding scheme `LY1' unknown.
 
@@ -1187,7 +1392,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.220 \section*{Conflict of interest}
+l.244 \section*{Conflict of interest}
                                      
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1201,29 +1406,80 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.1 \begin{thebibliography}{1}
-                              
+l.1 \begin{thebibliography}{10}
+                               
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-)
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.41 
+     
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+
+Overfull \hbox (252.0pt too wide) has occurred while \output is active
+[][] 
+ []
+
+
+! LaTeX Error: Encoding scheme `LY1' unknown.
+
+See the LaTeX manual or LaTeX Companion for explanation.
+Type  H <return>  for immediate help.
+ ...                                              
+                                                  
+l.41 
+     
+Your command was ignored.
+Type  I <command> <return>  to replace it with another command,
+or  <return>  to continue without it.
+
+[6])
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Extra height:28.0pt when 471.04596pt
+Extra height:10.0pt when 167.5pt
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-Extra height:0.0pt when 472.04596pt
+Extra height:10.0pt when 168.5pt
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
-(2)Left:472.04596pt Right:469.09193pt Output:472.04596pt
+Extra height:10.0pt when 169.5pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:10.0pt when 170.5pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:10.0pt when 171.5pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:10.0pt when 172.5pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+Extra height:0.0pt when 173.5pt
+
+Underfull \vbox (badness 10000) has occurred while \output is active []
+
+(2)Left:173.5pt Right:173.0pt Output:173.5pt
 - LAST -
 Extra skip:0.0pt
-Left:472.04596pt
-Right:469.09193pt
-Output:472.04596pt
+Left:173.5pt
+Right:173.0pt
+Output:173.5pt
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
@@ -1235,7 +1491,7 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.236 \end{document}
+l.262 \end{document}
                     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
@@ -1253,49 +1509,48 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.236 \end{document}
+l.262 \end{document}
                     
 Your command was ignored.
 Type  I <command> <return>  to replace it with another command,
 or  <return>  to continue without it.
 
-[5]
+[7
 
-Package natbib Warning: There were undefined citations.
-
-(./main.aux)
+] (./main.aux)
 
 LaTeX Font Warning: Size substitutions with differences
 (Font)              up to 0.75pt have occurred.
 
 
-LaTeX Warning: There were undefined references.
+LaTeX Font Warning: Some font shapes were not available, defaults substituted.
 
  ) 
 Here is how much of TeX's memory you used:
- 4018 strings out of 494923
- 51150 string characters out of 6180742
- 120986 words of memory out of 5000000
- 7195 multiletter control sequences out of 15000+600000
- 59993 words of font info for 119 fonts, out of 8000000 for 9000
+ 4576 strings out of 494923
+ 57998 string characters out of 6180742
+ 119838 words of memory out of 5000000
+ 7731 multiletter control sequences out of 15000+600000
+ 60157 words of font info for 121 fonts, out of 8000000 for 9000
  18 hyphenation exceptions out of 8191
- 41i,11n,28p,1601b,280s stack positions out of 5000i,500n,10000p,200000b,80000s
+ 41i,12n,35p,1391b,308s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/share/texlive/texmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texliv
 e/texmf-dist/fonts/type1/public/amsfonts/cmextra/cmbsy9.pfb></usr/share/texlive
 /texmf-dist/fonts/type1/public/amsfonts/cm/cmmi8.pfb></usr/share/texlive/texmf-
-dist/fonts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fo
-nts/type1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
-/helvetic/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uh
-vr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8ac.pfb></
-usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/t
-exlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8ac.pfb></usr/share/texlive/tex
-mf-dist/fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/t
-ype1/urw/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/
-utmri8a.pfb>
-Output written on main.pdf (5 pages, 153128 bytes).
+dist/fonts/type1/public/amsfonts/cm/cmr6.pfb></usr/share/texlive/texmf-dist/fon
+ts/type1/public/amsfonts/cm/cmsy6.pfb></usr/share/texlive/texmf-dist/fonts/type
+1/urw/courier/ucrr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helveti
+c/uhvb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb
+></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8ac.pfb></usr/shar
+e/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/t
+exmf-dist/fonts/type1/urw/helvetic/uhvro8ac.pfb></usr/share/texlive/texmf-dist/
+fonts/type1/urw/times/utmb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw
+/times/utmr8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.
+pfb>
+Output written on main.pdf (7 pages, 1102686 bytes).
 PDF statistics:
- 74 PDF objects out of 1000 (max. 8388607)
- 52 compressed objects within 1 object stream
+ 96 PDF objects out of 1000 (max. 8388607)
+ 62 compressed objects within 1 object stream
  0 named destinations out of 1000 (max. 500000)
- 6 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 31 words of extra memory for PDF output out of 10000 (max. 10000000)
 
