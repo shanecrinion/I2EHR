@@ -641,7 +641,7 @@ ui <- dashboardPage(
                              ), # close plotly fluidrow,
                              br(),
                              h5("Additional information:"),
-                             selectInput(label = "Select patient data to inspect:",
+                             selectInput(label = "Patient Data:",
                                          inputId="patient_select_dt",
                                          choices = c("Conditions",
                                                      "Encounters",
@@ -652,7 +652,7 @@ ui <- dashboardPage(
                                                      "Organizations",
                                                      "Procedures",
                                                      "Providers")),
-                             tableOutput("patient_dt")), # close tab panel clinical 
+                             DT::dataTableOutput("patient_dt")), # close tab panel clinical 
                     
                     tabPanel("Patient_Genomic",
                              #  fileInput("file1", "Choose CEL File",
@@ -691,7 +691,8 @@ ui <- dashboardPage(
                                                     label = "Frequency:",
                                                    choices = c("Conditions",
                                                      "Immunizations",
-                                                     "Medications")),
+                                                     "Medications",
+                                                     "Procedures")),
                                        plotOutput("cohort_clinical_disease_prevalence")),
                                    box(title = "Demographic Features",
                                        collapsible = TRUE,
@@ -850,7 +851,7 @@ output$observation_plot <- renderPlotly({
 
 
 
-output$patient_dt <- renderTable({
+output$patient_dt <- DT::renderDataTable({
     
     selected_data <- input$patient_select_dt
   
@@ -1151,6 +1152,8 @@ output$cohort_clinical_disease_prevalence <- renderPlot({
     selection <- immunizations.csv$DESCRIPTION
   } else if (input$cohort_clinical_stats == "Medications"){
     selection <- medications.csv$DESCRIPTION
+  } else if (input$cohort_clinical_stats == "Procedures"){
+    selection <- procedures.csv$DESCRIPTION
   }
   
   disorders_vector <- as.vector(plyr::count(selection))
