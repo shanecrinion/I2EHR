@@ -16,7 +16,6 @@ library(shiny)
 # filtering selection and go buttons
 # machine learning approach to predict diabetes status by their bp and bmi measurements
 # patient prediction - predict the patient's output dependent on their variants 
-# fix hard code of the rnorm values 
 # remove controls from each row name
 
 # ---- import data
@@ -25,7 +24,7 @@ library(shiny)
 # data: Synthetic clinical data from Synthea synthetic patient generator (https://synthetichealth.github.io/synthea/)
 ## this data mimics a cohort of cardiovascular disease patients
 # file format: csv
-clinical_path = 'Documents/business/projects/I2EHR/I2EHR_APP/'  # -- make this user entry 
+clinical_path = '/Users/shanecrinion/Documents/business/projects/I2EHR/I2EHR_APP/'  # -- make this user entry 
 temp = gsub("\\.csv$","", list.files(path=clinical_path, pattern="\\.csv$"))
 for (i in 1:length(temp)) assign(temp[i], read.csv(paste0(clinical_path,temp[i],'.csv')))
 message("Finished: Importing clinical data")
@@ -43,7 +42,7 @@ library(GEOquery)
 # genomic_data <- genomic_data[[1]] - if downloaded from online
 # downloading series matrix locally greatly improves app start up
 
-genomic_path <- "Documents/business/projects/I2EHR/I2EHRv2/GSE46097_series_matrix.txt.gz"
+genomic_path <- "/Users/shanecrinion/Documents/business/projects/I2EHR/I2EHRv2/GSE46097_series_matrix.txt.gz"
 genomic_data <- getGEO(filename=genomic_path, GSEMatrix=TRUE) # if local, no need for [[1]]
 
 
@@ -95,11 +94,6 @@ pData(genomic_data)$title <- replace(
   str_detect(as.character(pData(genomic_data)$title), 
                            "1 year"), "year1")
 
-
-# install.package('hash') - potential cleaning improvement 
-library(hash)
-h <- hash() 
-h[['year1']] <- list(a='1year', b='1_year')
 
 # --- merge clinical and genomic data (part 1)
 #assigns a patient and p-id to genomic data
@@ -163,7 +157,7 @@ genomic_annotation_probe_matches <-
   # find how many probe each matches to
   dplyr::summarize(
   dplyr::group_by(genomic_annotation, PROBEID), 
-  no_of_matches = n_distinct(SYMBOL))
+  no_of_matches = dplyr::n_distinct(SYMBOL))
 
 
 # extract list of single matching probes
@@ -261,7 +255,7 @@ observations[
 observations[
   observations$DESCRIPTION 
   == "Systolic Blood Pressure" 
-  & observations.csv$`group:ch1` 
+  & observations$`group:ch1` 
   == "Matched Ornish Participant",]$
   sbp <- rnorm(2355, mean = 123) # need to unhard code 
 
@@ -287,15 +281,24 @@ observations[
   & observations$`group:ch1` 
   == "Matched Control Group",]$
   dbp <- 
-  rnorm(2504, mean=73)  # fix hard code of no of values
+  rnorm(dim(observations[
+    observations$DESCRIPTION 
+        == "Diastolic Blood Pressure"
+        & observations$`group:ch1` 
+        == "Matched Control Group",])[1], mean=73)
 
 observations[
   observations$DESCRIPTION 
   == "Diastolic Blood Pressure" 
-  & observations.csv$`group:ch1` 
+  & observations$`group:ch1` 
   == "Matched Ornish Participant",]$
-  dbp <- rnorm(2355, mean = 84) # fix hard code of no of values
+  dbp <- rnorm(dim(observations[
+    observations$DESCRIPTION 
+    == "Diastolic Blood Pressure" 
+    & observations$`group:ch1` 
+    == "Matched Ornish Participant",])[1], mean = 84)
 
+dim(observations)
 # diastolic bp stat: categorise the patients by their bmi stat
 observations$sbp_stat = 0 
 
@@ -330,27 +333,27 @@ patient_tissue <-
     genomic_data)$title # tissue labels 
 
 # matrix construction
-cases <- patient_name[patient_phenotype == "Case"] # use value indexes in matrix construction
+cases_list <- patient_name[patient_phenotype == "Case"] # use value indexes in matrix construction
 cases_matrix_design <- 
   model.matrix(~ 0 + 
   patient_tissue[
     patient_phenotype == "Case"] 
-  + cases) # todo: remove cases from each row name
+  + cases_list) # todo: remove cases from each row name
 
-controls <- patient_name[patient_phenotype == "Control"] # use value indexes in matrix construction
+controls_list <- patient_name[patient_phenotype == "Control"] # use value indexes in matrix construction
 controls_matrix_design <- 
   model.matrix(~ 0 + 
   patient_tissue[
    patient_phenotype == "Control"] 
-   + cases) # todo: remove controls from each row name
+   + controls_list) # todo: remove controls from each row name
 
 # assign col / row names
 colnames(controls_matrix_design)[1:2] <- 
   colnames(cases_matrix_design)[1:2] <- 
   c("baseline", "year1")
 
-rownames(cases_matrix_design) <- cases
-rownames(controls_matrix_design) <- controls
+rownames(cases_matrix_design) <- cases_list
+rownames(controls_matrix_design) <- controls_list
 
 
 ### --- UI 
