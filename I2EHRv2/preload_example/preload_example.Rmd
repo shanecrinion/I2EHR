@@ -1,0 +1,395 @@
+---
+title: "I2EHR"
+author: "Shane Crinion"
+output: 
+  flexdashboard::flex_dashboard:
+    vertical_layout: fill
+    orientation: columns
+    theme: cosmo
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+source('global.R')
+source('/Users/shanecrinion/Documents/business/projects/I2EHR/I2EHRv2/www/utils.R')
+```
+
+
+Clustering
+=======================================================================
+
+
+Column {.sidebar data-width=300}
+-------------------------------------
+
+```{r}
+
+radioButtons('probes_num_select',
+             choices = c('Fixed', 'Percent', 'Poly'),
+             inline=TRUE,
+             selected = 'Fixed',
+             label = "Approach for number of probes/genes:")
+
+
+
+numericInput('probe_value', 
+             'Enter the value for choice (if applicable)', 
+             value = 100)
+
+radioButtons('probes_method_select', # bad naming - need to fix to indicate ranking
+             choices = c("CV_Rank", 
+                         "CV_Guided", 
+                         "SD_Rank",
+                         "Poly"),
+             inline=TRUE,
+             label = 
+               "Approach for ranking of probes/genes:")
+
+
+numericInput('number_of_clusters', 
+             'Enter the desired number of clusters:', 
+             value=3)
+
+selectInput('clustering', 'Clustering approach:', 
+            c('Kmeans', 'HClust'), 
+            selected = 'HClust')
+
+
+selectInput('dist_hclust',
+             choices = c("euclidean", 
+                         "maximum", 
+                         "manhattan",
+                         "canberra", 
+                         "binary", 
+                         "minkowski"),
+            selected = 'euclidean',
+             label = 
+               "Clustering distance for HClust approach:")
+
+selectInput('linkage_hclust',
+             choices = c("average", 
+                         "complete", 
+                         "median",
+                         "centroid", 
+                         "single", 
+                         "mcquitty",
+                         'ward.D2'),
+             selected = 'ward.D2',
+             label = 
+               "Linkage type for HClust approach:")
+
+selectInput('gene_dist_hclust',
+            label = 
+               "Gene clustering distance for HClust:",
+           choices = c("maximum", 
+                       "manhattan", 
+                       "canberra", 
+                       "binary", 
+                       "pearson", 
+                       "abspearson", 
+                       "correlation",
+                       "abscorrelation", 
+                       "spearman", 
+                       "kendall"),
+           
+           )
+
+textInput('data_name',label = 'Enter the GSE accession.',value = 'test')
+
+
+actionButton("probes_num_go", "Go")
+
+
+```
+
+
+Column {data-width=300}
+-------------------------------------
+
+```{r}
+ fillCol(height = 600, flex = c(NA,1,1,1),
+   verbatimTextOutput("infoOutput",
+                      placeholder = TRUE),
+   verbatimTextOutput('text')
+   )
+
+val <- eventReactive(input$probes_num_go,{
+  val <- input$data_name})
+
+output$infoOutput <- renderText({
+  paste('-------------------------------------------------------------------------------------------',
+        '\nGEO accession: ', input$data_name,
+        '\nProbe no. selection: ', input$probes_num_select,
+        '\nGene/probe ranking:', input$probes_method_select,
+        '\nNumber of clusters: ', input$number_of_clusters,
+        '\nApproach:', input$clustering,
+        '\n-------------------------------------------------------------------------------------------',
+        '\n\nFill parameters, press GO and expect a 2-3 minute delay while the analysis takes place...')
+   })
+
+
+output$text <- renderText({
+  
+  full_string <- paste('Probe selection: Complete. \n--Number of probes used: ', 
+  probe_num_choice(),
+  '\nProbe ranking: Complete. \n--Probe with highest expression (value): ',
+  (row.names(probes_ranked())[1]),  
+  '\nClusters generation: Complete. \n--Number of clusters: ',input$number_of_clusters)
+  full_string  
+  })
+ 
+probe_num_choice <-
+  eventReactive(input$probes_num_go,
+  {probe_num_choice <-
+    probe_num_method(
+      exprs.filepath,
+      exprs,
+      input$probes_num_select,
+      input$probe_value)})
+
+# probe_num_choice <- 
+#   eventReactive(input$probes_num_go,
+#   {x <- probe_num_method(
+#     exprs.filepath,
+#     exprs,
+#     input$probes_num_select,
+#     input$probe_value)
+#   return(x)})
+
+
+probes_ranked <-
+  eventReactive(input$probes_num_go,{
+  multiClust::probe_ranking(
+      input = exprs.filepath,
+      data.exp = exprs,
+      probe_number = probe_num_choice(),
+      probe_num_selection=paste0(input$probes_num_select,"_Probe_Num"),
+      method = input$probes_method_select) })
+
+# probes_ranked <- 
+#   reactive({
+#   multiClust::probe_ranking(
+#       input = exprs.filepath,
+#       data.exp = exprs,
+#       probe_number = probe_num_choice(),
+#       probe_num_selection=paste0(input$probes_num_select,"_Probe_Num"),
+#       method = input$probes_method_select) })
+
+cluster_num <- 
+  eventReactive(input$probes_num_go,{
+  number_clusters(data.exp=exprs, 
+        Fixed=input$number_of_clusters,
+        gap_statistic=NULL)})
+
+
+# clustering_analysis <- eventReactive(input$probes_num_go,{
+#   multiClust::cluster_analysis(
+#     sel.exp=probes_ranked, 
+#     cluster_type=input$clustering,
+#     linkage_type=input$linkage_hclust,
+#     gene_distance=input$gene_dist_hclust,
+#     num_clusters=input$number_of_clusters,
+#     data_name=input$data_name,
+#     probe_rank=input$probes_method_select,
+#     probe_num_selection=paste0(input$probes_num_select, '_Probe_Num'),
+#     cluster_num_selection = 'Fixed_Clust_Num')})
+
+clustering_analysis <- eventReactive(input$probes_num_go,{
+  clustering_analysis  <-
+    multiClust::cluster_analysis(
+    sel.exp=probes_ranked(), 
+    cluster_type=input$clustering,
+    linkage_type=input$linkage_hclust,
+    gene_distance=input$gene_dist_hclust,
+    num_clusters=input$number_of_clusters,
+    data_name=input$data_name,
+    probe_rank=input$probes_method_select,
+    probe_num_selection=paste0(input$probes_num_select, '_Probe_Num'),
+    cluster_num_selection = 'Fixed_Clust_Num')})
+
+suppressMessages(clustering_analysis)
+
+#download bar - atr, gtr, and cdt
+# print the summary of how many samples are in each cluster
+
+clusters_assigned.str <-
+  eventReactive(input$probes_num_go,{
+    clusters_assigned.str <-
+      cluster_assign_str(data_name=input$data_name,
+                       cluster_type=input$clustering,
+                       probes_method_select=input$probes_method_select,
+                       probes_num_select=input$probes_num_select,
+                       linkage_hclust=input$linkage_hclust,
+                       dist_hclust=input$dist_hclust)})
+
+#reactive(paste0(getwd(),as.character(clusters_assigned.str())))
+
+# cluster_summary <- eventReactive(input$probes_num_go,{
+#   data <- read.csv(paste0(getwd(),as.character(clusters_assigned.str())))
+#   cluster_counts <- plyr::count(data$x)
+#   cluster_summary <- data.frame(
+#     cluster= cluster_counts$x,
+#     freq=cluster_counts$freq,
+#     freq_prop=(cluster_counts$freq / sum(cluster_counts$freq)))
+#   })
+# cluster_summary()
+
+cluster_summary <- eventReactive(input$probes_num_go,{
+  data <- read.csv(paste0(getwd(),as.character(clusters_assigned.str())))
+  cluster_counts <- plyr::count(data$x)
+  cluster_summary <- data.frame(
+    cluster= cluster_counts$x,
+    freq=cluster_counts$freq,
+    freq_prop=(cluster_counts$freq / sum(cluster_counts$freq)))
+  return(cluster_summary)
+  })
+
+# cluster_summary() # there is a reactive issue that I need to fix here.
+
+```
+
+
+
+
+Column {data-width=300}
+-----------------------------------------------------------------------
+
+### Cluster Assignment Pie Chart
+
+
+```{r}
+plotly::plotlyOutput('plot_pie')
+
+# need to write functions in util files instead of this messyness.
+output$plot_pie <- plotly::renderPlotly({
+fig <- plot_ly(cluster_summary(), 
+               labels = ~cluster, 
+               values = ~freq_prop, 
+               type = 'pie')
+fig <- fig %>% layout(title = input$data_name,
+                      xaxis = list(showgrid = FALSE, 
+                                   zeroline = FALSE, 
+                                   showticklabels = FALSE),
+                      yaxis = list(showgrid = FALSE, 
+                                   zeroline = FALSE, 
+                                   showticklabels = FALSE))
+fig})
+
+```
+
+
+### Cluster Assignment Bar Chart
+
+
+```{r}
+
+plotly::plotlyOutput('plot_barchart')
+
+output$plot_barchart <- plotly::renderPlotly({
+  y <- as.character(cluster_summary()$cluster)
+  x <- cluster_summary()$freq
+  text <- paste0(round(cluster_summary()$freq_prop,2),'%')
+  data <- data.frame(x, y, text)
+  
+  fig <- plotly::plot_ly(data, x = ~x, y = ~y, type = 'bar', text = text,
+                         orientation='h',
+                         marker = list(color = 'rgb(158,202,225)',
+                                       line = list(color = 'rgb(8,48,107)',
+                                                   width = 1.5)))
+  fig <- fig %>% plotly::layout(title = input$data_name,
+                                xaxis = list(title = "Cluster"),
+                                yaxis = list(title = "No. of samples"))
+  
+  fig
+})
+```
+
+
+### Cluster Assignment Table
+
+```{r}
+tableOutput('clusters_table')
+
+output$clusters_table <- renderTable({
+  cluster_summary()
+})
+
+```
+
+Dendrogram
+=======================================================================
+
+The heatmaps are generated during clustering analysis in the previous tab. Press go to view the generated PDF.
+
+
+```{r}
+
+
+actionButton("dendrogram", "Display")
+
+# tags$iframe(style="height:504px; width:100%; scrolling=no", 
+# src=dendrogram_loc()) 
+
+observeEvent(input$dendrogram, {
+    # Absolute path to a pdf
+    file.show(
+      file.path(
+        "/Users/shanecrinion/Documents/business/projects/I2EHR/I2EHRv2/preload_example", "test.euclidean.ward.D2.CV_Rank.Fixed_Probe_Num.Fixed_Clust_Num.pdf"))})
+
+
+
+```
+
+
+
+
+DataTables 
+=======================================================================
+```{r}
+
+fillCol(height = 600, flex = c(NA, NA), 
+   inputPanel(
+     selectInput('exprsQuery', 
+                 label = 'Query:',
+                 choices = c('Gene/Probe', 'Sample')),
+     textInput('query', 
+               label = 'Probe or sample ID:'),
+     actionButton('TableGen', label = 'Generate data:')),
+   h5('Sample data:'),
+   tableOutput('exprsTable'),
+   h3('Individual gene/sample query:'))
+
+
+# eventReactive(input$probes_num_go,{
+#   multiClust::probe_ranking(
+#       input = exprs.filepath,
+#       data.exp = exprs,
+#       probe_number = probe_num_choice(),
+#       probe_num_selection=paste0(input$probes_num_select,"_Probe_Num"),
+#       method = input$probes_method_select) })
+
+# add density plot 
+# clinical - select clinical parameter to consider (y axis, these can also be found in the phenotypic patient data)
+# genomic - select 
+# add volcano plot
+# add scatter plot
+# add slider for number of values to consider by ranked
+# add slider for p value 
+# add statistical parameter to consider
+
+output$exprsTable <- eventReactive(input$TableGen, 
+   {output$exprsTable <- 
+     renderTable({
+       if(input$exprsQuery=='Gene/Probe'){
+         dt <- exprs[row.names(exprs)==input$query, ]
+       } else if (input$exprsQuery=='Sample'){
+         dt <- exprs[, colnames(exprs)==input$query, 
+                     drop=FALSE]
+       }
+       head(dt)
+     })})
+
+
+```
+
+ 
