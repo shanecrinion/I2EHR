@@ -64,18 +64,18 @@ cluster_assign_str <- function(data_name,
              '_Probe_Num Fixed_Clust_Num Samples.Clusters.csv')}
   cluster_assign_csv}
 
-# 
-# data <- read.csv('/Users/shanecrinion/Documents/business/projects/I2EHR/I2EHRv2/preload_example/d Kmeans CV_Rank Fixed_Probe_Num Fixed_Clust_Num Samples.Clusters.csv')
-# plyr::count(data$x)
-# plyr::count(data$x)$freq / sum(plyr::count(data$x)$freq)
-# 
-# cluster_counts <- plyr::count(data$x)
-# cluster_summary <-
-#   data.frame(
-#   cluster= cluster_counts$x,
-#   freq=cluster_counts$freq,
-#   freq_prop=(cluster_counts$freq / sum(cluster_counts$freq))
-# )
+
+data <- read.csv('/Users/shanecrinion/Documents/business/projects/I2EHR/I2EHRv2/preload_example/test Kmeans CV_Rank Fixed_Probe_Num Fixed_Clust_Num Samples.Clusters.csv')
+plyr::count(data$x)
+plyr::count(data$x)$freq / sum(plyr::count(data$x)$freq)
+
+cluster_counts <- plyr::count(data$x)
+cluster_summary <-
+  data.frame(
+  cluster= cluster_counts$x,
+  freq=cluster_counts$freq,
+  freq_prop=(cluster_counts$freq / sum(cluster_counts$freq))
+)
 # 
 # fig <- plotly::plot_ly(
 #   x = as.character(cluster_summary$cluster),

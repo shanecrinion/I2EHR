@@ -1,0 +1,677 @@
+---
+title: "I2EHR"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme: simplex
+runtime: shiny
+---
+
+```{r global, include=FALSE}
+source('global.R')
+source('utils1.R')
+```
+
+
+
+Sidebar {.sidebar data-width=300}
+=======================================================================
+
+```{r sidebar}
+HTML('<div> <strong> Welcome to I2EHR </strong></div>')
+hr()
+radioButtons('probes_num_select',
+             choices = c('Fixed', 'Percent', 'Poly'),
+             inline=TRUE,
+             selected = 'Fixed',
+             label = "Number of Probes - Method:")
+
+numericInput('probe_value', 
+             'Value (# probes or %)', 
+             value = 100)
+
+radioButtons('probes_method_select', # bad naming - need to fix to indicate ranking
+             choices = c("CV_Rank", 
+                         "CV_Guided", 
+                         "SD_Rank",
+                         "Poly"),
+             inline=TRUE,
+             label = 
+               "Ranking of Probes:")
+
+
+numericInput('number_of_clusters', 
+             'Number of Clusters:', 
+             value=3,
+             max = 6)
+
+selectInput('clustering', 'Clustering Approach:', 
+            c('Kmeans', 'HClust'), 
+            selected = 'Kmeans')
+
+selectInput('dist_hclust',
+             choices = c("euclidean", 
+                         "maximum", 
+                         "manhattan",
+                         "canberra", 
+                         "binary", 
+                         "minkowski"),
+            selected = 'euclidean',
+             label = 
+               "Clustering Distance (HClust only):")
+
+selectInput('linkage_hclust',
+             choices = c("average", 
+                         "complete", 
+                         "median",
+                         "centroid", 
+                         "single", 
+                         "mcquitty",
+                         'ward.D2'),
+             selected = 'ward.D2',
+             label = 
+               "Linkage (HClust only):")
+
+selectInput('gene_dist_hclust',
+            label = 
+               "Gene Clustering Distance (HClust only):",
+           choices = c("maximum", 
+                       "manhattan", 
+                       "canberra", 
+                       "binary", 
+                       "pearson", 
+                       "abspearson", 
+                       "correlation",
+                       "abscorrelation", 
+                       "spearman", 
+                       "kendall"))
+
+actionButton("go", "Run Clustering")
+
+hr()
+HTML('<div>Use <strong>Clustering</strong> tab to explore clustering predictions for patient subgroups. 
+     Use <strong>Clinical Integration</strong> to explore the clinical phenotypes. 
+     Click <strong>Data Summary</strong> to view significant genes and pathwayys. 
+     Click <strong>Filtered Data</strong> to explore a particiular patient or gene. 
+     To learn more about the project, click <strong>About</strong> tab.</div>')
+
+
+probe_num_choice <- reactive ({
+    probe_num_method(
+      exprs.filepath,
+      exprs,
+      input$probes_num_select,
+      input$probe_value) })
+
+
+probes_ranked <- reactive ({
+  multiClust::probe_ranking(
+      input = exprs.filepath,
+      data.exp = exprs,
+      probe_number = probe_num_choice(),
+      probe_num_selection=paste0(input$probes_num_select,"_Probe_Num"),
+      method = input$probes_method_select) })
+
+
+clustering_analysis <- reactive({
+    multiClust::cluster_analysis(
+    sel.exp=probes_ranked(),
+    cluster_type=input$clustering,
+    distance=input$dist_hclust,
+    linkage_type=input$linkage_hclust,
+    gene_distance=input$gene_dist_hclust,
+    num_clusters=input$number_of_clusters,
+    data_name='GSE46097',
+    probe_rank=input$probes_method_select,
+    probe_num_selection=paste0(input$probes_num_select, '_Probe_Num'),
+    cluster_num_selection = 'Fixed_Clust_Num')})
+
+
+cluster_string <- reactive ({
+  cluster_assign_str(
+  data_name='GSE46097',
+  cluster_type=input$clustering,
+  probes_method_select=input$probes_method_select,
+  probes_num_select=input$probes_num_select,
+  linkage_hclust=input$linkage_hclust,
+  dist_hclust=input$dist_hclust) })
+
+data <- eventReactive(input$go, {
+clustering_analysis()
+cluster_data <- read.csv(as.character(cluster_string()))
+colnames(cluster_data) <- c('geo_accession', 'cluster')
+cluster_data }, ignoreNULL=FALSE)
+
+cluster_summary <- eventReactive(input$go,{
+  cluster_counts <- plyr::count(data()$cluster)
+  cluster_summary <- data.frame(
+    cluster= cluster_counts$x,
+    freq=cluster_counts$freq,
+    freq_prop=(cluster_counts$freq / sum(cluster_counts$freq)))
+  return(cluster_summary)}, ignoreNULL = FALSE)
+
+clinical_df <- eventReactive(input$go, {
+  ## set up cluster info
+  df <- merge(surv_df, data(), 
+              by.x=c("geo_accession"), 
+              by.y=c("geo_accession"), 
+              all=TRUE)
+  df$cluster <- df$cluster.y ; df <- subset(df, select = -c(cluster.x, cluster.y))
+  return(df)}, ignoreNULL = FALSE)
+
+cdt_path <- eventReactive(input$go, {
+    hmap_cdt <-  paste0(tools::file_path_sans_ext(dendrogram_str('GSE46097',
+                 input$probes_method_select, 
+                 input$linkage_hclust,
+                 input$probes_num_select)),'.cdt')
+    hmap_cdt}, ignoreNULL = FALSE)
+
+hmap_data <- eventReactive(input$go, {
+  hmap_data <- read.csv(cdt_path(),sep='\t')
+  hmap_data <- hmap_data[3:nrow(hmap_data),]
+  unique_id <- hmap_data$UNIQID
+  row.names(hmap_data)  <- unique_id
+  hmap_data <- subset(hmap_data, select = -c(GID,UNIQID,NAME,GWEIGHT))
+  hmap_data <-
+    hmap_data %>%
+    mutate_all(~as.numeric(as.character(.)))
+  row.names(hmap_data) <- unique_id
+  hmap_data
+}, ignoreNULL = FALSE)
+
+pd <- 
+  reactive({
+  merge(pData(geo), 
+        data()[,c('geo_accession','cluster')], 
+        by = 'geo_accession') })
+
+
+```
+
+
+
+Clustering
+=======================================================================
+
+
+Row
+-------------------------------------
+
+
+### Cluster Assignment
+
+```{r}
+
+# Bar Chart ( Text = % cases)
+plotly::plotlyOutput('plot_pie')
+
+#need to write functions in util files instead of this messyness.
+output$plot_pie <- plotly::renderPlotly({
+fig <- plot_ly(cluster_summary(),
+               labels = ~cluster,
+               values = ~freq_prop,
+               type = 'pie')
+fig <- fig %>% layout(title = 'GSE46097',
+                      xaxis = list(showgrid = FALSE,
+                                   zeroline = FALSE,
+                                   showticklabels = FALSE),
+                      yaxis = list(showgrid = FALSE,
+                                   zeroline = FALSE,
+                                   showticklabels = FALSE))
+fig})
+
+
+```
+
+
+### Kmeans Clusters / HClust Dendrogram 
+
+```{r}
+
+gtr <- eventReactive (input$go,{
+  xcluster2r(
+  dendrogram_str('GSE46097',
+                 input$probes_method_select, 
+                 input$linkage_hclust,
+                 input$probes_num_select), 
+  labels = FALSE, 
+  clean=TRUE,
+  distance=input$dist_hclust) }, 
+  ignoreNULL = FALSE)
+
+
+plotOutput('dendrogram')
+# file import
+#remotes::install_github("uc-bd2k/gimmR")
+
+output$dendrogram <-
+  renderPlot({
+  d2=color_branches(as.dendrogram(gtr()),k=input$number_of_clusters) 
+plot(d2,  leaflab = "none")})
+
+```
+
+
+
+Row 
+-------------------------------------
+
+### Kaplan-Meier Plot
+```{r}
+plotOutput('survival_clusters')
+
+output$survival_clusters <- renderPlot({
+  sfit <- survfit(Surv(clinical_df()$time, clinical_df()$status)~ clinical_df()$cluster)
+  plot(sfit,
+     xlab='survival time in days',
+     ylab='survival probability',
+     lty=c(1,2,3,4,5,6),
+     col = c(1,2,3,4,5,6))
+  title('Duration of survival by clusters')
+  legend('topright',
+       legend=list(unique(clinical_df()$cluster))[[1]],
+       lty=c(1,2,3,4,5,6),
+       col=c(1,2,3,4,5,6))
+})
+# tableOutput('clinical_df_tab')
+# 
+# output$clinical_df_tab <- renderTable({
+#   clinical_df()
+# })
+```
+
+
+
+### Sample Classification
+```{r}
+# add download
+tableOutput('sampclass_clustering')
+
+output$sampclass_clustering <- renderTable({
+  data()
+})
+```
+
+
+Heatmap
+=======================================================================
+
+
+```{r}
+
+d3heatmapOutput('heatmap')
+## add the case/control status on the side
+# remove column names
+tags$script('
+  $(document).ready(function() {
+    $("#heatmap").on("shiny:recalculating", function(event) {
+      $(".d3heatmap-tip").remove();
+    });
+  });
+')
+
+output$heatmap <- 
+  renderD3heatmap(
+  d3heatmap(hmap_data(), 
+            scale = "column",
+            na.rm=TRUE,
+            dendrogram = 'row'))
+```
+
+
+
+
+Clinical Integration 
+=======================================================================
+
+```{r}
+# change this to 'compare phenotype or clusters?'
+fillCol(height = 150, flex = c(NA, NA), 
+   inputPanel(
+     selectInput('clusterSelectIntUI', 
+                 label = 'Select a cluster',
+                 choices = c('All',c(1:6))),
+     selectInput('clinicalQuery', 
+                 label = 'Interest Group:',
+                 choices = c('Case/Control Status', 
+                             'CAD',
+                             'Gender',
+                             'Diabetes',
+                             'Weight Loss'))))
+
+# include a volcano plot that highlights the gene 
+```
+
+
+Row
+-------------------------------------
+
+### Cluster Breakdown
+```{r}
+plotOutput('histo')
+
+output$histo <- 
+  renderPlot({
+    pData(geo) <- pd()
+    ggplot(data = pData(geo), 
+       aes(x = `cad:ch1`, 
+           fill = as.factor(cluster))) + 
+  geom_histogram(colour = 'white', stat="count") + 
+  theme_classic()
+  })
+
+# normalised density
+# non normalised density 
+```
+
+
+
+### Multi-Dimensional Scaling
+```{r}
+#h3('Colour = Cluster, Status, Clinical Phenotype')
+plotOutput('MDS')
+
+output$MDS <- renderPlot({
+  pData(geo) <- pd()
+  samps1year <- rownames(subset(pData(geo), 
+                              grepl(paste('1year', 
+                                          collapse = "|"), 
+                                    title)))
+
+  eset1year <- geo[, sampleNames(geo) %in% samps1year]
+  plotMDS(eset1year, 
+        col=as.numeric(pData(eset1year)$cluster),
+        labels = as.numeric(pData(eset1year)$cluster)) 
+  })
+
+```
+
+
+Row 
+-------------------------------------
+
+### Principal Component Analysis
+```{r}
+plotOutput('PCA')
+output$PCA <- renderPlot({
+  pData(geo) <- pd()
+  affycoretools::plotPCA(geo, 
+                         groups = as.numeric(
+                           as.factor(pData(geo)$cluster)),
+                         legend=FALSE)})
+```
+
+
+
+### Clinical Phenotypes
+```{r} 
+
+tableOutput('pd_tab')
+output$pd_tab <- renderTable({
+  subset(pd(), select = c(geo_accession,
+                          cluster,
+                          `group:ch1`,
+                          `cad:ch1`,
+                          `diabetes:ch1`,
+                          `gender:ch1`))})
+```
+
+
+Data Summary 
+=======================================================================
+
+```{r}
+# change this to 'compare phenotype or clusters?'
+fillCol(height = 150, flex = c(NA, NA), 
+   inputPanel(
+     sliderInput(inputId = 'pval_select',
+                 value=0.1, 
+                 label='adj.P.Val', 
+                 step = 0.005, 
+                 min = 0.05, 
+                 max=.2),
+     sliderInput(inputId='lfc_select', 
+                 value = 0.3,label = 'LFC',
+                 step=0.1, min = 0, max=2)))
+```
+
+
+Column
+-------------------------------------
+
+### Volcano Plot
+```{r}
+### Top Pathway Enrichment
+#h5('Top 1, 2, 5 Pathway')
+
+
+eset1year <- geo[, sampleNames(geo) %in% samps1year]
+
+# design can be reactive for the binary group of interest or 2 clusters
+matrix_design <- 
+  cbind(case=as.numeric(as.numeric(as.factor(pData(eset1year)$`group:ch1`))==2),
+        control=as.numeric(as.numeric(as.factor(pData(eset1year)$`group:ch1`))==1))
+
+fit <- reactive({
+  eset1year <- geo[, sampleNames(geo) %in% samps1year]
+  lmFit(eset1year, matrix_design)})
+
+cm <- reactive({
+  makeContrasts(case-control, levels=matrix_design)})
+
+fit2 <- reactive({
+  contrasts.fit(fit(), cm()) })
+
+fit2.1 <- reactive({ eBayes(fit2())})
+
+
+#Adjust P-value & logfoldchange
+#h3 ('Density Plots')
+#h3 ('Normalised vs raw')
+# normalised density
+# non normalised density 
+library(EnhancedVolcano)
+top<-reactive({topTable(fit2.1(), n=nrow(fit2.1()))})
+sig <- reactive({top()[abs(top()$logFC) >=0.5,]})
+
+# # 1. prepare allGenes for topGOdata structure
+# allGenes_list <- reactive({top()$adj.P.Val})
+# names(allGenes_list)  <- top$transcriptclusterid
+# all_ids <- rownames(top)
+# all_symbols <- unlist(mget(all_ids,hugene10sttranscriptclusterSYMBOL, ifnotfound = NA))
+# allGenes.TGOdata <- allGenes_list[names(all_symbols)]
+# names(allGenes.TGOdata) <- all_symbols
+# # 2. prepare sigGenes function for topGO structure
+# sigGene.funct <- function(p) p < (0.05 / length(allGenes.TGOdata))
+# 
+# 
+# #3. Run topGO analysis for "BP" (Biological Process)
+# GOdata <- new("topGOdata", 
+#               ontology = "BP", 
+#               allGenes = allGenes.TGOdata, 
+#               geneSel = sigGene.funct,
+#               description = "Selection: p < 1.73e-06 (BF cor), Log2FC > 1", 
+#               annot = annFUN.org, 
+#               mapping="org.Hs.eg", 
+#               #nodeSize = 100,
+#               ID="Symbol")
+
+fillCol(height=600,width=500,
+plotOutput('volcano'))
+output$volcano <- renderPlot({
+  volcano <-
+  EnhancedVolcano(top(), lab = rownames(top()),
+                x = 'logFC',
+                y='adj.P.Val',
+                pCutoff = input$pval_select,
+                labSize = 4,
+                drawConnectors = TRUE,
+                boxedlabels = TRUE,
+                title=NULL,
+                subtitle=NULL,
+                FCcutoff = input$lfc_select,
+                caption = paste('pval:', input$pval_select, 'lfc:', input$lfc_select),
+                xlim=c(-2,2),
+                ylim=c(0,5))
+volcano
+})
+
+##Sample
+#h3('Indicating expression changes in some way')
+#Create the top table for the comparison (coef) we want
+
+# tableOutput('top_table')
+# output$top_table <- renderTable({
+#   head(top())
+# })
+```
+
+Column
+-------------------------------------
+
+### Pathway
+
+```{r}
+tableOutput('top_table')
+output$top_table <- renderTable({
+# 1. prepare allGenes for topGOdata structure
+allGenes_list <- top()$adj.P.Val
+names(allGenes_list)  <- top()$transcriptclusterid
+all_ids <- rownames(top())
+all_symbols <- unlist(mget(all_ids,hgu133a2SYMBOL, ifnotfound = NA))
+head(all_symbols)
+allGenes.TGOdata <- allGenes_list[names(all_symbols)]
+names(allGenes.TGOdata) <- all_symbols
+# 2. prepare sigGenes function for topGO structure
+sigGene.funct <- function(p) p < (0.1 / length(allGenes.TGOdata))
+
+#3. Run topGO analysis for "BP" (Biological Process)
+GOdata <- new("topGOdata",
+              ontology = "BP",
+              allGenes = allGenes.TGOdata,
+              geneSel = sigGene.funct,
+              description = "Selection: p < 1.73e-06 (BF cor), Log2FC > 1",
+              annot = annFUN.org,
+              mapping="org.Hs.eg",
+              #nodeSize = 100,
+              ID="Symbol")
+
+resultFisher <- runTest(GOdata, 
+                        algorithm = "classic", 
+                        statistic = "fisher")
+gene_table <- GenTable(GOdata, 
+                     classicFisher = resultFisher,
+                     topNodes = 10)
+
+
+gene_table
+})
+```
+
+
+### Table
+
+Filtered Data 
+=======================================================================
+
+```{r}
+
+fillCol(height = 150, flex = c(NA, NA), 
+   inputPanel(
+     selectInput('exprsQuery', 
+                 label = 'Selection:',
+                 choices = c('Gene/Probe', 
+                             'Sample')),
+     textInput('query', 
+               value = '1007_s_at',
+               label = 'Probe/Sample ID:')))
+
+# include a volcano plot that highlights the gene 
+```
+
+
+Row 
+-------------------------------------
+
+### Histogram
+
+```{r}
+
+tableOutput('query_table')
+output$query_table <- renderTable({
+  if(input$exprsQuery=='Sample'){
+    id <- pd()[,pd()$geo_accession==input$query]$indiv
+    pd()[,pd()$indiv==id]
+  } else {
+    ex <- read.delim(exprs.filepath, sep='\t')
+    hist(ex[row.names(ex)==input$query,])
+  }})
+
+```
+
+
+### Expression for Matched Samples
+
+
+```{r}
+h5('insert 2 slide plots of the expression level changes')
+# output$patient_genomic_gene_level_expression <- renderPlot({
+#  
+#   
+#   tissue_Case <- tissue[disease == "Case"]
+#   RPL35_expr <- Biobase::exprs(sub.genomic_data)[input$patient_genomic_gene_select, disease == "Case"]
+#   RPL35_data <- as.data.frame(RPL35_expr)
+#   colnames(RPL35_data)[1] <- "org_value"
+#   RPL35_data <- mutate(RPL35_data, individual = i_case, tissue_Case)
+#   RPL35_data$tissue_Case <- factor(RPL35_data$tissue_Case, levels = c("baseline", "year1"))
+#   
+#   
+#   tissue_Control <- tissue[disease == "Control"]
+#   RPL35_expr <- Biobase::exprs(sub.genomic_data)[input$patient_genomic_gene_select, disease == "Control"]
+#   RPL35_data <- as.data.frame(RPL35_expr)
+#   colnames(RPL35_data)[1] <- "org_value"
+#   RPL35_data <- mutate(RPL35_data, individual = i_control, tissue_Control)
+#   RPL35_data$tissue_Control <- factor(RPL35_data$tissue_Control, levels = c("baseline", "year1"))
+#   
+#   
+#   p1 <-
+#     ggplot(data = RPL35_data, aes(x = tissue_Case, y = org_value, 
+#                                   group = individual, color = individual)) +
+#     theme(legend.position = "none") +
+#     geom_line() + 
+#     ggtitle("Expression changes for CVD sample after 1 year")
+#   
+#  
+#   
+#   p2 <- 
+#     ggplot(data = RPL35_data, aes(x = tissue_Control, y = org_value, 
+#                                   group = individual, color = individual)) +
+#     theme(legend.position = "none") +
+#     geom_line() +
+#     ggtitle("Expression changes for Control sample after 1 year")
+# 
+#   library(gridExtra)
+#   grid.arrange(p1, p2, nrow = 1)
+```
+
+Row 
+-------------------------------------
+
+### Statistical Analysis 
+
+```{r}
+h5('Insert t-test')
+
+```
+
+
+About
+=======================================================================
+
+
+
+```{r}
+HTML('<div><p>The application combines clinical and genomic, identifies patient subgroups and allows exploration through data analysis and visualisation. </p> <p>The source of the genomic data is the <a href="https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE46097">GSE46097</a> dataset from the Gene Expression Omnibus. The data examines the impact of a CVD risk reduction program on gene expression profiles in 63 participants and 63 matched controls. The source of the clinical data is <a href="https://github.com/synthetichealth/synthea">Synthea</a>, a Synthetic Patient Population Simulator.</p> <p> Package <a href="https://github.com/nlawlor/multiClust">multiClust</a> is used to identify patterns in expression data to determine clinically relevant subgroups of data. multiClust allows you to experiment with the choice of combination of methods for gene selection and clustering with ease.</p> <p> Application author: <a href="https://github.com/shanecrinion">Shane Crinion</a>, @<a href="https://www.upwork.com/freelancers/~01088069028973f6f2">shanecrinion</a> </p><p> Any feedback and suggestions are welcomed, <a href="https://linkedin.com/in/shanecrinion">connect with me on Linkedin. </div>')
+```
+
