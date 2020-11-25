@@ -51,3 +51,5 @@ The Filtered Data tab allows you to view visualisations related to a certain sam
 ![Clustering Tab](I2EHRv2/www/datasummary.png)
 
 The Data Summary tab allows you to visualise the significant genes found from the expression data. The thresholds for p and log2FC can be changed using radio buttons which will be represented in the volcano plot axis lines. The parameter thresholds will also be used to recalculate the pathways of greatest significance. 
+
+
