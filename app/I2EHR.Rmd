@@ -1,0 +1,92 @@
+---
+title: "I2EHR: Interactive, Integrated Electronic Health Records 2025"
+author: "Shane Crinion"
+date: "2025-10-26"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+    theme:
+      version: 4
+      bg: "#fbfcf7"
+      fg: "#4d6466"
+      navbar-bg: "#3ADAC6"
+      primary: "#b7d8d6"
+      # base_font: 
+      #   google: Prompt
+      # heading_font:
+      #   google: Sen
+      # code_font:
+      #   google: 
+      #     # arguments to sass::font_google() 
+      #     family: JetBrains Mono
+      #     local: false
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, include=F}
+clinical_data <- readRDS('../I2EHRv2/preload_example/GSE46097.clinical.rds')
+```
+
+Home
+=====================================  
+
+#### Welcome to I2EHR! {data-icon="dna"}
+
+:eight_spoked_asterisk: This is the Interactive Integrated Electronic Health Records. The app combines clinical and genomic data from the study performed by 	Ellsworth et al. (PMID: ![26484175](https://www.ncbi.nlm.nih.gov/pubmed/26484175) to examine the impact of a rigorous cardiovascular (CVD) risk on peripheral blood gene expression profiles. 
+
+**Summary:** Intensive lifestyle modification is believed to mediate cardiovascular disease (CVD) risk through traditional pathways that affect endothelial function and progression of atherosclerosis; however, the extent, persistence, and clinical significance of molecular change during lifestyle modification are not well known. Our study reveals that gene expression signatures are significantly modulated by rigorous lifestyle behaviors and track with CVD risk profiles over time.
+
+**Overall design** 	We examined the impact of a rigorous CVD risk reduction program on peripheral blood gene expression profiles in 63 participants and 63 matched controls to characterize molecular response to lifestyle modification and identify regulatory pathways important to cardiovascular health.
+
+
+Data
+=====================================  
+
+   
+Column {.tabset}
+-------------------------------------
+   
+### Clinical
+
+```{r}
+# 1. Number of samples
+cat("Samples:", length(unique(clinical_data$patient_id)), "\n")
+
+n_cases <- dim(clinical_data[clinical_data$`group:ch1`=='Matched Ornish Participant',])[1] / 3 # 3 samples per patient
+cat("Cases:", n_cases, "\n")
+
+n_controls <- dim(clinical_data[clinical_data$`group:ch1`=='Matched Control Group',])[1] / 3 # 3 samples per patient
+cat("Controls:", n_controls, "\n")
+
+# Extract by time point
+cat('Samples by time-point:')
+table(clinical_data$sample)
+
+rm(n_cases, n_controls)
+```   
+ 
+### Genomic
+    
+```{r}
+```
+
+
+
+About
+=====================================  
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+	
+Ellsworth DL, Croft DT Jr, Weyandt J, Sturtz LA et al. Intensive cardiovascular risk reduction induces sustainable changes in expression of genes and pathways important to vascular function. Circ Cardiovasc Genet 2014 Apr;7(2):151-60. PMID: 24563419
+Blackburn HL, McErlean S, Jellema GL, van Laar R et al. Gene expression profiling during intensive cardiovascular lifestyle modification: Relationships with vascular function and weight loss. Genom Data 2015 Jun;4:50-3. PMID: 26484175
+
