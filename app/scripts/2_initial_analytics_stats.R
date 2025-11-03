@@ -5,10 +5,10 @@
 # 1. Number of samples
 cat("Samples:", length(unique(clinical_data$patient_id)), "\n")
 
-n_cases <- dim(clinical_data[clinical_data$`group:ch1`=='Matched Ornish Participant',])[1] / 3 # 3 samples per patient
+n_cases <- dim(clinical_data[clinical_data$group=='Matched Ornish Participant',])[1] / 3 # 3 samples per patient
 cat("Cases:", n_cases, "\n")
 
-n_controls <- dim(clinical_data[clinical_data$`group:ch1`=='Matched Control Group',])[1] / 3 # 3 samples per patient
+n_controls <- dim(clinical_data[clinical_data$group=='Matched Control Group',])[1] / 3 # 3 samples per patient
 cat("Controls:", n_controls, "\n")
 
 # Extract by time point
@@ -188,19 +188,6 @@ ggplot(summary_data, aes(x = Variable, y = n, fill = Value)) +
         plot.title = element_text(hjust = 0.5, face = "bold"))
 
 #Histograms/density plots for continuous variables (age, survival time)
-# Age
-ggplot(clinical_data, aes(x = `age:ch1`)) +
-  geom_histogram(bins = 10, fill = "#b7d8d6", color = "#4d6466") +
-  annotate("text", x = Inf, y = Inf,
-           label = paste0("Mean: ", age_stats$mean_age, " years\n",
-                          "Median: ", age_stats$median_age, " years\n",
-                          "SD: ", age_stats$sd_age),
-           hjust = 1.1, vjust = 1.5, size = 4, fontface = "bold") +
-  labs(title = "Age Distribution",
-       x = "Age (years)",
-       y = "Count") +
-  theme_minimal() +
-  theme(plot.title = element_text(hjust = 0.5, face = "bold"))
 
 ### Age
 # Calculate statistics
