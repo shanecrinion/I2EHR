@@ -1,10 +1,12 @@
 # Interactive Integrated Electronic Health Records (I2EHR)
 
+### Background
+
+This is the R Shiny based Interactive Integrated Electronic Health Records (I2EHR) app. This app integrates clinical and genomic data, sourced from the Gene Expression Omnibus, as example data for a framework app used to identify patient subgroups and biomarkers related to disease. The app allows investigation of clinical data (variable plots and statistical tests) and genomic data. The genomic data analysis tab includes many features including data overview, QC, normalisation, filtering, gene set analysis, gene network construction using WGCNA and cellular deconvolution. 
+
+This application was originally created as a deliverable for my MSc in Biomedical Genomics. I have since returned to the app to improve it's design, coding and usability. I also updated the features to include gene network construction and cellular deconvolution. 
 
 
-This is the R Shiny based Interactive Integrated Electronic Health Records (I2EHR). This app integrates clinical and genomic data to identify patient subgroups and biomarkers related to disease. 
-
-This application was originally created as a deliverable for my MSc in Biomedical Genomics. The original app used data from Synthea, a synthetic patient generator (https://github.com/synthetichealth/synthea), and microarray samples from the Gene Expression Omnibus (GEO) to create a biobank consisting of artificial patients linked to real genomic samples. 
 
 The microarray CEL files are used to construct a R <code>ExpressionSet</code> object which also contained patient clinical observations that were used in lieu of Synthea. The decision to remove Synthea was because I wanted to focus on improving analytical power with machine learning and improved interactivity. This version of the I2EHR app was constructed using R packages <code>flexdashboard</code> and <code>Shiny</code>. The analyses were performed many R packages which include <code>multiclust</code>, <code>affy</code> and <code>topGO</code>. 
 

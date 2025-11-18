@@ -232,7 +232,7 @@ ui <- bs4DashPage(
           tabPanel(
             title = "QC and Normalisation",
             h6('Initial normalisation check:', style = "font-weight: bold;"),
-            uiOutput('checkNorm_output'),
+           # uiOutput('checkNorm_output'),
             hr(),
             selectInput(inputId = 'norm_choice', choices = c('none', 'vst'), label = 'Select normalisation method:', multiple = F, selected=NULL),
             actionButton("norm_run", "Perform normalisation method", icon = icon("play"), class = "btn-primary"),
@@ -252,10 +252,9 @@ ui <- bs4DashPage(
           
           tabPanel(
             title = "Filtering & Annotation",
-            
-            numericInput('filter_count', label='Remove counts with n < ', min = 0, max=15, step = 1, value = 0, width=12),
+            uiOutput('processing_filter'),
+            numericInput('filter_count', label='Remove counts with n < ', min = 0, max=15, step = 1, value = 0, width='100%'),
             actionButton('filter_run', 'Perform filtering'),
-            uiOutput('counts_summary'),
           ),
           tabPanel(
             title='Differential Expression'
@@ -634,21 +633,21 @@ server <- function(input, output, session) {
     }, delay = 0.01) # small delay is enough to allow UI to update
     
       
-    observeEvent(input$tabcard == "QC and Normalisation", {
-      
+   # observeEvent(input$tabcard == "QC and Normalisation", {
+
       #Initial normalisation check
       source('scripts/helpers.R')
       output$checkNorm_output <- renderText(
       HTML(check_if_raw_counts(counts_dds)))
-      
+
       observeEvent(input$norm_run,{
-        
+
         loading_message_norm('Processing normalising and generating QC plots..')
-        
+
         dds_norm <- if(input$norm_choice=='none') counts_dds else log2(counts_dds + 1)
-        
+
         later::later(function() {
-      
+
         output$norm_pca <- renderPlot({
           pca_res <- prcomp(t(as.matrix(dds_norm)), scale. = TRUE)
           autoplot(pca_res, data = clinical_data, colour = 'group', shape = 'sample') +
@@ -656,26 +655,32 @@ server <- function(input, output, session) {
         })
 
         },delay = 0.01)
-        
+
         output$meanSD <- renderPlot({
           meanSdPlot(as.matrix(counts_dds))
         })
-      
-      })
-      
+
+
+
       }) # small delay is enough to allow UI to update
+
       
-      observeEvent(input$tabcard == "Filtering & Annotation", {
-          HTML(summary(rowMeans(counts_dds)))
-        })
-      
-      
+      output$processing_filter <- renderUI({
+        # Wait until user clicks "Filter" tab
+        message('Loading..')
+        req(input$tabcard == "Filtering & Annotation")
+        
+        # Once selected, start rendering
+        Sys.sleep(1)  # simulate time-consuming QC step
+        
+        HTML(summary(rowMeans(counts_dds)))
       })
+    
 
-  
+     })
 
-  
-
+    
+      
 }
 
 # Run the app
