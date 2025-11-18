@@ -115,4 +115,3 @@ saveRDS(object= clinical_data, 'app/data/GSE46097.clinical.rds')
 rm(cols.factor, cols.num, id, typos)
 
 
-

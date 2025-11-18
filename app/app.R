@@ -6,6 +6,9 @@ library(summarytools)
 library(bslib)
 library(later)
 library(stringr)
+library(limma)
+library(ggfortify)
+library(vsn)
 
 ui <- bs4DashPage(
   title = "I2EHR",
@@ -37,7 +40,7 @@ ui <- bs4DashPage(
             h2("Select a Dataset:"),
             selectInput(
               inputId = "dataset_choice",
-              label = "Choose a dataset:",
+              label = "Choose a dataset:", 
               choices = c("CVD Risk Reduction Study" = "GSE46097.clinical")
             ),
             br()
@@ -228,8 +231,19 @@ ui <- bs4DashPage(
             )),
           tabPanel(
             title = "QC and Normalisation",
-            selectInput(inputId = 'norm', choices = c('none', 'vst')),
-            plotOutput('norm_pca'),
+            h6('Initial normalisation check:', style = "font-weight: bold;"),
+            uiOutput('checkNorm_output'),
+            hr(),
+            selectInput(inputId = 'norm_choice', choices = c('none', 'vst'), label = 'Select normalisation method:', multiple = F, selected=NULL),
+            actionButton("norm_run", "Perform normalisation method", icon = icon("play"), class = "btn-primary"),
+            br(),
+            uiOutput('norm_loading'),
+            hr(),
+            h3('PCA and Mean SD plot'),
+            fluidRow(
+              column(plotOutput('norm_pca'), width=6),
+              column(plotOutput('meanSD'), width=6)),
+              
             plotOutput('norm_sampleDistance'),
             plotOutput('norm_meanVar'),
             tableOutput('normal_table')) ,
@@ -238,7 +252,10 @@ ui <- bs4DashPage(
           
           tabPanel(
             title = "Filtering & Annotation",
-            "Content 3"
+            
+            numericInput('filter_count', label='Remove counts with n < ', min = 0, max=15, step = 1, value = 0, width=12),
+            actionButton('filter_run', 'Perform filtering'),
+            uiOutput('counts_summary'),
           ),
           tabPanel(
             title='Differential Expression'
@@ -259,14 +276,6 @@ ui <- bs4DashPage(
     right = "Built with bs4Dash"
   )
 )
-
-
-
-# 2. Explore Data
-  # ----- 1.1 Explore Data
-
-#
-
 
 
 
@@ -293,7 +302,7 @@ server <- function(input, output, session) {
     df <- dataset()
     bs4ValueBox(
       value = nrow(df),
-      subtitle = "Total Patients",
+      subtitle = "Total Samples",
       icon = icon('hospital-user'),
       color = 'lightblue'
     )
@@ -519,6 +528,10 @@ server <- function(input, output, session) {
   loading_message <- reactiveVal("")
   output$load_genomic_message <- renderText(loading_message())
   
+  # status message
+  loading_message_norm <- reactiveVal("")
+  output$norm_loading <- renderText(loading_message_norm())
+  
   observeEvent(input$load_genomic, {
     # 1) show message immediately
     
@@ -526,6 +539,8 @@ server <- function(input, output, session) {
     
     # 2) defer heavy lifting so the UI can update
     later::later(function() {
+      
+      # 1. Data & Metadata 
       
       dataset_genomic <- reactive({
         
@@ -559,8 +574,8 @@ server <- function(input, output, session) {
         req(dataset_genomic())
         counts_avg <- rowMeans(dataset_genomic()[,c(2:379)], na.rm = TRUE)
         bs4ValueBox(
-          value = max(counts_avg),
-          subtitle = "Avg Expression",
+          value = round(max(counts_avg), 2),
+          subtitle = "Average Expression",
           icon = icon("dna"),
           color = "success"
         )
@@ -603,25 +618,62 @@ server <- function(input, output, session) {
         ), method = "render", headings = FALSE, bootstrap.css = FALSE)
       })
       
-      loading_message("Data loaded successfully.")
+      output$processing_info <- renderDT({
+        # Wait until user clicks "Data & Metadata" tab
+        message('Loading..')
+        req(input$tabcard == "Data & Metadata")
+        
+        # Once selected, start rendering
+        Sys.sleep(1)  # simulate time-consuming QC step
+        
+        datatable(processing_info)
+      })
+      
+      
+      
     }, delay = 0.01) # small delay is enough to allow UI to update
-  })
+    
+      
+    observeEvent(input$tabcard == "QC and Normalisation", {
+      
+      #Initial normalisation check
+      source('scripts/helpers.R')
+      output$checkNorm_output <- renderText(
+      HTML(check_if_raw_counts(counts_dds)))
+      
+      observeEvent(input$norm_run,{
+        
+        loading_message_norm('Processing normalising and generating QC plots..')
+        
+        dds_norm <- if(input$norm_choice=='none') counts_dds else log2(counts_dds + 1)
+        
+        later::later(function() {
+      
+        output$norm_pca <- renderPlot({
+          pca_res <- prcomp(t(as.matrix(dds_norm)), scale. = TRUE)
+          autoplot(pca_res, data = clinical_data, colour = 'group', shape = 'sample') +
+            theme_minimal()
+        })
+
+        },delay = 0.01)
+        
+        output$meanSD <- renderPlot({
+          meanSdPlot(as.matrix(counts_dds))
+        })
+      
+      })
+      
+      }) # small delay is enough to allow UI to update
+      
+      observeEvent(input$tabcard == "Filtering & Annotation", {
+          HTML(summary(rowMeans(counts_dds)))
+        })
+      
+      
+      })
 
   
-  output$processing_info <- renderDT({
-    # Wait until user clicks "QC and Normalisation" tab
-    message('Loading..')
-    req(input$tabcard == "QC and Normalisation")
-    
-    # Once selected, start rendering
-    Sys.sleep(1)  # simulate time-consuming QC step
-    
-    datatable(processing_info)
-  })
-  
-  # QC and normalisation
-  
-  
+
   
 
 }
